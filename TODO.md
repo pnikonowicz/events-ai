@@ -1,10 +1,6 @@
 have a postgres db with vector db
 
-create python virtual thing and import libraries
-
-import https://github.com/eventbrite/eventbrite-sdk-python for api 
-
-CUDA might be out of scope (use gpu for vector calc acceleartion)
+use event brite to get some sample data
 
 https://pypi.org/project/scikit-learn/ for eucledian distance (might be best) 
 
