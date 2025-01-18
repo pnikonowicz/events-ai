@@ -1,6 +1,6 @@
 have a postgres db with vector db
 
-use event brite to get some sample data
+move data into scikit
 
 https://pypi.org/project/scikit-learn/ for eucledian distance (might be best) 
 
