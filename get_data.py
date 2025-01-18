@@ -1,8 +1,8 @@
 import os
 from eventbrite import Eventbrite
 
-def get_eventbrite_data():
-    eventbrite = Eventbrite('my-oauth-token')
+def get_eventbrite_data(token):
+    eventbrite = Eventbrite(token)
     user = eventbrite.get_user()  # Not passing an argument returns yourself
     print("id: " + user['id'])
 
@@ -16,5 +16,6 @@ def load_oauth_token(current_dir):
 
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    print("token: " + load_oauth_token(current_dir))
-    # get_eventbrite_data(load_oauth_token(current_dir))
+    token = load_oauth_token(current_dir)
+    # print("token: " + token)
+    get_eventbrite_data(token)
