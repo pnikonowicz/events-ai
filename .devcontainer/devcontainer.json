@@ -12,7 +12,7 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "pip install eventbrite scikit-learn",
+	"postCreateCommand": "pip install requests-html lxml_html_clean scikit-learn",
 
 	// Configure tool-specific properties.
 	// "customizations": {},
