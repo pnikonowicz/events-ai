@@ -1,5 +1,3 @@
-have a postgres db with vector db
-
 move data into scikit
 
 https://pypi.org/project/scikit-learn/ for eucledian distance (might be best) 
