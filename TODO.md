@@ -1,9 +1,1 @@
-move data into scikit
-
-https://pypi.org/project/scikit-learn/ for eucledian distance (might be best) 
-
-other imports
-    from sklearn.feature_extraction.text import TfidfVectorizer
-    from sklearn.metrics.pairwise import euclidean_distances
-    from sklearn.cluster import DBSCAN
-    import numpy as np
+when grabbing data, keep the version with html so that we can rebuild the html doc later on (for easier viewing)
