@@ -53,7 +53,7 @@ def print_all_clusters(clusters):
 
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    data_file = f"{current_dir}/data/data.txt"
+    data_file = f"{current_dir}/data/text_delimited.txt"
 
     chunks = get_data_chunks(data_file, '------------------------------')
     clusters = group_similar(chunks, .90)
