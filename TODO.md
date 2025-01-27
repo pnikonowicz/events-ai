@@ -1,3 +1,5 @@
+print html data to unique.html
+
 take the html data and remove all inline styles. potentially use the beautiful soup library
 
 
