@@ -7,7 +7,12 @@ def grab_results_via_url(page_number):
     url = f"https://www.eventbrite.com/d/online/{search_term}/"
 
     response = session.get(url)
-    event_list_items = response.html.find('.search-results-panel-content__events section li')
+
+    """
+        grabs the search results but ignores the first div. the first div contains
+        mobile information and would therefore result in a duplicate result
+    """
+    event_list_items = response.html.find('div[data-testid="search-event"] > div:nth-child(2)') 
 
     text_result = ''
     html_result = ''
