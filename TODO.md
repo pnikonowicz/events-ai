@@ -1,5 +1,5 @@
 
-take the html data and remove all inline styles and class declarations. potentially use the beautiful soup library
+remove all of the strange icons and images that are not wanted
 
 format the html into something presentable
 
