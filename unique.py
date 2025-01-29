@@ -53,23 +53,34 @@ def get_text_from_groups(clusters, chunks):
 
     return text
 
-def get_html_from_groups(html_file_name, groups, chunks):
-    output = ''
-
-    return output
-
 def write_to_file(output_file, text):
     with open(output_file, "w") as file:
         file.write(text)
 
+def grab_first_in_group(chunks, groups):
+    text = ''
+    for group in groups:
+        text += chunks[group[0]] if group else ""
+        text += "\n\n"
+    return text
+
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
     data_dir = os.path.join(current_dir, 'data')
+    delimiter = '------------------------------'
+
     text_delimited_file = os.path.join(data_dir, "text_delimited.txt")
-
-    chunks = get_data_chunks(text_delimited_file, '------------------------------')
-    clusters = group_similar(chunks, .90)
-    text = get_text_from_groups(clusters, chunks)
-
+    text_chunks = get_data_chunks(text_delimited_file, delimiter)
+    grouped = group_similar(text_chunks, .90)
+    uniqued_text = grab_first_in_group(text_chunks, grouped)
+    # text = get_text_from_groups(grouped, text_chunks)
+    
     text_output_file = os.path.join(data_dir, 'unique.text')
-    write_to_file(text_output_file, text)
+    write_to_file(text_output_file, uniqued_text)
+    
+    html_delimited_file = os.path.join(data_dir, "html_delimited.txt")
+    html_chunks = get_data_chunks(html_delimited_file, delimiter)
+    uniqed_html = grab_first_in_group(html_chunks, grouped)
+
+    html_output_file = os.path.join(data_dir, 'unique.html')
+    write_to_file(html_output_file, uniqed_html)
