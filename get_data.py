@@ -14,8 +14,8 @@ def grab_results_via_url(page_number):
     separator = "\n" + "-" * 30 + "\n"
 
     for item in event_list_items:
-        text_result += f"{separator}{item.text}"
-        html_result += f"{separator}{item.html}"
+        text_result += f"{item.text}{separator}"
+        html_result += f"{item.html}{separator}"
 
     text_result += ''
 
