@@ -34,6 +34,8 @@ def load_oauth_token(current_dir):
         return file.read().strip()  
 
 def write_to_file(data_dir, text_results, html_results): 
+    os.makedirs(data_dir, exist_ok=True)
+
     text_file = os.path.join(data_dir, 'text_delimited.txt')
     with open(text_file, "w") as file:
         file.write(text_results)
