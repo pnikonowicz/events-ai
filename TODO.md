@@ -12,3 +12,5 @@ myspace search notes:
 graphQL docs: https://www.meetup.com/api/guide/#p02-querying-section
 
 parse .data.result.pageInfo from results
+
+add dates to query
