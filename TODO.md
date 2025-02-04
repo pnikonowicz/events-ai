@@ -11,6 +11,9 @@ myspace search notes:
 
 graphQL docs: https://www.meetup.com/api/guide/#p02-querying-section
 
-parse .data.result.pageInfo from results
+add another page of data
+grab all pages of data
 
 add dates to query
+
+create a txt file with just text for processing
