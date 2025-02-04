@@ -40,12 +40,22 @@ def grab_results(json):
     headers = {"Content-Type": "application/json"}
 
     response = session.post(url, json=json, headers=headers)
+    response.raise_for_status()
+    
+    return response.json()
 
-    return response
+def write_to_file(data_dir, json_data): 
+    os.makedirs(data_dir, exist_ok=True)
+
+    text_file = os.path.join(data_dir, 'result.json')
+    with open(text_file, "w") as file:
+        json.dump(json_data, file, indent=4)
 
 if __name__ == "__main__":
-    json = create_query_json("")
-    response = grab_results(json)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    data_dir = os.path.join(current_dir, "data", "meetup")
 
-    print(response.status_code)
-    print(response.text)
+    query_json = create_query_json("")
+    response_json = grab_results(query_json)
+
+    write_to_file(data_dir, response_json)
