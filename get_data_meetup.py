@@ -42,7 +42,19 @@ def grab_results(json):
     response = session.post(url, json=json, headers=headers)
     response.raise_for_status()
     
-    return response.json()
+    response_json = response.json()
+    
+    return response_json
+
+def get_all_results():
+  query_json = create_query_json("")
+  response_json = grab_results(query_json)
+  hasNextPage = response_json['data']['result']['pageInfo']['hasNextPage']
+  nextCursor = response_json['data']['result']['pageInfo']['endCursor']
+
+  print(f"hasNextPage: {hasNextPage} nextCursor: {nextCursor}")
+
+  return response_json
 
 def write_to_file(data_dir, json_data): 
     os.makedirs(data_dir, exist_ok=True)
@@ -55,7 +67,6 @@ if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
     data_dir = os.path.join(current_dir, "data", "meetup")
 
-    query_json = create_query_json("")
-    response_json = grab_results(query_json)
+    response_json = get_all_results()    
 
     write_to_file(data_dir, response_json)
