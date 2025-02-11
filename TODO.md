@@ -1,8 +1,9 @@
 
 remove all of the strange icons and images that are not wanted
 
-format the html into something presentable
+create main file that just focuses on eventbrite
 
+format the html into something presentable
 
 myspace search notes:
 
