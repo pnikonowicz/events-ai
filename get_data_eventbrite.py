@@ -3,8 +3,8 @@ from requests_html import HTMLSession
 
 def grab_results_via_page_number(page_number):
     session = HTMLSession()
-    search_term = f"ny--new-york/events--tomorrow/?page={page_number}"
-    url = f"https://www.eventbrite.com/d/online/{search_term}/"
+    search_term = f"d/ny--new-york/events--tomorrow/events-tomorrow/?page={page_number}"
+    url = f"https://www.eventbrite.com/{search_term}/"
 
     response = session.get(url)
 
@@ -15,14 +15,15 @@ def grab_results_via_page_number(page_number):
     event_list_items = response.html.find('div[data-testid="search-event"] > div:nth-child(2)') 
 
     text_result = ''
-    html_result = ''
+    html_result = '<html>\n\n'
     separator = "\n" + "-" * 30 + "\n"
 
     for item in event_list_items:
         text_result += f"{item.text}{separator}"
-        html_result += f"{item.html}{separator}"
+        html_result += f"{item.html}\n\n"
 
     text_result += ''
+    html_result += '</html>'
 
     return html_result, text_result
 
@@ -33,7 +34,7 @@ def write_to_file(data_dir, text_results, html_results):
     with open(text_file, "w") as file:
         file.write(text_results)
 
-    html_file = os.path.join(data_dir, 'html_delimited.txt')
+    html_file = os.path.join(data_dir, 'data.html')
     with open(html_file, "w") as file:
         file.write(html_results)     
 
