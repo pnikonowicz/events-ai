@@ -26,13 +26,6 @@ def grab_results_via_page_number(page_number):
 
     return html_result, text_result
 
-def load_oauth_token(current_dir):
-    token_path = "secrets/oauth.token"
-    file_path = os.path.join(current_dir, token_path)
-
-    with open(file_path, "r") as file:
-        return file.read().strip()  
-
 def write_to_file(data_dir, text_results, html_results): 
     os.makedirs(data_dir, exist_ok=True)
 
@@ -45,10 +38,9 @@ def write_to_file(data_dir, text_results, html_results):
         file.write(html_results)     
 
 if __name__ == "__main__":
-    # token = load_oauth_token(current_dir)
-
     html_results = ''
     text_results = ''
+    
     # for page_number in range(60):
     for page_number in range(1):
         html_result, text_result = grab_results_via_page_number(page_number)
