@@ -1,7 +1,7 @@
 import os
 from requests_html import HTMLSession
 
-def grab_results_via_url(page_number):
+def grab_results_via_page_number(page_number):
     session = HTMLSession()
     search_term = f"ny--new-york/events--tomorrow/?page={page_number}"
     url = f"https://www.eventbrite.com/d/online/{search_term}/"
@@ -51,7 +51,7 @@ if __name__ == "__main__":
     text_results = ''
     # for page_number in range(60):
     for page_number in range(1):
-        html_result, text_result = grab_results_via_url(page_number)
+        html_result, text_result = grab_results_via_page_number(page_number)
         html_results += html_result
         text_results += text_result
     
