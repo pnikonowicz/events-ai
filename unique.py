@@ -2,21 +2,12 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 import os
+import json
 
-def get_data_chunks(file_path, delimiter):
-    chunks = []
-    chunk = ''
+def get_json_data_from_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
-        for line in file:
-            if delimiter in line:
-                chunks.append(chunk)
-                chunk = ''
-            else:
-                chunk += line
-    
-    chunks.append(chunk)
-    
-    return chunks
+        data = json.load(file)
+    return data
 
 def group_similar(chunks, threshold):
     # Vectorize the chunks using TF-IDF
@@ -66,20 +57,20 @@ def grab_first_in_group(chunks, groups):
 
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(current_dir, 'data')
-    delimiter = '------------------------------'
+    data_dir = os.path.join(current_dir, 'data', 'eventbrite')
 
-    text_delimited_file = os.path.join(data_dir, "text_delimited.txt")
-    text_chunks = get_data_chunks(text_delimited_file, delimiter)
-    grouped = group_similar(text_chunks, .90)
-    uniqued_text = grab_first_in_group(text_chunks, grouped)
+    data_json_file = os.path.join(data_dir, "data.json")
+    data_json = get_json_data_from_file(data_json_file)
+
+    grouped = group_similar(data_json, .90)
+    uniqued_text = grab_first_in_group(grouped)
     # text = get_text_from_groups(grouped, text_chunks)
     
     text_output_file = os.path.join(data_dir, 'unique.text')
     write_to_file(text_output_file, uniqued_text)
     
     html_delimited_file = os.path.join(data_dir, "html_delimited.txt")
-    html_chunks = get_data_chunks(html_delimited_file, delimiter)
+    html_chunks = get_json_data_from_file(html_delimited_file)
     uniqed_html = grab_first_in_group(html_chunks, grouped)
 
     html_output_file = os.path.join(data_dir, 'unique.html')
