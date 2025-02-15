@@ -8,9 +8,10 @@ def get_json_data_from_file(file_path):
         data = json.load(file)
     return data
 
-def group_similar(chunks, threshold):
+def group_similar(json_array, threshold):
     # Vectorize the chunks using TF-IDF
-    vectorizer = TfidfVectorizer().fit_transform(chunks)
+    str_array = [(s.get('title') or "") + "\n" + (s.get('description') or "") for s in json_array]
+    vectorizer = TfidfVectorizer().fit_transform(str_array)
     vectors = vectorizer.toarray()
 
     # Compute the cosine similarity matrix
@@ -19,40 +20,29 @@ def group_similar(chunks, threshold):
     groups = []
     visited = set()
 
-    for i in range(len(chunks)):
+    for i in range(len(json_array)):
         if i in visited:
             continue
-        group = [i]
+        group = [json_array[i]]
         visited.add(i)
-        for j in range(i + 1, len(chunks)):
+        for j in range(i + 1, len(json_array)):
             if cosine_sim[i][j] >= threshold:
-                group.append(j)
+                group.append(json_array[j])
                 visited.add(j)
         groups.append(group)
 
     return groups
 
-def get_text_from_groups(clusters, chunks): 
-    text = ''
-    for idx, group in enumerate(clusters):
-        text += f"Group {idx + 1}:\n"
-        for i in group:
-            lines = '\n'.join(f"{idx + 1}   " + line for line in chunks[i].splitlines())
-            text += lines
-            text += "\n\n"
-
-    return text
-
-def write_to_file(output_file, text):
+def write_json_to_file(output_file, grouped_json):
+    text = json.dumps(grouped_json, indent=4)
     with open(output_file, "w") as file:
         file.write(text)
 
-def grab_first_in_group(chunks, groups):
-    text = ''
-    for group in groups:
-        text += chunks[group[0]] if group else ""
-        text += "\n\n"
-    return text
+def grab_first_in_group(grouped_json):
+    unique_flatten = []
+    for group in grouped_json:
+        unique_flatten.append(group[0])
+    return unique_flatten
 
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -61,16 +51,10 @@ if __name__ == "__main__":
     data_json_file = os.path.join(data_dir, "data.json")
     data_json = get_json_data_from_file(data_json_file)
 
-    grouped = group_similar(data_json, .90)
-    uniqued_text = grab_first_in_group(grouped)
-    # text = get_text_from_groups(grouped, text_chunks)
+    grouped_json = group_similar(data_json, .60)
+    unique_json = grab_first_in_group(grouped_json)
     
-    text_output_file = os.path.join(data_dir, 'unique.text')
-    write_to_file(text_output_file, uniqued_text)
+    json_output_file = os.path.join(data_dir, 'result.json')
+    write_json_to_file(json_output_file, unique_json)
+    # write_json_to_file(json_output_file, grouped_json)
     
-    html_delimited_file = os.path.join(data_dir, "html_delimited.txt")
-    html_chunks = get_json_data_from_file(html_delimited_file)
-    uniqed_html = grab_first_in_group(html_chunks, grouped)
-
-    html_output_file = os.path.join(data_dir, 'unique.html')
-    write_to_file(html_output_file, uniqed_html)
