@@ -3,20 +3,22 @@
 ### problem
 eventbrite has some cool events in their listings. 
 but too often are the results littered with duplicates. 
+and these duplicates are on other data sources as well
 
 
 ### solution
 this project aims to allow for the dedupping of results
 and creating a unique result to make events easier to 
-browse through. 
+browse through by leveraging TF-IDF vectorization.
 
-It does this through the use of TD-IDF vectoriztion. 
+It does this with a nearest neighbors search to group
+simliar results, and then grabs the first item in the group
 
 # running
 right now everything is in modules / seperate files. so you'll need to:
 
-1. `python get_data.py`
-2. `python unique.py`
-3. `python clean_html.py`
-
-then open `without_inline_styles.html` in your browser and see the results
+1. `python get_data_[eventbrite|meetup].py`
+2. `python eventbrite_to_json.py # if grabbing eventbrite data`
+3. `python unique.py # to remove the duplicates`
+4. `json_to_html.py # to view the results (TODO)`
+then open `results.html` in your browser and see the results
