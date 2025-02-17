@@ -40,7 +40,19 @@ def create_search_url(day, page_number):
     return f"https://www.eventbrite.com/d/ny--new-york/events--{day}/events-{day}/?page={page_number}"
 
 def get_number_of_pages(url):
-    return 1
+    session = HTMLSession()
+    response = session.get(url)
+
+    page_numbers = response.html.find('footer', first=True).text
+
+    if(page_numbers.startswith("1 of")):
+        number_str = page_numbers[len("1 of"):].strip()
+        if(number_str.isdigit()):
+            return int(number_str)
+        
+
+    print(f"ERROR: coudn't parse the string: {page_numbers}")
+    exit(1)
 
 if __name__ == "__main__":
     html_results = ''
@@ -50,9 +62,9 @@ if __name__ == "__main__":
 
     number_of_pages = get_number_of_pages(create_search_url(target_day, 1))
     
-    # for page_number in range(60):
-    for page_number in range(1):
+    for page_number in range(1, number_of_pages):
         url = create_search_url(target_day, page_number)
+        print(f"fetching results for: {url}")
         html_result, text_result = fetch_results(url)
         html_results += html_result
         text_results += text_result
@@ -61,3 +73,4 @@ if __name__ == "__main__":
     data_dir = os.path.join(current_dir, "data", "eventbrite")
     
     write_to_file(data_dir, text_results, html_results)
+
