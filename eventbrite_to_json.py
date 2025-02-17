@@ -35,5 +35,5 @@ if __name__ == "__main__":
     html_text = read_file(html_file)
     json_data = html_to_json(html_text)
 
-    output_file_name = os.path.join(data_dir, 'data.json')
-    write_to_file(output_file_name, json_data)
+    json_data_file = os.path.join(data_dir, 'data.json')
+    write_to_file(json_data_file, json_data)
