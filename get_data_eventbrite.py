@@ -1,11 +1,8 @@
 import os
 from requests_html import HTMLSession
 
-def grab_results_via_page_number(page_number):
+def fetch_results(url):
     session = HTMLSession()
-    search_term = f"d/ny--new-york/events--tomorrow/events-tomorrow/?page={page_number}"
-    url = f"https://www.eventbrite.com/{search_term}/"
-
     response = session.get(url)
 
     """
@@ -38,13 +35,24 @@ def write_to_file(data_dir, text_results, html_results):
     with open(html_file, "w") as file:
         file.write(html_results)     
 
+def url(day, page_number):
+    day = "tomorrow"
+    return f"https://www.eventbrite.com/d/ny--new-york/events--{day}/events-{day}/?page={page_number}"
+
+def get_number_of_pages(url):
+    return 1
+
 if __name__ == "__main__":
     html_results = ''
     text_results = ''
+
+    target_day = "tomorrow"
+
+    number_of_pages = get_number_of_pages(url(target_day, 1))
     
     # for page_number in range(60):
     for page_number in range(1):
-        html_result, text_result = grab_results_via_page_number(page_number)
+        html_result, text_result = fetch_results(url(target_day, page_number))
         html_results += html_result
         text_results += text_result
     
