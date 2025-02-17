@@ -11,6 +11,7 @@ def fetch_results(url):
     """
     event_list_items = response.html.find('div[data-testid="search-event"] > div:nth-child(2)') 
 
+    number_of_results = 0
     text_result = ''
     html_result = '<html>\n\n'
     separator = "\n" + "-" * 30 + "\n"
@@ -18,11 +19,12 @@ def fetch_results(url):
     for item in event_list_items:
         text_result += f"{item.text}{separator}"
         html_result += f"{item.html}\n\n"
+        number_of_results += 1
 
     text_result += ''
     html_result += '</html>'
 
-    return html_result, text_result
+    return html_result, text_result, number_of_results
 
 def write_to_file(data_dir, text_results, html_results): 
     os.makedirs(data_dir, exist_ok=True)
@@ -61,16 +63,20 @@ if __name__ == "__main__":
     target_day = "tomorrow"
 
     number_of_pages = get_number_of_pages(create_search_url(target_day, 1))
-    
+    total_number_of_results_fetched = 0
+
     for page_number in range(1, number_of_pages):
         url = create_search_url(target_day, page_number)
         print(f"fetching results for: {url}")
-        html_result, text_result = fetch_results(url)
+        html_result, text_result, number_fetched = fetch_results(url)
         html_results += html_result
         text_results += text_result
+        total_number_of_results_fetched += number_fetched
     
     current_dir = os.path.dirname(os.path.abspath(__file__))
     data_dir = os.path.join(current_dir, "data", "eventbrite")
     
     write_to_file(data_dir, text_results, html_results)
+
+    print(f"fetched: {total_number_of_results_fetched} results")
 
