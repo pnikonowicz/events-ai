@@ -29,5 +29,5 @@ right now everything is in modules / seperate files. so you'll need to:
 1. `python get_data_[eventbrite|meetup].py`
 2. `python eventbrite_to_json.py # if grabbing eventbrite data`
 3. `python unique.py # to remove the duplicates`
-4. `json_to_html.py # to view the results (TODO)`
+4. `json_data_to_html.py # to view the results in data/out.html`
 then open `results.html` in your browser and see the results
