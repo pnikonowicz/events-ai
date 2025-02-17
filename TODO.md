@@ -3,10 +3,8 @@
 # format the json into something presentable
 
 # RAG
-* import langchain
-* decide on model and grab api key (laod into secrets)
-* create an embedding
 * load embedding into in memory database (langchain provides this)
+* generate query embedding
 * generate results from the context of "is there anything going on this day"
 
 # web service docker container that hosts everything
