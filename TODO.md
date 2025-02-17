@@ -2,6 +2,8 @@
 
 # data: join the eventbrite and meeetup data
 
+# unique: show how many duplicate results are removed
+
 # RAG
 * load embedding into in memory database (langchain provides this)
 * generate query embedding
