@@ -1,4 +1,4 @@
-# format the json into something presentable
+# bug: get_data_eventbrite is adding html close tags for each page, which is causing future parsing to stop prematurely 
 
 # RAG
 * load embedding into in memory database (langchain provides this)
