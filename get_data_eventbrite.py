@@ -13,16 +13,13 @@ def fetch_results(url):
 
     number_of_results = 0
     text_result = ''
-    html_result = '<html>\n\n'
+    html_result = ''
     separator = "\n" + "-" * 30 + "\n"
 
     for item in event_list_items:
         text_result += f"{item.text}{separator}"
         html_result += f"{item.html}\n\n"
         number_of_results += 1
-
-    text_result += ''
-    html_result += '</html>'
 
     return html_result, text_result, number_of_results
 
@@ -56,15 +53,11 @@ def get_number_of_pages(url):
     print(f"ERROR: coudn't parse the string: {page_numbers}")
     exit(1)
 
-if __name__ == "__main__":
-    html_results = ''
-    text_results = ''
-
-    target_day = "tomorrow"
-
-    number_of_pages = get_number_of_pages(create_search_url(target_day, 1))
+def fetch_all_results(target_day, number_of_pages):
     total_number_of_results_fetched = 0
-
+    html_results = "<html>\n\n"
+    text_results = ""
+    
     for page_number in range(1, number_of_pages):
         url = create_search_url(target_day, page_number)
         print(f"fetching results for: {url}")
@@ -72,6 +65,18 @@ if __name__ == "__main__":
         html_results += html_result
         text_results += text_result
         total_number_of_results_fetched += number_fetched
+
+    html_results += "\n\n</html>"
+
+    return total_number_of_results_fetched, html_results, text_results
+
+if __name__ == "__main__":
+    target_day = "tomorrow"
+
+    number_of_pages = get_number_of_pages(create_search_url(target_day, 1))
+    total_number_of_results_fetched, html_results, text_results = fetch_all_results(
+        target_day, number_of_pages
+    )
     
     current_dir = os.path.dirname(os.path.abspath(__file__))
     data_dir = os.path.join(current_dir, "data", "eventbrite")
