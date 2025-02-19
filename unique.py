@@ -54,7 +54,7 @@ if __name__ == "__main__":
     grouped_json = group_similar(data_json, .60)
     unique_json = grab_first_in_group(grouped_json)
     
-    json_output_file = os.path.join(data_dir, 'result.json')
+    json_output_file = os.path.join(data_dir, 'unique.json')
     write_json_to_file(json_output_file, unique_json)
     # write_json_to_file(json_output_file, grouped_json)
     
