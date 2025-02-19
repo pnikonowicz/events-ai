@@ -18,8 +18,9 @@ def html_to_json(html_text):
 
     data = []
     for div in soup.find('html').find_all('div', recursive=False):
+        img = div.find('img', src=True)
         div_data = {
-            "image": div.find('img', src=True)['src'],
+            "image": img['src'] if img else None, # images are optional
             "link": div.find('a', href=True)['href'],
             "title": div.find('h3').get_text(strip=True)
         }
