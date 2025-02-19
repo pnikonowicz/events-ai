@@ -46,9 +46,9 @@ def grab_first_in_group(grouped_json):
 
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(current_dir, 'data')
+    data_dir = os.path.join(current_dir, 'data', 'eventbrite')
 
-    data_json_file = os.path.join(data_dir, 'eventbrite', "data.json")
+    data_json_file = os.path.join(data_dir, "data.json")
     data_json = get_json_data_from_file(data_json_file)
 
     grouped_json = group_similar(data_json, .60)
