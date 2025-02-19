@@ -1,5 +1,3 @@
-# bug: get_data_eventbrite is adding html close tags for each page, which is causing future parsing to stop prematurely 
-
 # data: join the eventbrite and meeetup data
 
 # unique: show how many duplicate results are removed
