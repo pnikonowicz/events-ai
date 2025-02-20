@@ -27,7 +27,9 @@ simliar results, and then grabs the first item in the group
 right now everything is in modules / seperate files. so you'll need to:
 
 1. `python get_data_[eventbrite|meetup].py`
-2. `python eventbrite_to_json.py # if grabbing eventbrite data`
-3. `python unique.py # to remove the duplicates`
-4. `json_data_to_html.py # to view the results in data/out.html`
-then open `results.html` in your browser and see the results
+1. `python eventbrite_to_json.py # if grabbing eventbrite data`
+1. `python join_data # to join all the data sources into one` 
+1. `python unique.py # to remove any duplicates`
+1. `json_data_to_html.py # to view the results in data/out.html`
+1. you can stop here if you want to manually review results in `results.html` OR
+1. `json_data_to_embeddings.py # to create the data for a RAG query`
