@@ -33,7 +33,7 @@ def write_embeddings(output_file, embeddings):
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
     data_dir = os.path.join(current_dir, 'data')
-    json_data_file = os.path.join(data_dir, 'result.json')
+    json_data_file = os.path.join(data_dir, 'unique.json')
     json_data = load_json(json_data_file)
 
     secrets_dir = os.path.join(current_dir, "secrets")
