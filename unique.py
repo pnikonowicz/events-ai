@@ -40,9 +40,11 @@ def write_json_to_file(output_file, grouped_json):
 
 def grab_first_in_group(grouped_json):
     unique_flatten = []
+    dups_removed = 0
     for group in grouped_json:
         unique_flatten.append(group[0])
-    return unique_flatten
+        dups_removed += len(group) - 1 if len(group) > 0 else 0
+    return unique_flatten, dups_removed
 
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -52,9 +54,11 @@ if __name__ == "__main__":
     data_json = get_json_data_from_file(data_json_file)
 
     grouped_json = group_similar(data_json, .60)
-    unique_json = grab_first_in_group(grouped_json)
-    
+    unique_json, dups_removed = grab_first_in_group(grouped_json)
+
     json_output_file = os.path.join(data_dir, 'unique.json')
     write_json_to_file(json_output_file, unique_json)
     # write_json_to_file(json_output_file, grouped_json)
+
+    print(f"remove {dups_removed} duplicates")
     
