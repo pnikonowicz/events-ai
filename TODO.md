@@ -1,8 +1,4 @@
-# data: join the eventbrite and meeetup data
-
 # data: add tests for each layer
-
-# unique: show how many duplicate results are removed
 
 # RAG
 * load embedding into in memory database (langchain provides this)
