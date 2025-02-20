@@ -1,5 +1,7 @@
 # data: add tests for each layer
 
+# adhere meetup data to schema; do not put in description (for now)
+
 # RAG
 * load embedding into in memory database (langchain provides this)
 * generate query embedding
