@@ -47,7 +47,7 @@ def read_json_file(json_file):
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
     data_dir = os.path.join(current_dir, 'data')
-    json_data_file = os.path.join(data_dir, 'eventbrite', 'unique.json')
+    json_data_file = os.path.join(data_dir, 'unique.json')
 
     json_data = read_json_file(json_data_file)
     result_html_content = json_to_html(json_data)
