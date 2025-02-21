@@ -7,12 +7,28 @@ def json_to_html(items):
     <head>
         <title>JSON to HTML</title>
         <style>
+            body { background-color: #000; color: #fff; font-family: Arial, sans-serif; }
             ul { list-style-type: none; padding: 0; }
-            li { margin: 10px 0; display: flex; align-items: center; }
-            img { width: 100px; height: auto; margin-right: 20px; }
-            a { text-decoration: none; color: #333; font-size: 18px; }
-            a:hover { text-decoration: underline; }
+            li { 
+                margin: 10px 0; 
+                display: flex; 
+                align-items: center; 
+                background: linear-gradient(135deg, #1e3c72, #2a5298); /* Deep blue gradient */
+                padding: 15px;
+                border-radius: 10px;
+                box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.2);
+                transition: transform 0.2s ease-in-out;
+                transform-origin: left; /* Make the scale pivot from the left side */
+            }
+            li:hover { 
+                transform: scale(1.1, 1.1); /* Scale up, moving more to the right */
+                box-shadow: 2px 2px 15px rgba(255, 255, 255, 0.4);
+            }
+            img { width: 100px; height: auto; margin-right: 20px; border-radius: 5px; }
+            a { text-decoration: none; color: #fff; font-size: 18px; font-weight: bold; }
+            a:hover { text-decoration: underline; color: #ffcc00; }
         </style>
+
     </head>
     <body>
         <ul>
