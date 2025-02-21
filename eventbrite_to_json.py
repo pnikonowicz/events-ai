@@ -38,3 +38,5 @@ if __name__ == "__main__":
 
     json_data_file = os.path.join(data_dir, 'data.json')
     write_to_file(json_data_file, json_data)
+
+    print(f"translated {len(json_data)} events to json")
