@@ -32,7 +32,7 @@ def json_to_html(items):
     </head>
     <body>
         <ul>
-        <!-- insert list conent -->
+        <!-- insert list content -->
     """
 
     for item in items:
