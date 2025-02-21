@@ -23,7 +23,7 @@ def json_to_html(items):
         html_content += f"""
             <li>
                 <img src="{item['image']}" alt="Thumbnail">
-                <a href="{item['link']}">{item['title']}</a>
+                <a href="{item['link']}" target="about:blank">{item['title']}</a>
             </li>
         """
 
