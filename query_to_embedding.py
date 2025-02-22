@@ -46,5 +46,5 @@ if __name__ == "__main__":
 
     embeddings = get_embeddings_from(google_ai_model, api_key, query_texts)
 
-    query_embeddings_file = os.path.join(data_dir, 'query.embeddings')
+    query_embeddings_file = os.path.join(data_dir, 'query.embeddings.json')
     write_embeddings(query_embeddings_file, embeddings)

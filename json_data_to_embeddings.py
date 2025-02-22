@@ -44,7 +44,7 @@ if __name__ == "__main__":
     text_data = extract_text_from_json_data(json_data)
     embeddings = get_embeddings_from_json_data(google_ai_model, api_key, text_data)
     
-    embeddings_file = os.path.join(data_dir, "embeddings.json")
+    embeddings_file = os.path.join(data_dir, "data.embeddings.json")
     write_embeddings(embeddings_file, embeddings)
 
     print(f"embeddings count: {len(embeddings)}")
