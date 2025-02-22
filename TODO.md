@@ -5,7 +5,7 @@
 # RAG
 * load embedding into in memory database (langchain provides this)
 * create query prompt engineering context
-* generate query embedding
+* generate query embedding (use Maximum Similarity Per Query Vector)
 * generate results from the context of "is there anything going on this day"
 
 # web service docker container that hosts everything
