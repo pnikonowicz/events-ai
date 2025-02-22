@@ -1,35 +1,55 @@
-### goal
-answers the question "are there any events going on that i might be interested in?"
+Here’s a clearer and more concise version of your README while maintaining all the key details:  
 
-there are a lot of data sites, and scrolling through all of them is time consuming.
-this is a recomendation engine for events that are personalized to your preferences.
+---
 
-simply enter in some information about previous events you've been to, select which
-data sources to pull from, and see if any recemondations come up. 
+## Recommendation Engine for Unique Events  
 
-### problem
-data sites have some cool events in their listings. 
-but too often are the results littered with duplicates. 
-and these duplicates are on other data sources as well
+### Overview  
+This recommendation engine helps discover unique events from multiple data sources, personalized to your preferences based on past events you've attended.  
 
-also, there are a lot of data sites our there, but we only
-care about certain things
+### Goal  
+**Question:** *Are there any events happening that I might be interested in?*  
+- Enter details about past events you've attended.  
+- Select data sources to pull from.  
+- Get personalized recommendations and a de-duplicated event list.  
 
-### solution
-this project aims to allow for the dedupping of results
-and creating a unique result to make events easier to 
-browse through by leveraging TF-IDF vectorization.
+### Problem  
+- Event listings often contain duplicate entries across multiple sources.  
+- Finding relevant events based on past interests is difficult.  
 
-It does this with a nearest neighbors search to group
-simliar results, and then grabs the first item in the group
+### Solution  
+This project:  
+- **Removes duplicates** across multiple data sources.  
+- **Ranks personalized recommendations** based on your past events.  
+- **Creates a unique event list** to make browsing easier.  
 
-# running
-right now everything is in modules / seperate files. so you'll need to:
+### How It Works  
+- **De-duplication**: Uses TF-IDF vectorization and nearest neighbors search to group similar events, selecting the most relevant one.  
+- **Recommendations**: Uses an AI model to compare past events with all unique events, recommending those above a similarity threshold.  
 
-1. `python get_data_[eventbrite|meetup].py`
-1. `python eventbrite_to_json.py # if grabbing eventbrite data`
-1. `python join_data # to join all the data sources into one` 
-1. `python unique.py # to remove any duplicates`
-1. `json_data_to_html.py # to view the results in data/out.html`
-1. you can stop here if you want to manually review results in `results.html` OR
-1. `json_data_to_embeddings.py # to create the data for a RAG query`
+### Running the Project  
+To process and view events:  
+1. Fetch data:  
+   ```sh
+   python get_data_eventbrite.py  # or python get_data_meetup.py
+   ```  
+2. Convert Eventbrite data (if applicable):  
+   ```sh
+   python eventbrite_to_json.py
+   ```  
+3. Merge all data sources:  
+   ```sh
+   python join_data.py
+   ```  
+4. Remove duplicates:  
+   ```sh
+   python unique.py
+   ```  
+5. View results in a browser:  
+   ```sh
+   python json_data_to_html.py  # outputs to data/out.html
+   ```  
+6. (Optional) Generate recommendations (requires AI ap key):  
+   ```sh
+   python json_data_to_embeddings.py
+   ```  
