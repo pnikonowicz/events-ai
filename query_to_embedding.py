@@ -1,4 +1,5 @@
 import os
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
 def get_query_text_contents(root_folder):
     query_text_contents = []
@@ -12,13 +13,24 @@ def get_query_text_contents(root_folder):
     
     return query_text_contents
 
-def get_embeddings_from(model_name, api_key, query_text_contents):
-    return query_text_contents
+def get_embeddings_from(model_name, api_key, data):
+    embedding_api = GoogleGenerativeAIEmbeddings(
+        model=model_name,
+        google_api_key = api_key
+    )
+
+    embeddings = embedding_api.embed_documents(data)
+    return embeddings
 
 def write_embeddings_to_file(output_file, embeddings):
     with open(output_file, 'w') as f:
         for embedding in embeddings:
             f.write(f"{embedding}\n")
+
+def load_api_key(filename):
+    with open(filename, 'r') as file:
+        content = file.read()
+    return content
 
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -26,7 +38,13 @@ if __name__ == "__main__":
     previous_events_dir = os.path.join(current_dir, 'previous_events')
 
     query_texts = get_query_text_contents(previous_events_dir)
-    embeddings = get_embeddings_from('', '', query_texts)
+
+    secrets_dir = os.path.join(current_dir, "secrets")
+    api_key_file = os.path.join(secrets_dir, "google-api-key")
+    api_key = load_api_key(api_key_file)
+    google_ai_model = "models/text-embedding-004"
+
+    embeddings = get_embeddings_from(google_ai_model, api_key, query_texts)
 
     query_embeddings_file = os.path.join(data_dir, 'query.embeddings')
-    write_embeddings_to_file(query_embeddings_file, query_texts)
+    write_embeddings_to_file(query_embeddings_file, embeddings)
