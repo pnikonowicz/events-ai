@@ -8,14 +8,12 @@
 * load_api_key
 * retrieve embeddings
 * ai model name
+* common dir names
 
 # RAG
-* R - consider normalizing all vectors for faster retrieval
-* R - load embedding into in memory database (langchain provides this)
 * G - create query prompt engineering context
-* R - generate query embedding 
-* R - classify query embeddings (use Maximum Similarity Per Query Vector)
 * G - generate results from the context of "is there anything going on this day"
+* A - take the indexes and create html that says ("because you liked <recomendation query>" and then provide the html for recemondation)
 
 # web service docker container that hosts everything
 
