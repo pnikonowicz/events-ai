@@ -1,4 +1,5 @@
 import os
+import json
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
 def get_query_text_contents(root_folder):
@@ -22,10 +23,9 @@ def get_embeddings_from(model_name, api_key, data):
     embeddings = embedding_api.embed_documents(data)
     return embeddings
 
-def write_embeddings_to_file(output_file, embeddings):
-    with open(output_file, 'w') as f:
-        for embedding in embeddings:
-            f.write(f"{embedding}\n")
+def write_embeddings(output_file, embeddings):
+    with open(output_file, "w") as json_file:
+        json.dump(embeddings, json_file, indent=4)
 
 def load_api_key(filename):
     with open(filename, 'r') as file:
@@ -47,4 +47,4 @@ if __name__ == "__main__":
     embeddings = get_embeddings_from(google_ai_model, api_key, query_texts)
 
     query_embeddings_file = os.path.join(data_dir, 'query.embeddings')
-    write_embeddings_to_file(query_embeddings_file, embeddings)
+    write_embeddings(query_embeddings_file, embeddings)
