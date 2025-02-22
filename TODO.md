@@ -3,6 +3,7 @@
 # adhere meetup data to schema; do not put in description (for now)
 
 # RAG
+* consider normalizing all vectors for faster retrieval
 * load embedding into in memory database (langchain provides this)
 * create query prompt engineering context
 * generate query embedding (use Maximum Similarity Per Query Vector)
