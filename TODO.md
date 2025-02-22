@@ -2,6 +2,13 @@
 
 # adhere meetup data to schema; do not put in description (for now)
 
+# refactor common areas
+* write to file
+* write json to file
+* load_api_key
+* retrieve embeddings
+* ai model name
+
 # RAG
 * R - consider normalizing all vectors for faster retrieval
 * R - load embedding into in memory database (langchain provides this)
