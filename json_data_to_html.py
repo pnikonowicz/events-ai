@@ -76,19 +76,16 @@ def read_json_file(json_file):
     with open(json_file, 'r') as f:
         return json.load(f)
 
-def file_exists(file_name): 
-    return False
-
 def log(text, level="DEBUG"):
     print(f"{level}: {text}")
 
 def get_recemondation_html_content(recemondation_json_file):
-    if file_exists(recemondation_json_file):
+    if os.path.isfile(recemondation_json_file):
         recemondation_json_data = read_json_file(recemondation_json_file)
         recemondation_html_content = json_to_html(recemondation_json_data)
         return recemondation_html_content
     else:
-        log("no recemondation data file found at {}, skipping", "WARN")
+        log("no recemondation data file found at {recemondation_json_file}, skipping", "WARN")
         return ""
     
 
