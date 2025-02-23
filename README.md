@@ -45,11 +45,10 @@ To process and view events:
    ```sh
    python unique.py
    ```  
-5. View results in a browser:  
-   ```sh
-   python json_data_to_html.py  # outputs to data/all.html
-   ```  
-6. (Optional) Generate recommendations (requires AI ap key):  
+5. (Optional) Generate recommendations (requires AI api key):  
    ```sh
    python json_data_to_embeddings.py
    ```  
+6. View results in a browser:  
+   ```sh
+   python json_data_to_html.py  # outputs to data/all.html
