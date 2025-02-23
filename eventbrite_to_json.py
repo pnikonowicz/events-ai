@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import os
 import json
+from common.paths import Paths
 
 def read_file(file_path):
     text = ''
@@ -29,8 +30,7 @@ def html_to_json(html_text):
     return data
 
 if __name__ == "__main__":
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(current_dir, 'data', 'eventbrite')
+    data_dir = os.path.join(Paths.PROJECT_DIR, 'data', 'eventbrite')
     html_file = os.path.join(data_dir, 'data.html')
     
     html_text = read_file(html_file)

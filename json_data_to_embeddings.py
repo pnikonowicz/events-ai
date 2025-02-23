@@ -1,6 +1,7 @@
 import os
 import json
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from common.paths import Paths
 
 def load_json(json_data_file):
     with open(json_data_file, 'r') as file:
@@ -31,12 +32,11 @@ def write_embeddings(output_file, embeddings):
         json.dump(embeddings, json_file, indent=4)
 
 if __name__ == "__main__":
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(current_dir, 'data')
+    data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
     json_data_file = os.path.join(data_dir, 'unique.json')
     json_data = load_json(json_data_file)
 
-    secrets_dir = os.path.join(current_dir, "secrets")
+    secrets_dir = os.path.join(Paths.PROJECT_DIR, "secrets")
     api_key_file = os.path.join(secrets_dir, "google-api-key")
     api_key = load_api_key(api_key_file)
 

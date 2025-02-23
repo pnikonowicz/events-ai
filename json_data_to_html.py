@@ -1,5 +1,6 @@
 import json
 import os
+from common.paths import Paths
 
 def json_to_html(items):
     html_content = """
@@ -90,8 +91,7 @@ def get_recemondation_html_content(recemondation_json_file):
     
 
 if __name__ == "__main__":
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(current_dir, 'data')
+    data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
     json_data_file = os.path.join(data_dir, 'unique.json')
     
     recemondation_json_file = os.path.join(data_dir, 'recemondations.json')

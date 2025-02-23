@@ -2,6 +2,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import os
 import json
+from common.paths import Paths
 
 def get_json_data_from_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -47,8 +48,7 @@ def grab_first_in_group(grouped_json):
     return unique_flatten, dups_removed
 
 if __name__ == "__main__":
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(current_dir, 'data')
+    data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
 
     data_json_file = os.path.join(data_dir, "joined.json")
     data_json = get_json_data_from_file(data_json_file)

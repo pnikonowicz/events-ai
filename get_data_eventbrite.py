@@ -1,5 +1,6 @@
 import os
 from requests_html import HTMLSession
+from common.paths import Paths
 
 def fetch_results(url):
     session = HTMLSession()
@@ -78,8 +79,7 @@ if __name__ == "__main__":
         target_day, number_of_pages
     )
     
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(current_dir, "data", "eventbrite")
+    data_dir = os.path.join(Paths.PROJECT_DIR, "data", "eventbrite")
     
     write_to_file(data_dir, text_results, html_results)
 

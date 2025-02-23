@@ -1,5 +1,6 @@
 import os
 import json
+from common.paths import Paths
 
 def collect_json_data(root_folder, target_filename="data.json"):
     aggregated_data = []
@@ -19,8 +20,7 @@ def write_aggregated_json(output_path, data):
         json.dump(data, file, indent=4)
 
 if __name__ == "__main__":
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(current_dir, 'data')
+    data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
 
     aggregate_json = collect_json_data(data_dir)
     output_file_name = os.path.join(data_dir, "joined.json")

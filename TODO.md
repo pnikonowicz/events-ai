@@ -11,6 +11,7 @@
 * common dir names
 * log
 * get_query_text_contents
+* paths
 
 # RAG
 * G - create query prompt engineering context
@@ -23,3 +24,4 @@ it would be interesting to allow for certain past events to be ranked by how muc
 # web service docker container that hosts everything
 
 # a front end that allows for entering all needed info
+

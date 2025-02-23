@@ -3,6 +3,7 @@ import os
 from sklearn.preprocessing import normalize
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+from common.paths import Paths
 
 def read_embeddings(file_name):
     with open(file_name) as file:
@@ -78,8 +79,7 @@ def write_to_file(output_file, json_data):
         json.dump(json_data, json_file, indent=4)
 
 if __name__ == '__main__':
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(current_dir, 'data')
+    data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
 
     data_embeddings_path = os.path.join(data_dir, 'data.embeddings.json')
     query_emeddings_path = os.path.join(data_dir, 'query.embeddings.json')

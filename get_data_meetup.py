@@ -2,6 +2,7 @@ import os
 import json
 from requests_html import HTMLSession
 from datetime import datetime
+from common.paths import Paths
 
 def create_query_json(endCursor, start_date):
     json_string = '''
@@ -85,8 +86,7 @@ def write_text_to_file(data_dir, text_results):
         file.write(text_results)
 
 if __name__ == "__main__":
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(current_dir, "data", "meetup")
+    data_dir = os.path.join(Paths.PROJECT_DIR, "data", "meetup")
 
     today_date = datetime.today().strftime("%Y-%m-%d")
     response_json = get_all_results(create_query_json("", today_date))    
