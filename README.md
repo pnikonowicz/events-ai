@@ -1,7 +1,3 @@
-Here’s a clearer and more concise version of your README while maintaining all the key details:  
-
----
-
 ## Recommendation Engine for Unique Events  
 
 ### Overview  
