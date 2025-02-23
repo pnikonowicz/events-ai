@@ -43,6 +43,40 @@ def grab_similar_items(normalized_data_embeddings, normalized_query_embeddings, 
 
     return indexes
 
+def load_json(json_data_file):
+    with open(json_data_file, 'r') as file:
+        return json.load(file)
+    
+def join_recomndation_indexes_with_original_data(recomendation_indexes, original_query_data_json, original_data_json):
+    recemondation_json = []
+    for recomendation_index in recomendation_indexes:
+        original_data = original_data_json[recomendation_index['data_index']]
+        original_query_data = original_query_data_json[recomendation_index['query_index']]
+        recemondation = {
+            "image": original_data['image'],
+            "link": original_data['link'],
+            "title": original_data['title'],
+            "recemondation_source": original_query_data,
+        }
+        recemondation_json.append(recemondation)
+    return recemondation_json
+
+def get_query_text_contents(root_folder):
+    query_text_contents = []
+
+    for dirpath, _, filenames in os.walk(root_folder):
+        for filename in filenames: 
+            full_file_path = os.path.join(dirpath, filename)
+
+            with open(full_file_path, 'r') as file: 
+                query_text_contents.append(file.read().strip())
+    
+    return query_text_contents
+
+def write_to_file(output_file, json_data):
+    with open(output_file, "w") as json_file:
+        json.dump(json_data, json_file, indent=4)
+
 if __name__ == '__main__':
     current_dir = os.path.dirname(os.path.abspath(__file__))
     data_dir = os.path.join(current_dir, 'data')
@@ -58,5 +92,17 @@ if __name__ == '__main__':
 
     recomendation_indexes = grab_similar_items(normalized_data_embeddings, normalized_query_embeddings)
 
-    print(recomendation_indexes)
+    log(recomendation_indexes)
+
+    json_data_file = os.path.join(data_dir, 'unique.json')
+    previous_events_dir = os.path.join(current_dir, 'previous_events')
+    original_data = load_json(json_data_file) # data used to create the data embeddings
+    original_query_data = get_query_text_contents(previous_events_dir)
+    
+    recemondation_json = join_recomndation_indexes_with_original_data(recomendation_indexes, original_query_data, original_data)
+
+    recemondation_json_filename = os.path.join(data_dir, "recemondations.json")
+    write_to_file(recemondation_json_filename, recemondation_json)
+
+    log(f"found: {len(recemondation_json)} recemondation(s)")
 
