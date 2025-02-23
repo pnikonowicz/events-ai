@@ -48,7 +48,7 @@ To process and view events:
 5. (Optional) Generate recommendations (requires AI api key):  
    ```sh
    python json_data_to_embeddings.py
-   python query_data_to_embeddings.py
+   python query_data_to_embeddings.py # requires previous event data to be in data/previous_events for suggestion querying
    python embeddings_to_recommendation_json.py
    ```  
 6. View results in a browser:  

@@ -35,7 +35,7 @@ def load_api_key(filename):
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
     data_dir = os.path.join(current_dir, 'data')
-    previous_events_dir = os.path.join(current_dir, 'previous_events')
+    previous_events_dir = os.path.join(data_dir, 'previous_events')
 
     query_texts = get_query_text_contents(previous_events_dir)
 

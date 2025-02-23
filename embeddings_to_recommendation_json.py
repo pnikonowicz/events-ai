@@ -95,7 +95,7 @@ if __name__ == '__main__':
     log(recomendation_indexes)
 
     json_data_file = os.path.join(data_dir, 'unique.json')
-    previous_events_dir = os.path.join(current_dir, 'previous_events')
+    previous_events_dir = os.path.join(data_dir, 'previous_events')
     original_data = load_json(json_data_file) # data used to create the data embeddings
     original_query_data = get_query_text_contents(previous_events_dir)
     
