@@ -7,13 +7,10 @@ def collect_json_data(root_folder, target_filename="data.json"):
     for dirpath, _, filenames in os.walk(root_folder):
         if target_filename in filenames:
             file_path = os.path.join(dirpath, target_filename)
-            try:
-                with open(file_path, 'r', encoding='utf-8') as file:
-                    data = json.load(file)
-                    for d in data:
-                        aggregated_data.append(d)
-            except (json.JSONDecodeError, IOError) as e:
-                print(f"Error reading {file_path}: {e}")
+            with open(file_path, 'r', encoding='utf-8') as file:
+                data = json.load(file)
+                for d in data:
+                    aggregated_data.append(d)
 
     return aggregated_data
 
