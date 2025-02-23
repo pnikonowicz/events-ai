@@ -76,6 +76,21 @@ def read_json_file(json_file):
     with open(json_file, 'r') as f:
         return json.load(f)
 
+def file_exists(file_name): 
+    return False
+
+def log(text, level="DEBUG"):
+    print(f"{level}: {text}")
+
+def get_recemondation_html_content(recemondation_json_file):
+    if file_exists(recemondation_json_file):
+        recemondation_json_data = read_json_file(recemondation_json_file)
+        recemondation_html_content = json_to_html(recemondation_json_data)
+        return recemondation_html_content
+    else:
+        log("no recemondation data file found at {}, skipping", "WARN")
+        return ""
+    
 
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -83,8 +98,7 @@ if __name__ == "__main__":
     json_data_file = os.path.join(data_dir, 'unique.json')
     
     recemondation_json_file = os.path.join(data_dir, 'recemondations.json')
-    recemondation_json_data = read_json_file(recemondation_json_file)
-    recemondation_html_content = json_to_html(recemondation_json_data)
+    recemondation_html_content = get_recemondation_html_content(recemondation_json_file)
 
     all_json_data = read_json_file(json_data_file)
     result_html_content = json_to_html(all_json_data)
