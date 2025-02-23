@@ -15,6 +15,9 @@
 * G - generate results from the context of "is there anything going on this day"
 * A - take the indexes and create html that says ("because you liked <recomendation query>" and then provide the html for recemondation)
 
+# ranking results
+it would be interesting to allow for certain past events to be ranked by how much they enjoyed the event. using attenuation, we can adjust the previous event to better affect future recemondations 
+
 # web service docker container that hosts everything
 
 # a front end that allows for entering all needed info
