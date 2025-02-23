@@ -68,5 +68,5 @@ if __name__ == "__main__":
     json_data = read_json_file(json_data_file)
     result_html_content = json_to_html(json_data)
 
-    html_file = os.path.join(data_dir, "out.html")
+    html_file = os.path.join(data_dir, "all.html")
     write_html_to_file(html_file, result_html_content)

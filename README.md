@@ -47,7 +47,7 @@ To process and view events:
    ```  
 5. View results in a browser:  
    ```sh
-   python json_data_to_html.py  # outputs to data/out.html
+   python json_data_to_html.py  # outputs to data/all.html
    ```  
 6. (Optional) Generate recommendations (requires AI ap key):  
    ```sh
