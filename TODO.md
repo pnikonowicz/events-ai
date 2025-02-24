@@ -2,6 +2,12 @@
 
 # adhere meetup data to schema; do not put in description (for now)
 
+# keep track of groups. 
+when groups are created in unique.py, keep the group data so that
+they can eventually be displayed in the final html via a collapsable form. this way, 
+we can continue to see what events were grouped together in case there are any issues
+with this
+
 # refactor common areas
 * write to file
 * write json to file
