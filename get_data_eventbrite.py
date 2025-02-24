@@ -96,10 +96,10 @@ if __name__ == "__main__":
     data_dir = os.path.join(Paths.PROJECT_DIR, "data", "eventbrite")
     raw_data_dir = os.path.join(data_dir, "raw")
     
-    first_result = fetch_result(1, target_day)
-    write_raw_data_to_file(raw_data_dir, 1, first_result)
+    first_result_html = fetch_result(1, target_day)
+    write_raw_data_to_file(raw_data_dir, 1, first_result_html)
 
-    number_of_pages = get_number_of_pages(create_search_url(target_day, 1))
+    number_of_pages = get_number_of_pages_from_html(first_result_html)
     total_number_of_results_fetched, html_results, text_results = fetch_all_results(
         target_day, number_of_pages
     )
