@@ -10,15 +10,13 @@ def fetch_result(page_number, target_day):
     
     return response.text
 
-def fetch_results(url):
-    session = HTMLSession()
-    response = session.get(url)
-
+def extract_html_results_from_html_page(raw_html):
     """
         grabs the search results but ignores the first div. the first div contains
         mobile information and would therefore result in a duplicate result
     """
-    event_list_items = response.html.find('div[data-testid="search-event"] > div:nth-child(2)') 
+    response_html = HTML(html=raw_html)
+    event_list_items = response_html.find('div[data-testid="search-event"] > div:nth-child(2)') 
 
     number_of_results = 0
     text_result = ''
@@ -31,6 +29,12 @@ def fetch_results(url):
         number_of_results += 1
 
     return html_result, text_result, number_of_results
+
+def fetch_results(url):
+    session = HTMLSession()
+    response = session.get(url)    
+
+    return extract_html_results_from_html_page(response.text)
 
 def write_raw_data_to_file(data_dir, page_number, raw_html):
     os.makedirs(data_dir, exist_ok=True)
