@@ -1,4 +1,4 @@
-from get_data_eventbrite import get_number_of_pages_from_html
+from fetch.eventbrite.get_data import get_number_of_pages_from_html
 
 def test_get_number_of_pages():
     raw_html = """

@@ -1,4 +1,4 @@
-from eventbrite_to_json import extract_html_results_from_html_page
+from fetch.eventbrite.to_json import extract_html_results_from_html_page
 
 
 def test_extract_html_results_from_html_page():
