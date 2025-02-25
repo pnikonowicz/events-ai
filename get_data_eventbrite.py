@@ -10,25 +10,6 @@ def fetch_result(page_number, target_day):
     
     return response.text
 
-def extract_html_results_from_html_page(raw_html):
-    """
-        grabs the search results but ignores the first div. the first div contains
-        mobile information and would therefore result in a duplicate result
-    """
-    response_html = HTML(html=raw_html)
-    event_list_items = response_html.find('div[data-testid="search-event"] > div:nth-child(2)') 
-
-    number_of_results = 0
-    text_result = ''
-    html_result = ''
-    separator = "\n" + "-" * 30 + "\n"
-
-    for item in event_list_items:
-        text_result += f"{item.text}{separator}"
-        html_result += f"{item.html}\n\n"
-        number_of_results += 1
-
-    return html_result, text_result, number_of_results
 
 def fetch_results(url):
     session = HTMLSession()
@@ -78,21 +59,6 @@ def get_number_of_pages(url):
 
     return get_number_of_pages_from_html(response_html)
 
-def fetch_all_results(raw_htmls):
-    total_number_of_results_fetched = 0
-    html_results = "<html>\n\n"
-    text_results = ""
-    
-    for raw_html in raw_htmls:
-        html_result, text_result, number_fetched = extract_html_results_from_html_page(raw_html)
-        html_results += html_result
-        text_results += text_result
-        total_number_of_results_fetched += number_fetched
-
-    html_results += "\n\n</html>"
-
-    return total_number_of_results_fetched, html_results, text_results
-
 def fetch_all_raw_html(target_day, number_of_pages):
     raw_htmls = []
 
@@ -115,12 +81,8 @@ if __name__ == "__main__":
     number_of_pages = get_number_of_pages_from_html(first_result_html)
 
     raw_htmls = fetch_all_raw_html(target_day, number_of_pages)
+    for i in range(1, len(raw_htmls)):
+        raw_html = raw_htmls[i]
+        write_raw_data_to_file(raw_data_dir, raw_html)
     
     print(f"fetched: {len(raw_htmls)} results")
-    
-    total_number_of_results_fetched, html_results, text_results = fetch_all_results(raw_htmls)
-    
-    write_to_file(data_dir, text_results, html_results)
-
-    print(f"fetched: {total_number_of_results_fetched} results")
-
