@@ -34,7 +34,7 @@ def fetch_results(url):
     session = HTMLSession()
     response = session.get(url)    
 
-    return extract_html_results_from_html_page(response.text)
+    return response.text
 
 def write_raw_data_to_file(data_dir, page_number, raw_html):
     os.makedirs(data_dir, exist_ok=True)
@@ -78,15 +78,13 @@ def get_number_of_pages(url):
 
     return get_number_of_pages_from_html(response_html)
 
-def fetch_all_results(target_day, number_of_pages):
+def fetch_all_results(raw_htmls):
     total_number_of_results_fetched = 0
     html_results = "<html>\n\n"
     text_results = ""
     
-    for page_number in range(1, number_of_pages):
-        url = create_search_url(target_day, page_number)
-        print(f"fetching results for: {url}")
-        html_result, text_result, number_fetched = fetch_results(url)
+    for raw_html in raw_htmls:
+        html_result, text_result, number_fetched = extract_html_results_from_html_page(raw_html)
         html_results += html_result
         text_results += text_result
         total_number_of_results_fetched += number_fetched
@@ -94,6 +92,17 @@ def fetch_all_results(target_day, number_of_pages):
     html_results += "\n\n</html>"
 
     return total_number_of_results_fetched, html_results, text_results
+
+def fetch_all_raw_html(target_day, number_of_pages):
+    raw_htmls = []
+
+    for page_number in range(1, number_of_pages):
+        url = create_search_url(target_day, page_number)
+        print(f"fetching results for: {url}")
+        raw_html = fetch_results(url)
+        raw_htmls.append(raw_html)
+
+    return raw_htmls
 
 if __name__ == "__main__":
     target_day = "tomorrow"
@@ -104,9 +113,12 @@ if __name__ == "__main__":
     write_raw_data_to_file(raw_data_dir, 1, first_result_html)
 
     number_of_pages = get_number_of_pages_from_html(first_result_html)
-    total_number_of_results_fetched, html_results, text_results = fetch_all_results(
-        target_day, number_of_pages
-    )
+
+    raw_htmls = fetch_all_raw_html(target_day, number_of_pages)
+    
+    print(f"fetched: {len(raw_htmls)} results")
+    
+    total_number_of_results_fetched, html_results, text_results = fetch_all_results(raw_htmls)
     
     write_to_file(data_dir, text_results, html_results)
 
