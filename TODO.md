@@ -2,6 +2,13 @@
 
 # adhere meetup data to schema; do not put in description (for now)
 
+# remove raw folder when grabbing data to avoid stale results
+
+# don't normalize. it is unecessary for cosine 
+
+# handle multiple days for data gathering
+* eventbrite
+
 # keep track of groups. 
 when groups are created in unique.py, keep the group data so that
 they can eventually be displayed in the final html via a collapsable form. this way, 
