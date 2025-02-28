@@ -3,7 +3,7 @@ from fetch.collect import collect_all_data
 from fetch.unique import unique
 from ai.json_data_to_embeddings import data_to_embeddings
 from ai.query_data_to_embedding import query_to_embeddings
-from ai.embeddings_to_recommendation_json import extract_recemondations
+from ai.embeddings_to_recommendation_json import extract_recommendation
 from web.json_data_to_html import to_html
 
 if __name__ == "__main__":
@@ -22,7 +22,7 @@ if __name__ == "__main__":
     query_embeddings_count = query_to_embeddings()
     print(f"created {query_embeddings_count} query embeddings")
 
-    recemondation_count = extract_recemondations()
-    print(f"found: {recemondation_count} recemondation(s)")
+    recommendation_count = extract_recommendation()
+    print(f"found: {recommendation_count} recommendation(s)")
 
     to_html()

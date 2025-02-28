@@ -48,7 +48,7 @@ def load_json(json_data_file):
     with open(json_data_file, 'r') as file:
         return json.load(file)
     
-def join_recomndation_indexes_with_original_data(recomendation_indexes, original_query_data_json, original_data_json):
+def join_recommendation_indexes_with_original_data(recomendation_indexes, original_query_data_json, original_data_json):
     recemondation_json = []
     for recomendation_index in recomendation_indexes:
         original_data = original_data_json[recomendation_index['data_index']]
@@ -78,7 +78,7 @@ def write_to_file(output_file, json_data):
     with open(output_file, "w") as json_file:
         json.dump(json_data, json_file, indent=4)
 
-def extract_recemondations():
+def extract_recommendation():
     data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
 
     data_embeddings_path = os.path.join(data_dir, 'data.embeddings.json')
@@ -99,10 +99,10 @@ def extract_recemondations():
     original_data = load_json(json_data_file) # data used to create the data embeddings
     original_query_data = get_query_text_contents(previous_events_dir)
     
-    recemondation_json = join_recomndation_indexes_with_original_data(recomendation_indexes, original_query_data, original_data)
+    recommendation_json = join_recommendation_indexes_with_original_data(recomendation_indexes, original_query_data, original_data)
 
-    recemondation_json_filename = os.path.join(data_dir, "recemondations.json")
-    write_to_file(recemondation_json_filename, recemondation_json)
+    recommendation_json_filename = os.path.join(data_dir, "recemondations.json")
+    write_to_file(recommendation_json_filename, recommendation_json)
 
-    return len(recemondation_json)
+    return len(recommendation_json)
 
