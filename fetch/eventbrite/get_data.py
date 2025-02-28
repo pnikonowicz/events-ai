@@ -1,7 +1,8 @@
 import os
+from shutil import rmtree
 from requests_html import HTMLSession
 from requests_html import HTML
-from common.paths import Paths
+from fetch.eventbrite.to_json import to_json
 
 def fetch_result(page_number, target_day):
     url = create_search_url(target_day, page_number)
@@ -70,12 +71,24 @@ def fetch_all_raw_html(target_day, number_of_pages):
 
     return raw_htmls
 
-if __name__ == "__main__":
+def remove_dir(dir):
+    rmtree(dir)
+
+def fetch(Paths):
     target_day = "tomorrow"
     data_dir = os.path.join(Paths.PROJECT_DIR, "data", "eventbrite")
     raw_data_dir = os.path.join(data_dir, "raw")
     
+    raw_htmls = fetch_from_eventbrite(target_day, raw_data_dir)
+    
+    to_json(Paths, raw_data_dir)
+
+    return len(raw_htmls)
+
+def fetch_from_eventbrite(target_day, raw_data_dir):
     first_result_html = fetch_result(1, target_day)
+
+    remove_dir(raw_data_dir)
     write_raw_data_to_file(raw_data_dir, 1, first_result_html)
 
     number_of_pages = get_number_of_pages_from_html(first_result_html)
@@ -83,6 +96,5 @@ if __name__ == "__main__":
     raw_htmls = fetch_all_raw_html(target_day, number_of_pages)
     for i in range(1, len(raw_htmls)):
         raw_html = raw_htmls[i]
-        write_raw_data_to_file(raw_data_dir, raw_html)
-    
-    print(f"fetched: {len(raw_htmls)} results")
+        write_raw_data_to_file(raw_data_dir, i, raw_html)
+    return raw_htmls

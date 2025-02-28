@@ -1,0 +1,6 @@
+from common.paths import Paths
+from fetch.eventbrite.get_data import fetch as fetch_eventbrite
+
+if __name__ == "__main__":
+    amount = fetch_eventbrite(Paths)
+    print(f"fetched: {len(amount)} results")

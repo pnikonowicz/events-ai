@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 import os
 import json
-from common.paths import Paths
 from requests_html import HTML
 
 def read_file(file_path):
@@ -76,10 +75,9 @@ def get_raw_htmls(raw_data_dir):
                 raw_htmls.append(data)
     return raw_htmls
 
-if __name__ == "__main__":
+def to_json(Paths, raw_data_dir):
     data_dir = os.path.join(Paths.PROJECT_DIR, 'data', 'eventbrite')
     html_file = os.path.join(data_dir, 'data.html')
-    raw_data_dir = os.path.join(data_dir, "raw")
 
     raw_htmls = get_raw_htmls(raw_data_dir)
 
