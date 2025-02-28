@@ -16,7 +16,7 @@ def normalize_embeddings(embeddings):
 def log(message):
     print(message)
 
-def grab_similar_items(normalized_data_embeddings, normalized_query_embeddings, threshold=.9, k=5):
+def grab_similar_items(normalized_data_embeddings, normalized_query_embeddings, threshold, k=5):
     similarity_matrix = cosine_similarity(normalized_query_embeddings, normalized_data_embeddings)
     ranked_similarites_with_poor_results = np.argsort(similarity_matrix, axis=1, stable=True)
 
@@ -78,7 +78,7 @@ def write_to_file(output_file, json_data):
     with open(output_file, "w") as json_file:
         json.dump(json_data, json_file, indent=4)
 
-def extract_recommendation():
+def extract_recommendation(threshold):
     data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
 
     data_embeddings_path = os.path.join(data_dir, 'data.embeddings.json')
@@ -90,7 +90,7 @@ def extract_recommendation():
     normalized_data_embeddings = normalize_embeddings(data_embeddings)
     normalized_query_embeddings = normalize_embeddings(query_embeddings)
 
-    recomendation_indexes = grab_similar_items(normalized_data_embeddings, normalized_query_embeddings)
+    recomendation_indexes = grab_similar_items(normalized_data_embeddings, normalized_query_embeddings, threshold)
 
     log(recomendation_indexes)
 

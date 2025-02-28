@@ -22,7 +22,7 @@ if __name__ == "__main__":
     query_embeddings_count = query_to_embeddings()
     print(f"created {query_embeddings_count} query embeddings")
 
-    recommendation_count = extract_recommendation()
+    recommendation_count = extract_recommendation(threshold=.9)
     print(f"found: {recommendation_count} recommendation(s)")
 
     to_html()
