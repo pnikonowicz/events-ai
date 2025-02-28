@@ -78,7 +78,7 @@ def write_to_file(output_file, json_data):
     with open(output_file, "w") as json_file:
         json.dump(json_data, json_file, indent=4)
 
-if __name__ == '__main__':
+def extract_recemondations():
     data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
 
     data_embeddings_path = os.path.join(data_dir, 'data.embeddings.json')
@@ -104,5 +104,5 @@ if __name__ == '__main__':
     recemondation_json_filename = os.path.join(data_dir, "recemondations.json")
     write_to_file(recemondation_json_filename, recemondation_json)
 
-    log(f"found: {len(recemondation_json)} recemondation(s)")
+    return len(recemondation_json)
 

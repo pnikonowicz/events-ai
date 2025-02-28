@@ -47,7 +47,7 @@ def grab_first_in_group(grouped_json):
         dups_removed += len(group) - 1 if len(group) > 0 else 0
     return unique_flatten, dups_removed
 
-if __name__ == "__main__":
+def unique():
     data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
 
     data_json_file = os.path.join(data_dir, "joined.json")
@@ -60,5 +60,5 @@ if __name__ == "__main__":
     write_json_to_file(json_output_file, unique_json)
     # write_json_to_file(json_output_file, grouped_json)
 
-    print(f"remove {dups_removed} duplicates")
+    return dups_removed
     

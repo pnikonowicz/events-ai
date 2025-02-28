@@ -31,7 +31,7 @@ def write_embeddings(output_file, embeddings):
     with open(output_file, "w") as json_file:
         json.dump(embeddings, json_file, indent=4)
 
-if __name__ == "__main__":
+def data_to_embeddings():
     data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
     json_data_file = os.path.join(data_dir, 'unique.json')
     json_data = load_json(json_data_file)
@@ -47,5 +47,4 @@ if __name__ == "__main__":
     embeddings_file = os.path.join(data_dir, "data.embeddings.json")
     write_embeddings(embeddings_file, embeddings)
 
-    print(f"embeddings count: {len(embeddings)}")
-    print(f"text_data count: {len(text_data)}")
+    return len(embeddings)

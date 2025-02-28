@@ -90,7 +90,7 @@ def get_recemondation_html_content(recemondation_json_file):
         return ""
     
 
-if __name__ == "__main__":
+def to_html():
     data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
     json_data_file = os.path.join(data_dir, 'unique.json')
     

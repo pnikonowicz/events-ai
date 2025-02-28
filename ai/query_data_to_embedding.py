@@ -33,7 +33,7 @@ def load_api_key(filename):
         content = file.read()
     return content
 
-if __name__ == "__main__":
+def query_to_embeddings():
     data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
     previous_events_dir = os.path.join(data_dir, 'previous_events')
 
@@ -48,3 +48,5 @@ if __name__ == "__main__":
 
     query_embeddings_file = os.path.join(data_dir, 'query.embeddings.json')
     write_embeddings(query_embeddings_file, embeddings)
+
+    return len(embeddings)
