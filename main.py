@@ -14,7 +14,7 @@ if __name__ == "__main__":
     print(f"total data records: {joined_amount}")
 
     dups_removed_amount = unique()
-    print(f"remove {dups_removed_amount} duplicates")
+    print(f"found {dups_removed_amount} duplicates")
 
     embeddings_count = data_to_embeddings()
     print(f"created {embeddings_count} data embeddings")

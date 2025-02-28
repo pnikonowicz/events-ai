@@ -43,7 +43,14 @@ def grab_first_in_group(grouped_json):
     unique_flatten = []
     dups_removed = 0
     for group in grouped_json:
-        unique_flatten.append(group[0])
+        first_group = group[0]
+        json_with_similiar_events= {
+            "image": first_group["image"],
+            "link": first_group["link"],
+            "title": first_group["title"],
+            "similar_events": group[1:],
+        }
+        unique_flatten.append(json_with_similiar_events)
         dups_removed += len(group) - 1 if len(group) > 0 else 0
     return unique_flatten, dups_removed
 

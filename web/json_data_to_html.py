@@ -58,6 +58,7 @@ def json_to_html(items):
                 <div>
                     <span>because you liked: {item.get('recemondation_source') or "N/A"}<span>
                     <a href="{item['link']}" target="about:blank">{item['title']}</a>
+                    <span>there are also {len(item.get('similar_events', []))} similiar events
                 </div>
             </li>
         """
