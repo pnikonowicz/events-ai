@@ -2,7 +2,7 @@ import os
 from shutil import rmtree
 from requests_html import HTMLSession
 from requests_html import HTML
-from fetch.eventbrite.to_json import to_json
+from .to_json import to_json
 from common.paths import Paths
 
 def fetch_result(page_number, target_day):
@@ -73,7 +73,10 @@ def fetch_all_raw_html(target_day, number_of_pages):
     return raw_htmls
 
 def remove_dir(dir):
-    rmtree(dir)
+    if os.path.exists(dir):
+        rmtree(dir)
+    else:
+        print("dir not found, nothing to delete")
 
 def fetch():
     target_day = "tomorrow"
