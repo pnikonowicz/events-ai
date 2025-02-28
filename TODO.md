@@ -9,6 +9,10 @@
 # handle multiple days for data gathering
 * eventbrite
 
+# logs
+* move all print statements to log
+* determine log levels
+
 # keep track of groups. 
 when groups are created in unique.py, keep the group data so that
 they can eventually be displayed in the final html via a collapsable form. this way, 
