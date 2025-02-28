@@ -3,6 +3,7 @@ from shutil import rmtree
 from requests_html import HTMLSession
 from requests_html import HTML
 from fetch.eventbrite.to_json import to_json
+from common.paths import Paths
 
 def fetch_result(page_number, target_day):
     url = create_search_url(target_day, page_number)
@@ -74,7 +75,7 @@ def fetch_all_raw_html(target_day, number_of_pages):
 def remove_dir(dir):
     rmtree(dir)
 
-def fetch(Paths):
+def fetch():
     target_day = "tomorrow"
     data_dir = os.path.join(Paths.PROJECT_DIR, "data", "eventbrite")
     raw_data_dir = os.path.join(data_dir, "raw")
