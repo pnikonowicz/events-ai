@@ -1,6 +1,7 @@
 import json
 import os
 from common.paths import Paths
+import pathlib
 
 def json_to_html(items):
     html_content = """
@@ -102,3 +103,5 @@ def to_html():
 
     html_file = os.path.join(data_dir, "all.html")
     write_html_to_file(html_file, recemondation_html_content + result_html_content)
+
+    return pathlib.Path(os.path.abspath(html_file)).as_uri()
