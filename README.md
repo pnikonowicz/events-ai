@@ -25,28 +25,4 @@ This project:
 
 ### Running the Project  
 To process and view events:  
-1. Fetch data:  
-   ```sh
-   python get_data_eventbrite.py  # or python get_data_meetup.py
-   ```  
-2. Convert Eventbrite data (if applicable):  
-   ```sh
-   python eventbrite_to_json.py
-   ```  
-3. Merge all data sources:  
-   ```sh
-   python join_data.py
-   ```  
-4. Remove duplicates:  
-   ```sh
-   python unique.py
-   ```  
-5. (Optional) Generate recommendations (requires AI api key):  
-   ```sh
-   python json_data_to_embeddings.py # requires api key in secrets/google-api-key (for gemini)
-   python query_data_to_embeddings.py # requires previous event data to be in data/previous_events for suggestion querying
-   python embeddings_to_recommendation_json.py
-   ```  
-6. View results in a browser:  
-   ```sh
-   python json_data_to_html.py  # outputs to data/all.html
+1. execute `main.py`
