@@ -9,6 +9,9 @@
 # handle multiple days for data gathering
 * eventbrite
 
+# make api_key optional
+* add api key info to README
+
 # logs
 * move all print statements to log
 * determine log levels
@@ -29,6 +32,7 @@ with this
 * log
 * get_query_text_contents
 * paths
+* json schema to common location
 
 # RAG
 * G - create query prompt engineering context
