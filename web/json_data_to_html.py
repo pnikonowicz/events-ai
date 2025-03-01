@@ -43,6 +43,10 @@ def json_to_html(items):
                     display: flex;
                     flex-direction: column;
             }
+            .similiar_events {
+                margin-left: 1em;
+                padding: 1em;                
+            }
         </style>
 
     </head>
@@ -52,13 +56,22 @@ def json_to_html(items):
     """
 
     for item in items:
+        similiar_events_json = item.get('similar_events', [])
+        similiar_events_titles = "\n".join("<span>" + event['title'] + "</span>" for event in similiar_events_json)
+        html_similiar_events = f"""
+            <div class="similiar_events">
+                {similiar_events_titles}
+            </div>
+        """
         html_content += f"""
             <li>
                 <img src="{item['image']}" alt="Thumbnail">
                 <div>
                     <span>because you liked: {item.get('recemondation_source') or "N/A"}<span>
                     <a href="{item['link']}" target="about:blank">{item['title']}</a>
-                    <span>there are also {len(item.get('similar_events', []))} similiar events
+                    <div>there are also {len(similiar_events_json)} similiar events
+                        {html_similiar_events}
+                    </div>
                 </div>
             </li>
         """
