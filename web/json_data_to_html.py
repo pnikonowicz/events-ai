@@ -18,17 +18,11 @@ def json_to_html(items):
                 padding: 2em;
                 border-radius: 5em;
                 box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.2);
-                transition: transform 0.2s ease-in-out;
-                transform-origin: left; /* Make the scale pivot from the left side */
                 display: flex;
             }
             li div {
                 display: flex;
                 flex-direction: column;
-            }
-            li:hover { 
-                transform: scale(1, 1.1); /* Scale up, moving more to the right */
-                box-shadow: 2px 2px 15px rgba(255, 255, 255, 0.4);
             }
             img { 
                 width: 100px; 
