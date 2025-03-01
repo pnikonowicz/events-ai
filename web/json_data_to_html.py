@@ -57,7 +57,8 @@ def json_to_html(items):
 
     for item in items:
         similiar_events_json = item.get('similar_events', [])
-        similiar_events_titles = "\n".join("<span>" + event['title'] + "</span>" for event in similiar_events_json)
+        html_similar_event_inner = '<a href="{link}" target="about:blank"> {title} </a>'
+        similiar_events_titles = "\n".join(html_similar_event_inner.format(link=event["link"], title=event["title"]) for event in similiar_events_json)
         html_similiar_events = f"""
             <div class="similiar_events">
                 {similiar_events_titles}
@@ -69,9 +70,8 @@ def json_to_html(items):
                 <div>
                     <span>because you liked: {item.get('recemondation_source') or "N/A"}<span>
                     <a href="{item['link']}" target="about:blank">{item['title']}</a>
-                    <div>there are also {len(similiar_events_json)} similiar events
-                        {html_similiar_events}
-                    </div>
+                    <span>there are also {len(similiar_events_json)} similiar events</span>
+                    {html_similiar_events}
                 </div>
             </li>
         """
