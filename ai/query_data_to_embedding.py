@@ -33,11 +33,20 @@ def load_api_key(filename):
         content = file.read()
     return content
 
+def remove_file(filename):
+    if os.path.exists(filename):
+        os.remove(filename)
+    else:
+        print(f"filename {filename} not found, nothing to delete")
+
 def query_to_embeddings():
     data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
     previous_events_dir = os.path.join(data_dir, 'previous_events')
     secrets_dir = os.path.join(Paths.PROJECT_DIR, "secrets")
     api_key_file = os.path.join(secrets_dir, "google-api-key")
+    query_embeddings_file = os.path.join(data_dir, 'query.embeddings.json')
+
+    remove_file(query_embeddings_file)
 
     if not os.path.exists(api_key_file):
         print(f"""!!!WARNING!!! \n{previous_events_dir} does not exist. add previous events to this location, one for each event. example:
@@ -55,7 +64,6 @@ def query_to_embeddings():
 
     embeddings = get_embeddings_from(google_ai_model, api_key, query_texts)
 
-    query_embeddings_file = os.path.join(data_dir, 'query.embeddings.json')
     write_embeddings(query_embeddings_file, embeddings)
 
     return len(embeddings)

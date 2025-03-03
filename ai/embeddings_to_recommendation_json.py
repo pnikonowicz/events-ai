@@ -78,11 +78,20 @@ def write_to_file(output_file, json_data):
     with open(output_file, "w") as json_file:
         json.dump(json_data, json_file, indent=4)
 
+def remove_file(filename):
+    if os.path.exists(filename):
+        os.remove(filename)
+    else:
+        print(f"filename {filename} not found, nothing to delete")
+
 def extract_recommendation(threshold):
     data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
 
     data_embeddings_path = os.path.join(data_dir, 'data.embeddings.json')
     query_emeddings_path = os.path.join(data_dir, 'query.embeddings.json')
+    recommendation_json_filename = os.path.join(data_dir, "recemondations.json")
+
+    remove_file(recommendation_json_filename)
 
     data_embeddings = read_embeddings(data_embeddings_path)
     query_embeddings = read_embeddings(query_emeddings_path)
@@ -101,7 +110,6 @@ def extract_recommendation(threshold):
     
     recommendation_json = join_recommendation_indexes_with_original_data(recomendation_indexes, original_query_data, original_data)
 
-    recommendation_json_filename = os.path.join(data_dir, "recemondations.json")
     write_to_file(recommendation_json_filename, recommendation_json)
 
     return len(recommendation_json)

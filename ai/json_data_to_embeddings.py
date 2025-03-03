@@ -31,11 +31,20 @@ def write_embeddings(output_file, embeddings):
     with open(output_file, "w") as json_file:
         json.dump(embeddings, json_file, indent=4)
 
+def remove_file(filename):
+    if os.path.exists(filename):
+        os.remove(filename)
+    else:
+        print(f"filename {filename} not found, nothing to delete")
+
 def data_to_embeddings():
     data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
     json_data_file = os.path.join(data_dir, 'unique.json')
     secrets_dir = os.path.join(Paths.PROJECT_DIR, "secrets")
     api_key_file = os.path.join(secrets_dir, "google-api-key")
+    embeddings_file = os.path.join(data_dir, "data.embeddings.json")
+
+    remove_file(embeddings_file)
 
     if not os.path.exists(api_key_file):
         print(f"!!!WARNING!!! \n{api_key_file} does not exist. add an api key to this file to enable recommondations.")
@@ -48,7 +57,6 @@ def data_to_embeddings():
     text_data = extract_text_from_json_data(json_data)
     embeddings = get_embeddings_from_json_data(google_ai_model, api_key, text_data)
     
-    embeddings_file = os.path.join(data_dir, "data.embeddings.json")
     write_embeddings(embeddings_file, embeddings)
 
     return len(embeddings)
