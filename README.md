@@ -29,3 +29,6 @@ To process and view events:
 
 ### Running Project with React Frontend
 1. ./scripts/run-react-frontend.sh
+
+###  Running the tests
+run `pytest` from the project root (`/workspaces/events-ai` in the dev container)

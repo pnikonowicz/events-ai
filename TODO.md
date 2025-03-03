@@ -4,6 +4,8 @@
 
 # don't normalize. it is unecessary for cosine 
 
+# add time and location to result
+
 # handle multiple days for data gathering
 * eventbrite
 

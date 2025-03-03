@@ -16,7 +16,8 @@ RUN apt update -y && apt install curl -y \
 RUN echo node > .nvmrc
 RUN nvm install --lts && nvm --version
 
-RUN pip install requests-html lxml_html_clean scikit-learn langchain-google-genai pytest
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
 
 # ENTRYPOINT sleep infinity
