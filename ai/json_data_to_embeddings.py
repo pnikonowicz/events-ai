@@ -34,10 +34,14 @@ def write_embeddings(output_file, embeddings):
 def data_to_embeddings():
     data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
     json_data_file = os.path.join(data_dir, 'unique.json')
-    json_data = load_json(json_data_file)
-
     secrets_dir = os.path.join(Paths.PROJECT_DIR, "secrets")
     api_key_file = os.path.join(secrets_dir, "google-api-key")
+
+    if not os.path.exists(api_key_file):
+        print(f"!!!WARNING!!! \n{api_key_file} does not exist. add an api key to this file to enable recommondations.")
+        return 0
+
+    json_data = load_json(json_data_file)
     api_key = load_api_key(api_key_file)
 
     google_ai_model = "models/text-embedding-004"
