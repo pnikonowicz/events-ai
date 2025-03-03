@@ -93,6 +93,14 @@ def extract_recommendation(threshold):
 
     remove_file(recommendation_json_filename)
 
+    if not os.path.exists(data_embeddings_path):
+        print("log: no data embeddings found")
+        return 0
+    
+    if not os.path.exists(query_emeddings_path):
+        print("log: no query embeddings found")
+        return 0
+
     data_embeddings = read_embeddings(data_embeddings_path)
     query_embeddings = read_embeddings(query_emeddings_path)
 
