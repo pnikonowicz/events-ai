@@ -26,3 +26,6 @@ This project:
 ### Running the Project  
 To process and view events:  
 1. execute `main.py`
+
+###  Running the tests
+run `pytest` from the project root (`/workspaces/events-ai` in the dev container)
