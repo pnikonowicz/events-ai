@@ -26,3 +26,6 @@ This project:
 ### Running the Project  
 To process and view events:  
 1. execute `main.py`
+
+### Running Project with React Frontend
+1. ./scripts/run-react-frontend.sh
