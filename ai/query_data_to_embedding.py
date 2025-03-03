@@ -36,11 +36,20 @@ def load_api_key(filename):
 def query_to_embeddings():
     data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
     previous_events_dir = os.path.join(data_dir, 'previous_events')
-
-    query_texts = get_query_text_contents(previous_events_dir)
-
     secrets_dir = os.path.join(Paths.PROJECT_DIR, "secrets")
     api_key_file = os.path.join(secrets_dir, "google-api-key")
+
+    if not os.path.exists(api_key_file):
+        print(f"""!!!WARNING!!! \n{previous_events_dir} does not exist. add previous events to this location, one for each event. example:
+    previous_events
+        - fun_event.event
+        - fun_event_2.event
+
+    the filenames are not important.
+              """)
+        return 0
+    
+    query_texts = get_query_text_contents(previous_events_dir)
     api_key = load_api_key(api_key_file)
     google_ai_model = "models/text-embedding-004"
 
