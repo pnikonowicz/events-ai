@@ -28,6 +28,8 @@
 * paths
 * json schema to common location
 
+# render source
+show what data source is responsible for the result that is rendered
 
 # web service docker container that hosts everything
 
