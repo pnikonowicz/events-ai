@@ -24,8 +24,12 @@ This project:
 - **Recommendations**: Uses an AI model to compare past events with all unique events, recommending those above a similarity threshold.  
 
 ### Running the Project  
-To process and view events:  
+To process and view events with similar events grouped:  
 1. execute `main.py`
+
+#### If you want recommendations
+1. add previous events to a `previous_events` folder relative to the projct dir
+2. add google api key to `secrets/google-api-key`
 
 ### Running Project with React Frontend
 1. ./scripts/run-react-frontend.sh
