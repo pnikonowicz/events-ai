@@ -101,7 +101,7 @@ def create_delimted_text_from_json(edges):
 def write_json_to_file(data_dir, json_data): 
     os.makedirs(data_dir, exist_ok=True)
 
-    text_file = os.path.join(data_dir, 'result.json')
+    text_file = os.path.join(data_dir, 'data.json')
     with open(text_file, "w") as file:
         json.dump(json_data, file, indent=4)
 
