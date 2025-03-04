@@ -51,22 +51,49 @@ def grab_results(json):
     
     return response_json
 
-def get_all_results(query_json):
-  response_json = grab_results(query_json)
-  hasNextPage = response_json['data']['result']['pageInfo']['hasNextPage']
-  nextCursor = response_json['data']['result']['pageInfo']['endCursor']
+def to_formatted_json(edges):
+    formatted_json = []
+    for edge in edges:
+        node = edge['node']
 
-  print(f"hasNextPage: {hasNextPage} nextCursor: {nextCursor}")
+        if node['featuredEventPhoto']:
+          image = node['featuredEventPhoto']['highResUrl']
+        else:
+          image = None
 
-  return response_json
+        link = node['eventUrl']
+        title = node['title']
+        formatted_json.append({
+            'image': image,
+            'link': link,
+            'title': title,
+        })
+    return formatted_json
 
-def create_delimted_text_from_json(response_json):
-    edges = response_json['data']['result']['edges']
+def get_all_results(target_date):
+  hasNextPage = True
+  nextCursor = ""
+  json_results = []
+
+  while hasNextPage:
+    query_json = create_query_json(nextCursor, target_date)
+    response_json = grab_results(query_json)
+    hasNextPage = response_json['data']['result']['pageInfo']['hasNextPage']
+    nextCursor = response_json['data']['result']['pageInfo']['endCursor']
+    formatted_json = to_formatted_json(response_json['data']['result']['edges'])
+    
+    json_results.extend(formatted_json)
+
+    print(f"hasNextPage: {hasNextPage} nextCursor: {nextCursor}")
+
+  return json_results
+
+def create_delimted_text_from_json(edges):
     separator = "\n" + "-" * 30 + "\n"
 
     text_result = ''
     for edge in edges:
-        item = edge['node']['description']
+        item = edge['title']
         text_result += f"{item}{separator}"
     
     return text_result
@@ -89,11 +116,13 @@ def fetch():
   data_dir = os.path.join(Paths.PROJECT_DIR, "data", "meetup")
 
   target_date = datetime.today().strftime("%Y-%m-%d")
-  response_json = get_all_results(create_query_json("", target_date))    
-  text_result = create_delimted_text_from_json(response_json)
+  edges_json = get_all_results(target_date)    
+  text_result = create_delimted_text_from_json(edges_json)
 
-  write_json_to_file(data_dir, response_json)
+  write_json_to_file(data_dir, edges_json)
   write_text_to_file(data_dir, text_result)
+
+  return len(edges_json)
 
 if __name__ == "__main__":
     fetch()
