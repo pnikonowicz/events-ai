@@ -38,8 +38,9 @@ def write_to_file(data_dir, text_results, html_results):
         file.write(html_results)     
 
 def create_search_url(day, page_number):
-    day = "tomorrow"
-    return f"https://www.eventbrite.com/d/ny--new-york/events--{day}/events-{day}/?page={page_number}"
+    # day = "tomorrow"
+    day = "today"
+    return f"https://www.eventbrite.com/d/ny--new-york/events--{day}/?page={page_number}"
 
 def get_number_of_pages_from_html(raw_html):
     response_html = HTML(html=raw_html)
