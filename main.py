@@ -5,8 +5,20 @@ from ai.json_data_to_embeddings import data_to_embeddings
 from ai.query_data_to_embedding import query_to_embeddings
 from ai.embeddings_to_recommendation_json import extract_recommendation
 from web.json_data_to_html import to_html
+import os
+from shutil import rmtree
+from common.paths import Paths
+
+def remove_dir(dir):
+    if os.path.exists(dir):
+        rmtree(dir)
+    else:
+        print("dir not found, nothing to delete")
 
 if __name__ == "__main__":
+    data_dir = os.path.join(Paths.PROJECT_DIR, "data")
+    remove_dir(data_dir)
+
     fetch_amount = fetch_eventbrite()
     print(f"fetched: {fetch_amount} results")
 

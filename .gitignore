@@ -3,6 +3,7 @@
 
 secrets/
 data/
+previous_events/
 
 frontend/node_modules/
 frontend/dist/
