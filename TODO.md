@@ -28,6 +28,9 @@
 * paths
 * json schema to common location
 
+# get data in parallel
+speed the fetch process up
+
 # render source
 show what data source is responsible for the result that is rendered
 
