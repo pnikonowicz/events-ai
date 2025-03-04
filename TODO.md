@@ -16,6 +16,10 @@
 * move all print statements to log
 * determine log levels
 
+# sort
+* add time
+* sort or filter by time
+
 # refactor common areas
 * write to file
 * write json to file
