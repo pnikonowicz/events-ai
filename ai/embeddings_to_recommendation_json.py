@@ -104,6 +104,14 @@ def extract_recommendation(threshold):
     data_embeddings = read_embeddings(data_embeddings_path)
     query_embeddings = read_embeddings(query_emeddings_path)
 
+    if len(data_embeddings) == 0:
+        print("WARN: no data embeddings found")
+        return 0
+
+    if len(query_embeddings) == 0:
+        print("WARN: no query embeddings found")
+        return 0
+
     normalized_data_embeddings = normalize_embeddings(data_embeddings)
     normalized_query_embeddings = normalize_embeddings(query_embeddings)
 
