@@ -85,12 +85,16 @@ def write_text_to_file(data_dir, text_results):
     with open(text_file, "w") as file:
         file.write(text_results)
 
+def fetch():
+  data_dir = os.path.join(Paths.PROJECT_DIR, "data", "meetup")
+
+  target_date = datetime.today().strftime("%Y-%m-%d")
+  response_json = get_all_results(create_query_json("", target_date))    
+  text_result = create_delimted_text_from_json(response_json)
+
+  write_json_to_file(data_dir, response_json)
+  write_text_to_file(data_dir, text_result)
+
 if __name__ == "__main__":
-    data_dir = os.path.join(Paths.PROJECT_DIR, "data", "meetup")
-
-    today_date = datetime.today().strftime("%Y-%m-%d")
-    response_json = get_all_results(create_query_json("", today_date))    
-    text_result = create_delimted_text_from_json(response_json)
-
-    write_json_to_file(data_dir, response_json)
-    write_text_to_file(data_dir, text_result)
+    fetch()
+    
