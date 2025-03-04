@@ -38,8 +38,6 @@ def write_to_file(data_dir, text_results, html_results):
         file.write(html_results)     
 
 def create_search_url(day, page_number):
-    # day = "tomorrow"
-    day = "today"
     return f"https://www.eventbrite.com/d/ny--new-york/events--{day}/?page={page_number}"
 
 def get_number_of_pages_from_html(raw_html):
@@ -81,7 +79,8 @@ def remove_dir(dir):
         print("dir not found, nothing to delete")
 
 def fetch():
-    target_day = "tomorrow"
+    # target_day = "tomorrow"
+    target_day = "today"
     data_dir = os.path.join(Paths.PROJECT_DIR, "data", "eventbrite")
     raw_data_dir = os.path.join(data_dir)
     
