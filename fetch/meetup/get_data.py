@@ -69,14 +69,14 @@ def to_formatted_json(edges):
         })
     return formatted_json
 
-def get_all_results(target_date):
+def get_all_results(target_date, session=HTMLSession()):
   hasNextPage = True
   nextCursor = ""
   json_results = []
 
   while hasNextPage:
     query_json = create_query_json(nextCursor, target_date)
-    response_json = grab_results(query_json)
+    response_json = grab_results(query_json, session)
     hasNextPage = response_json['data']['result']['pageInfo']['hasNextPage']
     nextCursor = response_json['data']['result']['pageInfo']['endCursor']
     formatted_json = to_formatted_json(response_json['data']['result']['edges'])
