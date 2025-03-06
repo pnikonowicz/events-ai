@@ -1,7 +1,7 @@
 import os
 import json
 from requests_html import HTMLSession
-from datetime import datetime
+import datetime
 from common.paths import Paths
 
 def create_query_json(endCursor, start_date):
@@ -111,10 +111,9 @@ def write_text_to_file(data_dir, text_results):
     with open(text_file, "w") as file:
         file.write(text_results)
 
-def fetch():
+def fetch(target_date):
   data_dir = os.path.join(Paths.PROJECT_DIR, "data", "meetup")
 
-  target_date = datetime.today().strftime("%Y-%m-%d")
   edges_json = get_all_results(target_date)    
   text_result = create_delimted_text_from_json(edges_json)
 

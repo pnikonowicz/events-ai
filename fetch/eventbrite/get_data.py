@@ -78,9 +78,7 @@ def remove_dir(dir):
     else:
         print("dir not found, nothing to delete")
 
-def fetch():
-    # target_day = "tomorrow"
-    target_day = "today"
+def fetch(target_day):
     data_dir = os.path.join(Paths.PROJECT_DIR, "data", "eventbrite")
     raw_data_dir = os.path.join(data_dir)
     

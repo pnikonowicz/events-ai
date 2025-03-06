@@ -19,7 +19,9 @@ if __name__ == "__main__":
     data_dir = os.path.join(Paths.PROJECT_DIR, "data")
     remove_dir(data_dir)
 
-    fetch_amount = fetch_eventbrite()
+    target_day = "tomorrow"
+    # target_day = "today"
+    fetch_amount = fetch_eventbrite(target_day)
     print(f"fetched: {fetch_amount} results")
 
     joined_amount = collect_all_data()
