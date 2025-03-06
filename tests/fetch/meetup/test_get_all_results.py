@@ -3,6 +3,17 @@ from fetch.meetup.get_data import get_all_results
 from datetime import datetime
 
 def test_get_all_results_extracts_graphql_and_formats_to_json_schema():
+    def create_node(name):
+        return {
+            "node": {
+                "featuredEventPhoto": {
+                    "highResUrl": f"event_photo_{name}"
+                },
+                "eventUrl": f"event_url_{name}",
+                "title": f"title_{name}",
+            }
+        }
+
     json_response = {
         "data": {
             "result": { 
@@ -10,9 +21,7 @@ def test_get_all_results_extracts_graphql_and_formats_to_json_schema():
                     "hasNextPage": False,
                     "endCursor": "end_cursor",
                 }, 
-                "edges": {
-
-                }
+                "edges": [ create_node("a"), create_node("b") ]
             }
         }
     }
@@ -26,4 +35,4 @@ def test_get_all_results_extracts_graphql_and_formats_to_json_schema():
         
         result = get_all_results(target_date, MockSession)
 
-        assert result == []
+        assert len(result) == 2
