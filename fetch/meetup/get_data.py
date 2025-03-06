@@ -39,8 +39,7 @@ def create_query_json(endCursor, start_date):
 
     return json_data
 
-def grab_results(json):
-    session = HTMLSession()
+def grab_results(json, session=HTMLSession()):
     url = "https://www.meetup.com/gql2"
     headers = {"Content-Type": "application/json"}
 
