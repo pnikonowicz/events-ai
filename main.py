@@ -9,7 +9,8 @@ from web.json_data_to_html import to_html
 import os
 from shutil import rmtree
 from common.paths import Paths
-import datetime
+from fetch.target_date import EventbriteQueryDate
+from fetch.target_date import MeetupQueryDate
 
 def remove_dir(dir):
     if os.path.exists(dir):
@@ -21,15 +22,12 @@ if __name__ == "__main__":
     data_dir = os.path.join(Paths.PROJECT_DIR, "data")
     remove_dir(data_dir)
 
-    target_day = "tomorrow"
-    # target_day = "today"
-    fetch_amount = fetch_eventbrite(target_day)
-    print(f"fetched: {fetch_amount} results")
+    fetch_amount = fetch_eventbrite(EventbriteQueryDate.Today())
+    print(f"eventbrite fetched: {fetch_amount} results")
 
-    # target_date = datetime.today().strftime("%Y-%m-%d")
-    target_date = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
-    fetch_amount = fetch_meetup(target_date)
-    
+    fetch_amount = fetch_meetup(MeetupQueryDate.Today())
+    print(f"meetup fetched: {fetch_amount} results")
+
     joined_amount = collect_all_data()
     print(f"total data records: {joined_amount}")
 
