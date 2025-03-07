@@ -13,3 +13,17 @@ class EventbriteQueryDate:
     
     def Tomorrow():
         return "tomorrow"
+    
+class QueryDate:
+    class Today:
+        def meetup():
+            return MeetupQueryDate.Today()
+        def eventbrite():
+            return EventbriteQueryDate.Today()
+        
+    class Tomorrow:
+        def meetup():
+            return MeetupQueryDate.Tomorrow()
+        def eventbrite():
+            return EventbriteQueryDate.Tomorrow()
+    
