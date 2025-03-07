@@ -6,6 +6,9 @@
 
 # add time and location to result
 
+# fetch
+* meetup tomorrow date range incorrect
+
 # handle multiple days for data gathering
 * eventbrite
 
