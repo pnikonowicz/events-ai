@@ -21,7 +21,9 @@
 
 # sort
 * add time
+* add id
 * sort or filter by time
+* also sort by recommended index
 
 # refactor common areas
 * write to file
