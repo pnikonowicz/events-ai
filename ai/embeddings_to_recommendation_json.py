@@ -16,33 +16,54 @@ def normalize_embeddings(embeddings):
 def log(message):
     print(message)
 
-def grab_similar_items(normalized_data_embeddings, normalized_query_embeddings, threshold, k=5):
-    similarity_matrix = cosine_similarity(normalized_query_embeddings, normalized_data_embeddings)
-    ranked_similarites_with_poor_results = np.argsort(similarity_matrix, axis=1, stable=True)
+def grab_similar_items(similarity_matrix, threshold):
+    ranked_similarities = np.argsort(similarity_matrix, axis=1, stable=True)[:, ::-1]
 
-    indexes = []
-    for query_row_with_poor_results_index in range(len(ranked_similarites_with_poor_results)):
-        log(f"==== checking query index: {query_row_with_poor_results_index}")
-        query_row_with_poor_results = ranked_similarites_with_poor_results[query_row_with_poor_results_index]
+    merge_lookups = []
+    for _ in range(len(ranked_similarities)):
+        merge_lookups.append(0)
+    
+    visited = set()
+    result = []
+    recommendation_count = 0
 
-        for data_col_with_poor_results_index in range(len(query_row_with_poor_results)):
-            reversed_data_col_with_poor_results_index = (len(query_row_with_poor_results) - 1) - data_col_with_poor_results_index
-            log(f"checking data index: {reversed_data_col_with_poor_results_index}")
+    while len(visited) < len(ranked_similarities[0]):
+        max_similarity_value = 0
+        max_merge_lookup_index = 0
+        max_similarity_index = 0
+        value_already_in_set = False
 
-            similarity_column_index = ranked_similarites_with_poor_results[query_row_with_poor_results_index][reversed_data_col_with_poor_results_index]
-            similarity_score = similarity_matrix[query_row_with_poor_results_index, similarity_column_index]
+        for merge_lookup in range(len(merge_lookups)):
+            ranked_column_index = merge_lookups[merge_lookup]
+            similarity_index = ranked_similarities[merge_lookup][ranked_column_index]
+            similarity_value = similarity_matrix[merge_lookup][similarity_index]
 
-            if similarity_score >= threshold:
-                log(f"good score: {similarity_score} at index: {similarity_column_index}")
-                indexes.append({
-                    "query_index": query_row_with_poor_results_index, 
-                    "data_index":  int(similarity_column_index),
-                })
-            else:
-                log(f"bad score: {similarity_score}")
+            if similarity_index in visited:
+                merge_lookups[merge_lookup] += 1
+                value_already_in_set = True
                 break
+            elif similarity_value > max_similarity_value:
+                max_similarity_value = similarity_value
+                max_similarity_index = int(similarity_index)
+                max_merge_lookup_index = merge_lookup
+        
+        if value_already_in_set:
+            continue
+        
+        merge_lookups[max_merge_lookup_index] += 1
+        visited.add(max_similarity_index)
 
-    return indexes
+        if max_similarity_value >= threshold:
+            recommendation_count += 1
+            result.append(
+                {"query_index":  max_merge_lookup_index, "data_index": max_similarity_index}
+            )
+        else:
+            result.append(
+                {"query_index":  None, "data_index": max_similarity_index}
+            )
+
+    return result, recommendation_count
 
 def load_json(json_data_file):
     with open(json_data_file, 'r') as file:
@@ -52,7 +73,11 @@ def join_recommendation_indexes_with_original_data(recomendation_indexes, origin
     recemondation_json = []
     for recomendation_index in recomendation_indexes:
         original_data = original_data_json[recomendation_index['data_index']]
-        original_query_data = original_query_data_json[recomendation_index['query_index']]
+
+        original_query_data = None
+        if recomendation_index['query_index'] != None:
+            original_query_data = original_query_data_json[recomendation_index['query_index']]
+        
         recemondation = {
             "image": original_data['image'],
             "link": original_data['link'],
@@ -115,9 +140,8 @@ def extract_recommendation(threshold):
     normalized_data_embeddings = normalize_embeddings(data_embeddings)
     normalized_query_embeddings = normalize_embeddings(query_embeddings)
 
-    recomendation_indexes = grab_similar_items(normalized_data_embeddings, normalized_query_embeddings, threshold)
-
-    log(recomendation_indexes)
+    similarity_matrix = cosine_similarity(normalized_query_embeddings, normalized_data_embeddings)
+    recomendation_indexes, recomendation_count = grab_similar_items(similarity_matrix, threshold)
 
     json_data_file = os.path.join(data_dir, 'unique.json')
     previous_events_dir = os.path.join(Paths.PROJECT_DIR, 'previous_events')
@@ -128,5 +152,5 @@ def extract_recommendation(threshold):
 
     write_to_file(recommendation_json_filename, recommendation_json)
 
-    return len(recommendation_json)
+    return recomendation_count
 

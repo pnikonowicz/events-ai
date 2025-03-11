@@ -101,15 +101,10 @@ def get_recemondation_html_content(recemondation_json_file):
 
 def to_html():
     data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
-    json_data_file = os.path.join(data_dir, 'unique.json')
-    
     recemondation_json_file = os.path.join(data_dir, 'recemondations.json')
     recemondation_html_content = get_recemondation_html_content(recemondation_json_file)
 
-    all_json_data = read_json_file(json_data_file)
-    result_html_content = json_to_html(all_json_data)
-
     html_file = os.path.join(data_dir, "all.html")
-    write_html_to_file(html_file, recemondation_html_content + result_html_content)
+    write_html_to_file(html_file, recemondation_html_content)
 
     return pathlib.Path(os.path.abspath(html_file)).as_uri()
