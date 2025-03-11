@@ -17,50 +17,60 @@ def log(message):
     print(message)
 
 def grab_similar_items(similarity_matrix, threshold):
-    ranked_similarities = np.argsort(similarity_matrix, axis=1, stable=True)[:, ::-1]
+    """
+    Find the most similar items from a similarity matrix, one per row, above a threshold.
+    
+    Args:
+        similarity_matrix (np.ndarray): 2D array of similarity scores
+        threshold (float): Minimum similarity score for a recommendation
+    
+    Returns:
+        tuple: (list of matches, count of recommendations above threshold)
+    """
 
-    merge_lookups = []
-    for _ in range(len(ranked_similarities)):
-        merge_lookups.append(0)
+    sorted_indicies = np.argsort(similarity_matrix, axis=1, stable=True)[:, ::-1]
+
+    # Track current position in sorted indices for each row
+    current_indexes = [0] * len(sorted_indicies)
     
     visited = set()
     result = []
     recommendation_count = 0
 
-    while len(visited) < len(ranked_similarities[0]):
-        max_similarity_value = 0
-        max_merge_lookup_index = 0
-        max_similarity_index = 0
-        value_already_in_set = False
+    while len(visited) < similarity_matrix.shape[1]:
+        best_similarity_value = 0
+        best_similarity_idx = 0
+        best_query_idx = 0
+        already_visited = False
 
-        for merge_lookup in range(len(merge_lookups)):
-            ranked_column_index = merge_lookups[merge_lookup]
-            similarity_index = ranked_similarities[merge_lookup][ranked_column_index]
-            similarity_value = similarity_matrix[merge_lookup][similarity_index]
+        for current_idx in range(len(current_indexes)):
+            sorted_indicies_idx = current_indexes[current_idx]
+            similarity_idx = sorted_indicies[current_idx][sorted_indicies_idx]
+            similarity_value = similarity_matrix[current_idx][similarity_idx]
 
-            if similarity_index in visited:
-                merge_lookups[merge_lookup] += 1
-                value_already_in_set = True
+            if similarity_idx in visited:
+                current_indexes[current_idx] += 1
+                already_visited = True
                 break
-            elif similarity_value > max_similarity_value:
-                max_similarity_value = similarity_value
-                max_similarity_index = int(similarity_index)
-                max_merge_lookup_index = merge_lookup
+            elif similarity_value > best_similarity_value:
+                best_similarity_value = similarity_value
+                best_query_idx = int(similarity_idx)
+                best_similarity_idx = current_idx
         
-        if value_already_in_set:
+        if already_visited:
             continue
         
-        merge_lookups[max_merge_lookup_index] += 1
-        visited.add(max_similarity_index)
+        current_indexes[best_similarity_idx] += 1
+        visited.add(best_query_idx)
 
-        if max_similarity_value >= threshold:
+        if best_similarity_value >= threshold:
             recommendation_count += 1
             result.append(
-                {"query_index":  max_merge_lookup_index, "data_index": max_similarity_index}
+                {"query_index":  best_similarity_idx, "data_index": best_query_idx}
             )
         else:
             result.append(
-                {"query_index":  None, "data_index": max_similarity_index}
+                {"query_index":  None, "data_index": best_query_idx}
             )
 
     return result, recommendation_count

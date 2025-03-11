@@ -1,4 +1,5 @@
 from ai.embeddings_to_recommendation_json import grab_similar_items
+import numpy as np
 
 def test_grab_similiar_items_ranks_by_similarity_with_something_data_edge_case():
     similarity_matrix = [
@@ -16,7 +17,7 @@ def test_grab_similiar_items_ranks_by_similarity_with_something_data_edge_case()
         0.7289707 , 0.7141847 ]
     ]
 
-    result, _ = grab_similar_items(similarity_matrix, 10)
+    result, _ = grab_similar_items(np.array(similarity_matrix), 10)
 
     assert 27 == len(result)
 
@@ -32,7 +33,7 @@ def test_grab_similiar_items_ranks_by_similarity_with_data_scattered():
         query_row_3
     ]
 
-    result, recomendation_count = grab_similar_items(similarity_matrix, 10)
+    result, recomendation_count = grab_similar_items(np.array(similarity_matrix), 10)
 
     expected_result = [
         {"query_index":  0, "data_index": 1}, 
