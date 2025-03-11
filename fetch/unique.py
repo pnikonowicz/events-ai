@@ -2,6 +2,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import os
 import json
+import numpy as np
 from common.paths import Paths
 
 def get_json_data_from_file(file_path):
@@ -9,11 +10,29 @@ def get_json_data_from_file(file_path):
         data = json.load(file)
     return data
 
-def group_similar(json_array, threshold):
+def get_discriminitive_weights_from_file(file_path):
+    if not os.path.exists(file_path):
+        print("WARN: no weights found")
+        return []
+    
+    with open(file_path, 'r', encoding='utf-8') as file:
+        data = json.load(file)
+
+    return data
+
+def group_similar(json_array, weights, threshold):
     # Vectorize the chunks using TF-IDF
     str_array = [(s.get('title') or "") + "\n" + (s.get('description') or "") for s in json_array]
-    vectorizer = TfidfVectorizer().fit_transform(str_array)
-    vectors = vectorizer.toarray()
+    vectorizer = TfidfVectorizer()
+    vector_matrix = vectorizer.fit_transform(str_array)
+    feature_names = vectorizer.get_feature_names_out()
+    vectors = vector_matrix.toarray()
+
+    # apply weights
+    for word, weight in weights.items():
+        if word in feature_names:
+            idx = np.where(feature_names == word)[0][0]
+            vectors[:, idx] *= weight
 
     # Compute the cosine similarity matrix
     cosine_sim = cosine_similarity(vectors)
@@ -54,13 +73,16 @@ def grab_first_in_group(grouped_json):
         dups_removed += len(group) - 1 if len(group) > 0 else 0
     return unique_flatten, dups_removed
 
-def unique():
+def unique(threshold):
     data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
 
     data_json_file = os.path.join(data_dir, "joined.json")
     data_json = get_json_data_from_file(data_json_file)
 
-    grouped_json = group_similar(data_json, .60)
+    weights_file = os.path.join(Paths.PROJECT_DIR, "weights", "weights.json")
+    weights_json = get_discriminitive_weights_from_file(weights_file)
+
+    grouped_json = group_similar(data_json, weights_json, threshold)
     unique_json, dups_removed = grab_first_in_group(grouped_json)
 
     json_output_file = os.path.join(data_dir, 'unique.json')
