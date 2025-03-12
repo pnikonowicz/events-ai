@@ -31,6 +31,16 @@ To process and view events with similar events grouped:
 1. add previous events to a `previous_events` folder relative to the projct dir
 2. add google api key to `secrets/google-api-key`
 
+#### Custom weights
+You may want some items grouped up more aggressively. Or you may want some items grouped up less aggressively. For that, you can use custom weights. Create the following file: `weights/weights.json`
+and add something similar to the following:
+```
+    {
+        "comedy": 10, # add a value greater than 10 to increase the odds of it being grouped together
+        "networking": .5 # add a value less than 1 to decrease the odds of it being grouped together
+    }
+```
+
 ### Running Project with React Frontend
 1. ./scripts/run-react-frontend.sh
 
