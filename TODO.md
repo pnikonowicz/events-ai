@@ -1,29 +1,20 @@
-# data: add tests for each layer
-
 # adhere meetup data to schema; do not put in description (for now)
 
 # don't normalize. it is unecessary for cosine 
 
 # add time and location to result
 
-# fetch
-* meetup tomorrow date range incorrect
-
 # handle multiple days for data gathering
 * eventbrite
-
-# make api_key optional
-* add api key info to README
 
 # logs
 * move all print statements to log
 * determine log levels
 
-# sort
-* add time
-* add id
-* sort or filter by time
-* also sort by recommended index
+# lits results
+* add time to list output
+* show what data source is responsible for the result
+
 
 # refactor common areas
 * write to file
@@ -39,11 +30,6 @@
 
 # get data in parallel
 speed the fetch process up
-
-# render source
-show what data source is responsible for the result that is rendered
-
-# web service docker container that hosts everything
 
 # a front end that allows for entering all needed info
 
