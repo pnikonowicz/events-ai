@@ -93,6 +93,7 @@ def join_recommendation_indexes_with_original_data(recomendation_indexes, origin
             "link": original_data['link'],
             "title": original_data['title'],
             "recemondation_source": original_query_data,
+            "similar_events": original_data['similar_events'],
         }
         recemondation_json.append(recemondation)
     return recemondation_json
