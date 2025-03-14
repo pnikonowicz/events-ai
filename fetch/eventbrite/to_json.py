@@ -77,12 +77,10 @@ def get_raw_htmls(raw_data_dir):
 
 def to_json(Paths, raw_data_dir):
     data_dir = os.path.join(Paths.PROJECT_DIR, 'data', 'eventbrite')
-    html_file = os.path.join(data_dir, 'data.html')
 
     raw_htmls = get_raw_htmls(raw_data_dir)
 
     total_number_of_results_fetched, html_results, text_results = fetch_all_results(raw_htmls)
-    print(text_results)
     print(f"fetched: {total_number_of_results_fetched} results")
     
     json_data = html_to_json(html_results)
