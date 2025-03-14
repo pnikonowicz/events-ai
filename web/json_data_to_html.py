@@ -63,6 +63,8 @@ def json_to_html(items):
                 <img src="{item['image']}" alt="Thumbnail">
                 <div>
                     <span>because you liked: {item.get('recemondation_source') or "N/A"}<span>
+                    <span>time: {item.get('time') or "N/A"}</span>
+                    <span>location: {item.get('location') or "N/A"}</span>
                     <a href="{item['link']}" target="about:blank">{item['title']}</a>
                     <span>there are also {len(similiar_events_json)} similiar events</span>
                     {html_similiar_events}

@@ -66,6 +66,8 @@ def to_formatted_json(edges):
             'image': image,
             'link': link,
             'title': title,
+            'time': None,
+            'location': None
         })
     return formatted_json
 

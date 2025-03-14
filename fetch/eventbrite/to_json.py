@@ -20,10 +20,28 @@ def html_to_json(html_text):
     data = []
     for div in soup.find('html').find_all('div', recursive=False):
         img = div.find('img', src=True)
+        time_and_location = div.find_all('p')
+        time = None
+        location = None
+        
+        if(len(time_and_location) > 1):
+            day_and_time = time_and_location[1].get_text(strip=True)
+            
+            split_day_and_time = day_and_time.split('•')
+            if(len(split_day_and_time) > 1):
+                time = split_day_and_time[1].strip()
+            else:
+                time = None
+                            
+        if(len(time_and_location) > 2):
+            location = time_and_location[2].get_text(strip=True)
+
         div_data = {
             "image": img['src'] if img else None, # images are optional
             "link": div.find('a', href=True)['href'],
-            "title": div.find('h3').get_text(strip=True)
+            "title": div.find('h3').get_text(strip=True),
+            "time": time,
+            "location": location
         }
         data.append(div_data)
     

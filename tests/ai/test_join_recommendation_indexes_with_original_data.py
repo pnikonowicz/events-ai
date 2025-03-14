@@ -12,12 +12,16 @@ def test_join_recommendation_indexes_with_original_data():
             'image': 'image_0',
             'link': 'link_0',
             'title': 'title_0',
+            'location': 'location_0',
+            'time': 'time_0',
             'similar_events': []
         }, 
         {
             'image': 'image_1',
             'link': 'link_1',
             'title': 'title_1',
+            'location': 'location_1',
+            'time': 'time_1',
             'similar_events': []
         }
     ]

@@ -67,6 +67,8 @@ def grab_first_in_group(grouped_json):
             "image": first_group["image"],
             "link": first_group["link"],
             "title": first_group["title"],
+            "time": first_group["time"],
+            "location": first_group["location"],
             "similar_events": group[1:],
         }
         unique_flatten.append(json_with_similiar_events)

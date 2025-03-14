@@ -92,6 +92,8 @@ def join_recommendation_indexes_with_original_data(recomendation_indexes, origin
             "image": original_data['image'],
             "link": original_data['link'],
             "title": original_data['title'],
+            "location": original_data['location'],
+            'time': original_data['time'],
             "recemondation_source": original_query_data,
             "similar_events": original_data['similar_events'],
         }
