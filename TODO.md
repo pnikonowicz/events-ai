@@ -7,6 +7,8 @@
 # handle multiple days for data gathering
 * eventbrite
 
+# allow zero recommendations to still render results
+
 # logs
 * move all print statements to log
 * determine log levels
