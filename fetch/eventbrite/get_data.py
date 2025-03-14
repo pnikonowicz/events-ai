@@ -63,7 +63,7 @@ def get_number_of_pages(url):
 def fetch_all_raw_html(target_day, number_of_pages):
     raw_htmls = []
 
-    print(f"fetching {number_of_pages} results")
+    print(f"fetching {number_of_pages} pages")
     for page_number in range(1, number_of_pages):
         url = create_search_url(target_day, page_number)
         print(f"fetching results for: {url}")
