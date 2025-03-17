@@ -1,3 +1,9 @@
+# Apply stemming or lemitization to vectors
+
+# Fix weights folder doesn’t exist
+
+# Use CAG not RAG for recommendations
+
 # adhere meetup data to schema; do not put in description (for now)
 
 # don't normalize. it is unecessary for cosine 
