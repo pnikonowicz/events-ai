@@ -13,7 +13,7 @@ def get_json_data_from_file(file_path):
 def get_discriminitive_weights_from_file(file_path):
     if not os.path.exists(file_path):
         print("WARN: no weights found")
-        return []
+        return {}
     
     with open(file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
