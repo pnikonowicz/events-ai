@@ -97,7 +97,7 @@ def get_recemondation_html_content(recemondation_json_file):
         recemondation_html_content = json_to_html(recemondation_json_data)
         return recemondation_html_content
     else:
-        log("no recemondation data file found at {recemondation_json_file}, skipping", "WARN")
+        log(f"no recemondation data file found at {recemondation_json_file}, skipping", "WARN")
         return ""
     
 
