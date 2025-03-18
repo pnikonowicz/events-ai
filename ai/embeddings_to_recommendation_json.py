@@ -131,12 +131,19 @@ def extract_recommendation(threshold):
 
     remove_file(recommendation_json_filename)
 
+    json_data_file = os.path.join(data_dir, 'unique.json')
+    previous_events_dir = os.path.join(Paths.PROJECT_DIR, 'previous_events')
+    original_data = load_json(json_data_file) # data used to create the data embeddings
+    original_query_data = get_query_text_contents(previous_events_dir)
+
     if not os.path.exists(data_embeddings_path):
-        print("log: no data embeddings found")
+        print("WARN: no data embeddings found")
+        write_to_file(recommendation_json_filename, original_data)
         return 0
     
     if not os.path.exists(query_emeddings_path):
-        print("log: no query embeddings found")
+        print("WARN: no query embeddings found")
+        write_to_file(recommendation_json_filename, original_data)
         return 0
 
     data_embeddings = read_embeddings(data_embeddings_path)
@@ -144,10 +151,12 @@ def extract_recommendation(threshold):
 
     if len(data_embeddings) == 0:
         print("WARN: no data embeddings found")
+        write_to_file(recommendation_json_filename, original_data)
         return 0
 
     if len(query_embeddings) == 0:
         print("WARN: no query embeddings found")
+        write_to_file(recommendation_json_filename, original_data)
         return 0
 
     normalized_data_embeddings = normalize_embeddings(data_embeddings)
@@ -156,11 +165,6 @@ def extract_recommendation(threshold):
     similarity_matrix = cosine_similarity(normalized_query_embeddings, normalized_data_embeddings)
     recomendation_indexes, recomendation_count = grab_similar_items(similarity_matrix, threshold)
 
-    json_data_file = os.path.join(data_dir, 'unique.json')
-    previous_events_dir = os.path.join(Paths.PROJECT_DIR, 'previous_events')
-    original_data = load_json(json_data_file) # data used to create the data embeddings
-    original_query_data = get_query_text_contents(previous_events_dir)
-    
     recommendation_json = join_recommendation_indexes_with_original_data(recomendation_indexes, original_query_data, original_data)
 
     write_to_file(recommendation_json_filename, recommendation_json)
