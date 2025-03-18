@@ -100,7 +100,7 @@ def join_recommendation_indexes_with_original_data(recomendation_indexes, origin
         recemondation_json.append(recemondation)
     return recemondation_json
 
-def get_query_text_contents(root_folder):
+def get_previous_events(root_folder):
     query_text_contents = []
 
     for dirpath, _, filenames in os.walk(root_folder):
@@ -134,7 +134,7 @@ def extract_recommendation(threshold):
     json_data_file = os.path.join(data_dir, 'unique.json')
     previous_events_dir = os.path.join(Paths.PROJECT_DIR, 'previous_events')
     original_data = load_json(json_data_file) # data used to create the data embeddings
-    original_query_data = get_query_text_contents(previous_events_dir)
+    original_query_data = get_previous_events(previous_events_dir)
 
     if not os.path.exists(data_embeddings_path):
         print("WARN: no data embeddings found")
