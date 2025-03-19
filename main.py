@@ -11,11 +11,13 @@ from shutil import rmtree
 from common.paths import Paths
 from fetch.target_date import QueryDate
 
+
 def remove_dir(dir):
     if os.path.exists(dir):
         rmtree(dir)
     else:
         print("dir not found, nothing to delete")
+
 
 if __name__ == "__main__":
     data_dir = os.path.join(Paths.PROJECT_DIR, "data")
@@ -25,8 +27,8 @@ if __name__ == "__main__":
     fetch_amount = fetch_eventbrite(query_date.eventbrite())
     print(f"eventbrite fetched: {fetch_amount} results")
 
-    fetch_amount = fetch_meetup(query_date.meetup())
-    print(f"meetup fetched: {fetch_amount} results")
+    # fetch_amount = fetch_meetup(query_date.meetup())
+    # print(f"meetup fetched: {fetch_amount} results")
 
     joined_amount = collect_all_data()
     print(f"total data records: {joined_amount}")
@@ -45,4 +47,3 @@ if __name__ == "__main__":
 
     output_html_location = to_html()
     print(f"see results at: {output_html_location}")
-
