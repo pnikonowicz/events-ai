@@ -24,6 +24,9 @@
 # get data in parallel
 speed the fetch process up
 
+# additinal data sites
+* luma: https://lu.ma/nyc
+
 # a front end that allows for entering all needed info
 
 # out of scope
