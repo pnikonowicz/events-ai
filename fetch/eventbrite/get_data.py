@@ -79,7 +79,7 @@ def remove_dir(dir):
         print("dir not found, nothing to delete")
 
 def fetch(target_day):
-    data_dir = os.path.join(Paths.PROJECT_DIR, "data", "eventbrite")
+    data_dir = os.path.join(Paths.DATA_DIR, "eventbrite")
     raw_data_dir = os.path.join(data_dir)
     
     raw_htmls = fetch_from_eventbrite(target_day, raw_data_dir)

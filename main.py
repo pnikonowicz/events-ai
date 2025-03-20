@@ -18,8 +18,7 @@ def remove_dir(dir):
         print("dir not found, nothing to delete")
 
 if __name__ == "__main__":
-    data_dir = os.path.join(Paths.PROJECT_DIR, "data")
-    remove_dir(data_dir)
+    remove_dir(Paths.DATA_DIR)
 
     query_date = QueryDate.Today
     fetch_amount = fetch_eventbrite(query_date.eventbrite())

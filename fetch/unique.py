@@ -76,9 +76,7 @@ def grab_first_in_group(grouped_json):
     return unique_flatten, dups_removed
 
 def unique(threshold):
-    data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
-
-    data_json_file = os.path.join(data_dir, "joined.json")
+    data_json_file = os.path.join(Paths.DATA_DIR, "joined.json")
     data_json = get_json_data_from_file(data_json_file)
 
     weights_file = os.path.join(Paths.PROJECT_DIR, "weights", "weights.json")
@@ -87,7 +85,7 @@ def unique(threshold):
     grouped_json = group_similar(data_json, weights_json, threshold)
     unique_json, dups_removed = grab_first_in_group(grouped_json)
 
-    json_output_file = os.path.join(data_dir, 'unique.json')
+    json_output_file = os.path.join(Paths.DATA_DIR, 'unique.json')
     write_json_to_file(json_output_file, unique_json)
     # write_json_to_file(json_output_file, grouped_json)
 

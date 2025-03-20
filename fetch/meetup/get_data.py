@@ -114,7 +114,7 @@ def write_text_to_file(data_dir, text_results):
         file.write(text_results)
 
 def fetch(target_date):
-  data_dir = os.path.join(Paths.PROJECT_DIR, "data", "meetup")
+  data_dir = os.path.join(Paths.DATA_DIR, "meetup")
 
   edges_json = get_all_results(target_date)    
   text_result = create_delimted_text_from_json(edges_json)

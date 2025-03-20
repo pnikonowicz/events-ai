@@ -123,15 +123,13 @@ def remove_file(filename):
         print(f"filename {filename} not found, nothing to delete")
 
 def extract_recommendation(threshold):
-    data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
-
-    data_embeddings_path = os.path.join(data_dir, 'data.embeddings.json')
-    query_emeddings_path = os.path.join(data_dir, 'query.embeddings.json')
-    recommendation_json_filename = os.path.join(data_dir, "recemondations.json")
+    data_embeddings_path = os.path.join(Paths.DATA_DIR, 'data.embeddings.json')
+    query_emeddings_path = os.path.join(Paths.DATA_DIR, 'query.embeddings.json')
+    recommendation_json_filename = os.path.join(Paths.DATA_DIR, "recemondations.json")
 
     remove_file(recommendation_json_filename)
 
-    json_data_file = os.path.join(data_dir, 'unique.json')
+    json_data_file = os.path.join(Paths.DATA_DIR, 'unique.json')
     previous_events_dir = os.path.join(Paths.PROJECT_DIR, 'previous_events')
     original_data = load_json(json_data_file) # data used to create the data embeddings
     original_query_data = get_previous_events(previous_events_dir)

@@ -20,10 +20,8 @@ def write_aggregated_json(output_path, data):
         json.dump(data, file, indent=4)
 
 def collect_all_data():
-    data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
-
-    aggregate_json = collect_json_data(data_dir)
-    output_file_name = os.path.join(data_dir, "joined.json")
+    aggregate_json = collect_json_data(Paths.DATA_DIR)
+    output_file_name = os.path.join(Paths.DATA_DIR, "joined.json")
     write_aggregated_json(output_file_name, aggregate_json)
 
     return len(aggregate_json)

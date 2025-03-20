@@ -94,7 +94,7 @@ def get_raw_htmls(raw_data_dir):
     return raw_htmls
 
 def to_json(Paths, raw_data_dir):
-    data_dir = os.path.join(Paths.PROJECT_DIR, 'data', 'eventbrite')
+    data_dir = os.path.join(Paths.DATA_DIR, 'eventbrite')
 
     raw_htmls = get_raw_htmls(raw_data_dir)
 

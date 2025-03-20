@@ -40,11 +40,10 @@ def remove_file(filename):
         print(f"filename {filename} not found, nothing to delete")
 
 def query_to_embeddings():
-    data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
     previous_events_dir = os.path.join(Paths.PROJECT_DIR, 'previous_events')
     secrets_dir = os.path.join(Paths.PROJECT_DIR, "secrets")
     api_key_file = os.path.join(secrets_dir, "google-api-key")
-    query_embeddings_file = os.path.join(data_dir, 'query.embeddings.json')
+    query_embeddings_file = os.path.join(Paths.DATA_DIR, 'query.embeddings.json')
 
     remove_file(query_embeddings_file)
 
