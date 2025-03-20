@@ -1,5 +1,7 @@
 ## Recommendation Engine for Unique Events  
 
+!(screenshot)[https://github.com/pnikonowicz/events-ai/blob/main/docs/events-screenshot.jpg]
+
 ### Overview  
 This recommendation engine helps discover unique events from multiple data sources, personalized to your preferences based on past events you've attended.  
 
