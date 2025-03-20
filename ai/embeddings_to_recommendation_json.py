@@ -4,6 +4,7 @@ from sklearn.preprocessing import normalize
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from common.paths import Paths
+from common.logger import Logger
 
 def read_embeddings(file_name):
     with open(file_name) as file:
@@ -14,7 +15,7 @@ def normalize_embeddings(embeddings):
     return normalized
 
 def log(message):
-    print(message)
+    Logger.log(message)
 
 def grab_similar_items(similarity_matrix, threshold):
     """
@@ -120,7 +121,7 @@ def remove_file(filename):
     if os.path.exists(filename):
         os.remove(filename)
     else:
-        print(f"filename {filename} not found, nothing to delete")
+        Logger.log(f"filename {filename} not found, nothing to delete")
 
 def extract_recommendation(threshold):
     data_embeddings_path = os.path.join(Paths.DATA_DIR, 'data.embeddings.json')
@@ -135,12 +136,12 @@ def extract_recommendation(threshold):
     original_query_data = get_previous_events(previous_events_dir)
 
     if not os.path.exists(data_embeddings_path):
-        print("WARN: no data embeddings found")
+        Logger.warn("no data embeddings found")
         write_to_file(recommendation_json_filename, original_data)
         return 0
     
     if not os.path.exists(query_emeddings_path):
-        print("WARN: no query embeddings found")
+        Logger.warn("no query embeddings found")
         write_to_file(recommendation_json_filename, original_data)
         return 0
 
@@ -148,12 +149,12 @@ def extract_recommendation(threshold):
     query_embeddings = read_embeddings(query_emeddings_path)
 
     if len(data_embeddings) == 0:
-        print("WARN: no data embeddings found")
+        Logger.warn("no data embeddings found")
         write_to_file(recommendation_json_filename, original_data)
         return 0
 
     if len(query_embeddings) == 0:
-        print("WARN: no query embeddings found")
+        Logger.warn("no query embeddings found")
         write_to_file(recommendation_json_filename, original_data)
         return 0
 

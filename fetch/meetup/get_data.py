@@ -3,6 +3,7 @@ import json
 from requests_html import HTMLSession
 import datetime
 from common.paths import Paths
+from common.logger import Logger
 
 def create_query_json(endCursor, start_date):
     json_string = '''
@@ -85,7 +86,7 @@ def get_all_results(target_date, session=HTMLSession()):
     
     json_results.extend(formatted_json)
 
-    print(f"hasNextPage: {hasNextPage} nextCursor: {nextCursor}")
+    Logger.log(f"hasNextPage: {hasNextPage} nextCursor: {nextCursor}")
 
   return json_results
 

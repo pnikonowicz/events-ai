@@ -2,6 +2,7 @@ import os
 import json
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from common.paths import Paths
+from common.logger import Logger
 
 def get_query_text_contents(root_folder):
     query_text_contents = []
@@ -37,7 +38,7 @@ def remove_file(filename):
     if os.path.exists(filename):
         os.remove(filename)
     else:
-        print(f"filename {filename} not found, nothing to delete")
+        Logger.log(f"filename {filename} not found, nothing to delete")
 
 def query_to_embeddings():
     previous_events_dir = os.path.join(Paths.PROJECT_DIR, 'previous_events')
@@ -48,7 +49,7 @@ def query_to_embeddings():
     remove_file(query_embeddings_file)
 
     if not os.path.exists(api_key_file):
-        print(f"""!!!WARNING!!! \n{previous_events_dir} does not exist. add previous events to this location, one for each event. example:
+        Logger.warn(f"""{previous_events_dir} does not exist. add previous events to this location, one for each event. example:
     previous_events
         - fun_event.event
         - fun_event_2.event

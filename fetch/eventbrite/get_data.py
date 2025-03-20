@@ -4,6 +4,7 @@ from requests_html import HTMLSession
 from requests_html import HTML
 from .to_json import to_json
 from common.paths import Paths
+from common.logger import Logger
 
 def fetch_result(page_number, target_day):
     url = create_search_url(target_day, page_number)
@@ -50,7 +51,7 @@ def get_number_of_pages_from_html(raw_html):
             return int(number_str)
         
 
-    print(f"ERROR: coudn't parse the string: {page_numbers}")
+    Logger.error(f"coudn't parse the string: {page_numbers}")
     exit(1)
 
 def get_number_of_pages(url):
@@ -63,10 +64,10 @@ def get_number_of_pages(url):
 def fetch_all_raw_html(target_day, number_of_pages):
     raw_htmls = []
 
-    print(f"fetching {number_of_pages} pages")
+    Logger.log(f"fetching {number_of_pages} pages")
     for page_number in range(1, number_of_pages):
         url = create_search_url(target_day, page_number)
-        print(f"fetching results for: {url}")
+        Logger.log(f"fetching results for: {url}")
         raw_html = fetch_results(url)
         raw_htmls.append(raw_html)
 
@@ -76,7 +77,7 @@ def remove_dir(dir):
     if os.path.exists(dir):
         rmtree(dir)
     else:
-        print("dir not found, nothing to delete")
+        Logger.log("dir not found, nothing to delete")
 
 def fetch(target_day):
     data_dir = os.path.join(Paths.DATA_DIR, "eventbrite")

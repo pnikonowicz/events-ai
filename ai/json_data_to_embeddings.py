@@ -2,6 +2,7 @@ import os
 import json
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from common.paths import Paths
+from common.logger import Logger
 
 def load_json(json_data_file):
     with open(json_data_file, 'r') as file:
@@ -35,7 +36,7 @@ def remove_file(filename):
     if os.path.exists(filename):
         os.remove(filename)
     else:
-        print(f"filename {filename} not found, nothing to delete")
+        Logger.log(f"filename {filename} not found, nothing to delete")
 
 def data_to_embeddings():
     json_data_file = os.path.join(Paths.DATA_DIR, 'unique.json')
@@ -46,7 +47,7 @@ def data_to_embeddings():
     remove_file(embeddings_file)
 
     if not os.path.exists(api_key_file):
-        print(f"!!!WARNING!!! \n{api_key_file} does not exist. add an api key to this file to enable recommondations.")
+        Logger.warn(f"{api_key_file} does not exist. add an api key to this file to enable recommondations.")
         return 0
 
     json_data = load_json(json_data_file)

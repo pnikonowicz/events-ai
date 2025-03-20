@@ -4,6 +4,7 @@ import os
 import json
 import numpy as np
 from common.paths import Paths
+from common.logger import Logger
 
 def get_json_data_from_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -12,7 +13,7 @@ def get_json_data_from_file(file_path):
 
 def get_discriminitive_weights_from_file(file_path):
     if not os.path.exists(file_path):
-        print("WARN: no weights found")
+        Logger.warn("no weights found")
         return {}
     
     with open(file_path, 'r', encoding='utf-8') as file:

@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import os
 import json
 from requests_html import HTML
+from common.logger import Logger
 
 def read_file(file_path):
     text = ''
@@ -99,11 +100,11 @@ def to_json(Paths, raw_data_dir):
     raw_htmls = get_raw_htmls(raw_data_dir)
 
     total_number_of_results_fetched, html_results, text_results = fetch_all_results(raw_htmls)
-    print(f"fetched: {total_number_of_results_fetched} results")
+    Logger.log(f"fetched: {total_number_of_results_fetched} results")
     
     json_data = html_to_json(html_results)
 
     json_data_file = os.path.join(data_dir, 'data.json')
     write_to_file(json_data_file, json_data)
 
-    print(f"translated {len(json_data)} events to json")
+    Logger.log(f"translated {len(json_data)} events to json")

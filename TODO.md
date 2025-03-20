@@ -5,10 +5,6 @@
 # handle multiple days for data gathering
 * eventbrite
 
-# logs
-* move all print statements to log
-* determine log levels
-
 # lits results
 * add time to list output
 * show what data source is responsible for the result
