@@ -15,7 +15,7 @@ def remove_dir(dir):
     if os.path.exists(dir):
         rmtree(dir)
     else:
-        print("dir not found, nothing to delete")
+        print(f"{dir} not found, nothing to delete")
 
 if __name__ == "__main__":
     remove_dir(Paths.DATA_DIR)
