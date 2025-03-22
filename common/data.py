@@ -10,7 +10,7 @@ class Data:
     title: str = field(default=None)
     time: str = field(default=None)
     location: str = field(default=None)
-    similar_events: List[str] = field(default_factory=list)
+    similar_events: List['Data'] = field(default_factory=list)
     recommendation_source: str = field(default=None)
 
 def write_data(output_file, data_objects):

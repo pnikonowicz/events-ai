@@ -30,4 +30,5 @@ def test_join_recommendation_indexes_with_original_data():
     result = join_recommendation_indexes_with_original_data(recomendation_indexes, original_query_data_json, original_data_json)
 
     assert len(result) == 2
+    assert result[1].recommendation_source != None
 
