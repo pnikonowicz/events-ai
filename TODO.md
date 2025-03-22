@@ -5,7 +5,7 @@
 # handle multiple days for data gathering
 * eventbrite
 
-# lits results
+# list results
 * add time to list output
 * show what data source is responsible for the result
 

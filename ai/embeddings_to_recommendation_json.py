@@ -5,6 +5,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from common.paths import Paths
 from common.logger import Logger
+from common.data import Data, write_data, read_data
+from dataclasses import asdict
 
 def read_embeddings(file_name):
     with open(file_name) as file:
@@ -76,10 +78,6 @@ def grab_similar_items(similarity_matrix, threshold):
 
     return result, recommendation_count
 
-def load_json(json_data_file):
-    with open(json_data_file, 'r') as file:
-        return json.load(file)
-    
 def join_recommendation_indexes_with_original_data(recomendation_indexes, original_query_data_json, original_data_json):
     recemondation_json = []
     for recomendation_index in recomendation_indexes:
@@ -89,15 +87,15 @@ def join_recommendation_indexes_with_original_data(recomendation_indexes, origin
         if recomendation_index['query_index'] != None:
             original_query_data = original_query_data_json[recomendation_index['query_index']]
         
-        recemondation = {
-            "image": original_data['image'],
-            "link": original_data['link'],
-            "title": original_data['title'],
-            "location": original_data['location'],
-            'time': original_data['time'],
-            "recemondation_source": original_query_data,
-            "similar_events": original_data['similar_events'],
-        }
+        recemondation = Data(
+            image = original_data.image,
+            link = original_data.link,
+            title = original_data.title,
+            location = original_data.location,
+            time = original_data.time,
+            recommendation_source = original_query_data,
+            similar_events = original_data.similar_events,
+        )
         recemondation_json.append(recemondation)
     return recemondation_json
 
@@ -112,10 +110,6 @@ def get_previous_events(root_folder):
                 query_text_contents.append(file.read().strip())
     
     return query_text_contents
-
-def write_to_file(output_file, json_data):
-    with open(output_file, "w") as json_file:
-        json.dump(json_data, json_file, indent=4)
 
 def remove_file(filename):
     if os.path.exists(filename):
@@ -132,17 +126,17 @@ def extract_recommendation(threshold):
 
     json_data_file = os.path.join(Paths.DATA_DIR, 'unique.json')
     previous_events_dir = os.path.join(Paths.PROJECT_DIR, 'previous_events')
-    original_data = load_json(json_data_file) # data used to create the data embeddings
+    original_data = read_data(json_data_file) # data used to create the data embeddings
     original_query_data = get_previous_events(previous_events_dir)
 
     if not os.path.exists(data_embeddings_path):
         Logger.warn("no data embeddings found")
-        write_to_file(recommendation_json_filename, original_data)
+        write_data(recommendation_json_filename, original_data)
         return 0
     
     if not os.path.exists(query_emeddings_path):
         Logger.warn("no query embeddings found")
-        write_to_file(recommendation_json_filename, original_data)
+        write_data(recommendation_json_filename, original_data)
         return 0
 
     data_embeddings = read_embeddings(data_embeddings_path)
@@ -150,12 +144,12 @@ def extract_recommendation(threshold):
 
     if len(data_embeddings) == 0:
         Logger.warn("no data embeddings found")
-        write_to_file(recommendation_json_filename, original_data)
+        write_data(recommendation_json_filename, original_data)
         return 0
 
     if len(query_embeddings) == 0:
         Logger.warn("no query embeddings found")
-        write_to_file(recommendation_json_filename, original_data)
+        write_data(recommendation_json_filename, original_data)
         return 0
 
     normalized_data_embeddings = normalize_embeddings(data_embeddings)
@@ -166,7 +160,7 @@ def extract_recommendation(threshold):
 
     recommendation_json = join_recommendation_indexes_with_original_data(recomendation_indexes, original_query_data, original_data)
 
-    write_to_file(recommendation_json_filename, recommendation_json)
+    write_data(recommendation_json_filename, recommendation_json)
 
     return recomendation_count
 

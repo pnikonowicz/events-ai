@@ -4,6 +4,7 @@ from requests_html import HTMLSession
 import datetime
 from common.paths import Paths
 from common.logger import Logger
+from common.data import Data, write_data
 
 def create_query_json(endCursor, start_date):
     json_string = '''
@@ -63,13 +64,13 @@ def to_formatted_json(edges):
 
         link = node['eventUrl']
         title = node['title']
-        formatted_json.append({
-            'image': image,
-            'link': link,
-            'title': title,
-            'time': None,
-            'location': None
-        })
+        formatted_json.append(
+           Data(
+              image = image,
+              link = link,
+              title = title,
+          )
+        )
     return formatted_json
 
 def get_all_results(target_date, session=HTMLSession()):
@@ -95,7 +96,7 @@ def create_delimted_text_from_json(edges):
 
     text_result = ''
     for edge in edges:
-        item = edge['title']
+        item = edge.title
         text_result += f"{item}{separator}"
     
     return text_result
@@ -116,11 +117,13 @@ def write_text_to_file(data_dir, text_results):
 
 def fetch(target_date):
   data_dir = os.path.join(Paths.DATA_DIR, "meetup")
+  data_file = os.path.join(data_dir, 'data.json')
 
   edges_json = get_all_results(target_date)    
   text_result = create_delimted_text_from_json(edges_json)
 
-  write_json_to_file(data_dir, edges_json)
+  os.makedirs(data_dir, exist_ok=True)
+  write_data(data_file, edges_json)
   write_text_to_file(data_dir, text_result)
 
   return len(edges_json)
