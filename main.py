@@ -19,9 +19,10 @@ def remove_dir(dir):
         Logger.log(f"{dir} not found, nothing to delete")
 
 if __name__ == "__main__":
+    query_date = QueryDate.Today
+
     remove_dir(Paths.DATA_DIR)
 
-    query_date = QueryDate.Today
     fetch_amount = fetch_eventbrite(query_date.eventbrite())
     Logger.log(f"eventbrite fetched: {fetch_amount} results")
 
