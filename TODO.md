@@ -2,6 +2,10 @@
 
 # Use CAG not RAG for recommendations
 
+# MCP
+* create data resource that returns static json
+* render json returned in client
+
 # handle multiple days for data gathering
 * eventbrite
 
