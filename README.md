@@ -48,3 +48,22 @@ and add something similar to the following:
 
 ###  Running the tests
 run `pytest` from the project root (`/workspaces/events-ai` in the dev container)
+
+### Running the mcp server
+You'll first need to build the dev container at `.devcontainer/Dockerfile`
+
+#### WSL and Claude Desktop
+replace the docker image to be the image from `.devcontainer/Dockerfile` add the following config:
+```
+{
+	"mcpServers": {
+		"events-ai": {
+			"command": "wsl.exe",
+			"args": [
+				"docker", "run", "-v", "/root/workspace/events-ai:/app", "-i", "vsc-events-ai-5b6c547e5b8561359a378f2d1037c7d8acb17e98ae6c4925f95dc8a9635b2157", 
+                "mcp", "run", "/app/mcp/server/server.py"
+			]
+		}
+	}
+}
+```
