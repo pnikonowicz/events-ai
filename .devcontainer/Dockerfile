@@ -19,5 +19,5 @@ RUN nvm install --lts && nvm --version
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-
+CMD [ "echo", "welcome to events-ai dev contianer"]
 # ENTRYPOINT sleep infinity
