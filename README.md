@@ -11,6 +11,9 @@ This recommendation engine helps discover unique events from multiple data sourc
 - Select data sources to pull from.  
 - Get personalized recommendations and a de-duplicated event list.  
 
+There is MCP integration:
+![screenshot](https://github.com/pnikonowicz/events-ai/blob/main/docs/claude_mcp.png)
+
 ### Problem  
 - Event listings often contain duplicate entries across multiple sources.  
 - Finding relevant events based on past interests is difficult.  
@@ -53,9 +56,6 @@ run `pytest` from the project root (`/workspaces/events-ai` in the dev container
 You'll first need to build the dev container at `.devcontainer/Dockerfile`
 
 #### WSL and Claude Desktop
-There is MCP integration:
-![screenshot](https://github.com/pnikonowicz/events-ai/blob/main/docs/claude_mcp.png)
-
 replace the docker image to be the image from `.devcontainer/Dockerfile` add the following config:
 ```
 {
