@@ -53,6 +53,9 @@ run `pytest` from the project root (`/workspaces/events-ai` in the dev container
 You'll first need to build the dev container at `.devcontainer/Dockerfile`
 
 #### WSL and Claude Desktop
+There is MCP integration:
+![screenshot](https://github.com/pnikonowicz/events-ai/blob/main/docs/claude_mcp.png)
+
 replace the docker image to be the image from `.devcontainer/Dockerfile` add the following config:
 ```
 {
