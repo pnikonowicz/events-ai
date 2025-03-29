@@ -1,11 +1,15 @@
-# server.py
 import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+
 from mcp.server.fastmcp import FastMCP
 from common.paths import Paths
 from bs4 import BeautifulSoup
 
 # Create an MCP server
 mcp = FastMCP("Demo")
+
+
 
 @mcp.tool()
 def recommendations(number_of_items : int = 10) -> str:
@@ -20,9 +24,9 @@ def recommendations(number_of_items : int = 10) -> str:
         see the README.md
     """
 
-    html_file = os.paths.join(Paths.DATA_DIR, "all.html")
+    html_file = os.path.join(Paths.DATA_DIR, "all.html")
     with open(html_file, 'r') as file:
-        html_content = html_file.read()
+        html_content = file.read()
 
     soup = BeautifulSoup(html_content, 'html.parser')
     ul = soup.find('ul')
