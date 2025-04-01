@@ -5,6 +5,7 @@ from requests_html import HTML
 from .to_json import to_json
 from common.paths import Paths
 from common.logger import Logger
+from concurrent.futures import ThreadPoolExecutor
 
 def fetch_result(page_number, target_day):
     url = create_search_url(target_day, page_number)
@@ -14,7 +15,7 @@ def fetch_result(page_number, target_day):
     return response.text
 
 
-def fetch_results(url):
+def fetch_results(url) -> str:
     session = HTMLSession()
     response = session.get(url)    
 
@@ -61,15 +62,24 @@ def get_number_of_pages(url):
 
     return get_number_of_pages_from_html(response_html)
 
+def fetch_raw_html(target_day, page_number) -> str:
+    url = create_search_url(target_day, page_number)
+    Logger.log(f"fetching results for: {url}")
+    raw_html = fetch_results(url)
+    return raw_html
+
 def fetch_all_raw_html(target_day, number_of_pages):
     raw_htmls = []
 
     Logger.log(f"fetching {number_of_pages} pages")
-    for page_number in range(1, number_of_pages):
-        url = create_search_url(target_day, page_number)
-        Logger.log(f"fetching results for: {url}")
-        raw_html = fetch_results(url)
-        raw_htmls.append(raw_html)
+
+    with ThreadPoolExecutor(max_workers=10) as exe:
+        raw_htmls = list(
+            exe.map(
+                lambda page: fetch_raw_html(target_day, page), 
+                range(1, number_of_pages+1)
+            )
+        )
 
     return raw_htmls
 
