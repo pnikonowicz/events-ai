@@ -1,11 +1,5 @@
 # Apply stemming or lemitization to vectors
 
-# Use CAG not RAG for recommendations
-
-# MCP
-* create data resource that returns static json
-* render json returned in client
-
 # handle multiple days for data gathering
 * eventbrite
 
@@ -24,9 +18,6 @@
 * get_query_text_contents
 * paths
 * json schema to common location
-
-# get data in parallel
-speed the fetch process up
 
 # additinal data sites
 * luma: https://lu.ma/nyc
