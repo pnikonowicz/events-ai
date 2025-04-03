@@ -1,5 +1,12 @@
 # Apply stemming or lemitization to vectors
 
+# multi tennant
+* create service that generates what becomes all.html and returns that
+    1. just return all.html
+    2. generate all.html
+        a. do not do any embedding work. just translation
+    
+
 # handle multiple days for data gathering
 * eventbrite
 
