@@ -1,22 +1,18 @@
-# adhere meetup data to schema; do not put in description (for now)
+# Apply stemming or lemitization to vectors
 
-# don't normalize. it is unecessary for cosine 
-
-# add time and location to result
+# multi tennant
+* create service that generates what becomes all.html and returns that
+    1. just return all.html (consider django)
+    2. generate all.html
+        a. do not do any embedding work. just translation
+    
 
 # handle multiple days for data gathering
 * eventbrite
 
-# allow zero recommendations to still render results
-
-# logs
-* move all print statements to log
-* determine log levels
-
-# lits results
+# list results
 * add time to list output
 * show what data source is responsible for the result
-
 
 # refactor common areas
 * write to file
@@ -30,8 +26,8 @@
 * paths
 * json schema to common location
 
-# get data in parallel
-speed the fetch process up
+# additinal data sites
+* luma: https://lu.ma/nyc
 
 # a front end that allows for entering all needed info
 

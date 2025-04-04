@@ -3,3 +3,5 @@ lxml_html_clean
 scikit-learn
 langchain-google-genai
 pytest
+mcp
+mcp[cli]

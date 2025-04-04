@@ -4,6 +4,8 @@ import os
 import json
 import numpy as np
 from common.paths import Paths
+from common.logger import Logger
+from common.data import Data, write_data
 
 def get_json_data_from_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -12,8 +14,8 @@ def get_json_data_from_file(file_path):
 
 def get_discriminitive_weights_from_file(file_path):
     if not os.path.exists(file_path):
-        print("WARN: no weights found")
-        return []
+        Logger.warn("no weights found")
+        return {}
     
     with open(file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
@@ -53,32 +55,25 @@ def group_similar(json_array, weights, threshold):
 
     return groups
 
-def write_json_to_file(output_file, grouped_json):
-    text = json.dumps(grouped_json, indent=4)
-    with open(output_file, "w") as file:
-        file.write(text)
-
 def grab_first_in_group(grouped_json):
     unique_flatten = []
     dups_removed = 0
     for group in grouped_json:
         first_group = group[0]
-        json_with_similiar_events= {
-            "image": first_group["image"],
-            "link": first_group["link"],
-            "title": first_group["title"],
-            "time": first_group["time"],
-            "location": first_group["location"],
-            "similar_events": group[1:],
-        }
+        json_with_similiar_events= Data(
+            image = first_group["image"],
+            link = first_group["link"],
+            title = first_group["title"],
+            time = first_group["time"],
+            location = first_group["location"],
+            similar_events = group[1:],
+        )
         unique_flatten.append(json_with_similiar_events)
         dups_removed += len(group) - 1 if len(group) > 0 else 0
     return unique_flatten, dups_removed
 
 def unique(threshold):
-    data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
-
-    data_json_file = os.path.join(data_dir, "joined.json")
+    data_json_file = os.path.join(Paths.DATA_DIR, "joined.json")
     data_json = get_json_data_from_file(data_json_file)
 
     weights_file = os.path.join(Paths.PROJECT_DIR, "weights", "weights.json")
@@ -87,8 +82,8 @@ def unique(threshold):
     grouped_json = group_similar(data_json, weights_json, threshold)
     unique_json, dups_removed = grab_first_in_group(grouped_json)
 
-    json_output_file = os.path.join(data_dir, 'unique.json')
-    write_json_to_file(json_output_file, unique_json)
+    json_output_file = os.path.join(Paths.DATA_DIR, 'unique.json')
+    write_data(json_output_file, unique_json)
     # write_json_to_file(json_output_file, grouped_json)
 
     return dups_removed

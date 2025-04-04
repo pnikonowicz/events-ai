@@ -31,17 +31,17 @@ def test_html_to_json():
 
     assert len(result) == 3
 
-    assert result[0]["image"] == "div_A_img"
-    assert result[0]["link"] == "div_A_href"
-    assert result[0]["title"] == "div_A_title"
-    assert result[0]["time"] == "time"
-    assert result[0]["location"] == "location"
+    assert result[0].image == "div_A_img"
+    assert result[0].link == "div_A_href"
+    assert result[0].title == "div_A_title"
+    assert result[0].time == "time"
+    assert result[0].location == "location"
 
-    assert result[1]["image"] == None
-    assert result[1]["link"] == "div_B_href"
-    assert result[1]["title"] == "div_B_title"
-    assert result[1]["time"] == None
-    assert result[1]["location"] == None
+    assert result[1].image == None
+    assert result[1].link == "div_B_href"
+    assert result[1].title == "div_B_title"
+    assert result[1].time == None
+    assert result[1].location == None
 
-    assert result[2]["time"] == None
-    assert result[2]["location"] == None
+    assert result[2].time == None
+    assert result[2].location == None

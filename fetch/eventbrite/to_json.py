@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup
 import os
 import json
 from requests_html import HTML
+from common.logger import Logger
+from common.data import Data, write_data
 
 def read_file(file_path):
     text = ''
@@ -9,10 +11,6 @@ def read_file(file_path):
         for line in file:
             text += line
     return text
-
-def write_to_file(output_file, json_data):
-    with open(output_file, "w") as json_file:
-        json.dump(json_data, json_file, indent=4)
 
 def html_to_json(html_text): 
     soup = BeautifulSoup(html_text, 'html.parser')
@@ -36,13 +34,13 @@ def html_to_json(html_text):
         if(len(time_and_location) > 2):
             location = time_and_location[2].get_text(strip=True)
 
-        div_data = {
-            "image": img['src'] if img else None, # images are optional
-            "link": div.find('a', href=True)['href'],
-            "title": div.find('h3').get_text(strip=True),
-            "time": time,
-            "location": location
-        }
+        div_data = Data(
+            image = img['src'] if img else None, # images are optional
+            link = div.find('a', href=True)['href'],
+            title = div.find('h3').get_text(strip=True),
+            time = time,
+            location = location
+        )
         data.append(div_data)
     
     return data
@@ -94,16 +92,16 @@ def get_raw_htmls(raw_data_dir):
     return raw_htmls
 
 def to_json(Paths, raw_data_dir):
-    data_dir = os.path.join(Paths.PROJECT_DIR, 'data', 'eventbrite')
+    data_dir = os.path.join(Paths.DATA_DIR, 'eventbrite')
 
     raw_htmls = get_raw_htmls(raw_data_dir)
 
     total_number_of_results_fetched, html_results, text_results = fetch_all_results(raw_htmls)
-    print(f"fetched: {total_number_of_results_fetched} results")
+    Logger.log(f"fetched: {total_number_of_results_fetched} results")
     
     json_data = html_to_json(html_results)
 
     json_data_file = os.path.join(data_dir, 'data.json')
-    write_to_file(json_data_file, json_data)
+    write_data(json_data_file, json_data)
 
-    print(f"translated {len(json_data)} events to json")
+    Logger.log(f"translated {len(json_data)} events to json")

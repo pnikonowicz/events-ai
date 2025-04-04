@@ -4,6 +4,9 @@ from sklearn.preprocessing import normalize
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from common.paths import Paths
+from common.logger import Logger
+from common.data import Data, write_data, read_data
+from dataclasses import asdict
 
 def read_embeddings(file_name):
     with open(file_name) as file:
@@ -14,7 +17,7 @@ def normalize_embeddings(embeddings):
     return normalized
 
 def log(message):
-    print(message)
+    Logger.log(message)
 
 def grab_similar_items(similarity_matrix, threshold):
     """
@@ -75,10 +78,6 @@ def grab_similar_items(similarity_matrix, threshold):
 
     return result, recommendation_count
 
-def load_json(json_data_file):
-    with open(json_data_file, 'r') as file:
-        return json.load(file)
-    
 def join_recommendation_indexes_with_original_data(recomendation_indexes, original_query_data_json, original_data_json):
     recemondation_json = []
     for recomendation_index in recomendation_indexes:
@@ -88,19 +87,19 @@ def join_recommendation_indexes_with_original_data(recomendation_indexes, origin
         if recomendation_index['query_index'] != None:
             original_query_data = original_query_data_json[recomendation_index['query_index']]
         
-        recemondation = {
-            "image": original_data['image'],
-            "link": original_data['link'],
-            "title": original_data['title'],
-            "location": original_data['location'],
-            'time': original_data['time'],
-            "recemondation_source": original_query_data,
-            "similar_events": original_data['similar_events'],
-        }
+        recemondation = Data(
+            image = original_data.image,
+            link = original_data.link,
+            title = original_data.title,
+            location = original_data.location,
+            time = original_data.time,
+            recommendation_source = original_query_data,
+            similar_events = original_data.similar_events,
+        )
         recemondation_json.append(recemondation)
     return recemondation_json
 
-def get_query_text_contents(root_folder):
+def get_previous_events(root_folder):
     query_text_contents = []
 
     for dirpath, _, filenames in os.walk(root_folder):
@@ -112,42 +111,45 @@ def get_query_text_contents(root_folder):
     
     return query_text_contents
 
-def write_to_file(output_file, json_data):
-    with open(output_file, "w") as json_file:
-        json.dump(json_data, json_file, indent=4)
-
 def remove_file(filename):
     if os.path.exists(filename):
         os.remove(filename)
     else:
-        print(f"filename {filename} not found, nothing to delete")
+        Logger.log(f"filename {filename} not found, nothing to delete")
 
 def extract_recommendation(threshold):
-    data_dir = os.path.join(Paths.PROJECT_DIR, 'data')
-
-    data_embeddings_path = os.path.join(data_dir, 'data.embeddings.json')
-    query_emeddings_path = os.path.join(data_dir, 'query.embeddings.json')
-    recommendation_json_filename = os.path.join(data_dir, "recemondations.json")
+    data_embeddings_path = os.path.join(Paths.DATA_DIR, 'data.embeddings.json')
+    query_emeddings_path = os.path.join(Paths.DATA_DIR, 'query.embeddings.json')
+    recommendation_json_filename = os.path.join(Paths.DATA_DIR, "recemondations.json")
 
     remove_file(recommendation_json_filename)
 
+    json_data_file = os.path.join(Paths.DATA_DIR, 'unique.json')
+    previous_events_dir = os.path.join(Paths.PROJECT_DIR, 'previous_events')
+    original_data = read_data(json_data_file) # data used to create the data embeddings
+    original_query_data = get_previous_events(previous_events_dir)
+
     if not os.path.exists(data_embeddings_path):
-        print("log: no data embeddings found")
+        Logger.warn("no data embeddings found")
+        write_data(recommendation_json_filename, original_data)
         return 0
     
     if not os.path.exists(query_emeddings_path):
-        print("log: no query embeddings found")
+        Logger.warn("no query embeddings found")
+        write_data(recommendation_json_filename, original_data)
         return 0
 
     data_embeddings = read_embeddings(data_embeddings_path)
     query_embeddings = read_embeddings(query_emeddings_path)
 
     if len(data_embeddings) == 0:
-        print("WARN: no data embeddings found")
+        Logger.warn("no data embeddings found")
+        write_data(recommendation_json_filename, original_data)
         return 0
 
     if len(query_embeddings) == 0:
-        print("WARN: no query embeddings found")
+        Logger.warn("no query embeddings found")
+        write_data(recommendation_json_filename, original_data)
         return 0
 
     normalized_data_embeddings = normalize_embeddings(data_embeddings)
@@ -156,14 +158,9 @@ def extract_recommendation(threshold):
     similarity_matrix = cosine_similarity(normalized_query_embeddings, normalized_data_embeddings)
     recomendation_indexes, recomendation_count = grab_similar_items(similarity_matrix, threshold)
 
-    json_data_file = os.path.join(data_dir, 'unique.json')
-    previous_events_dir = os.path.join(Paths.PROJECT_DIR, 'previous_events')
-    original_data = load_json(json_data_file) # data used to create the data embeddings
-    original_query_data = get_query_text_contents(previous_events_dir)
-    
     recommendation_json = join_recommendation_indexes_with_original_data(recomendation_indexes, original_query_data, original_data)
 
-    write_to_file(recommendation_json_filename, recommendation_json)
+    write_data(recommendation_json_filename, recommendation_json)
 
     return recomendation_count
 
