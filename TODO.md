@@ -2,8 +2,9 @@
 
 # multi tennant
 * create service that generates what becomes all.html and returns that
-    1. just return all.html (consider django)
-    2. generate all.html
+    1. just return all.html
+    2. aiohttp can work. it is asynchoronlus. but can be scaled up with gunicorn
+    3. generate all.html
         a. do not do any embedding work. just translation
     
 
