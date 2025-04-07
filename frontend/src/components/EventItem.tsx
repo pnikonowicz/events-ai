@@ -1,11 +1,11 @@
-import { Group, Image, List, Stack } from '@mantine/core'
+import { Anchor, Group, Image, List, Stack, Text } from '@mantine/core'
 import { UniqueEvent } from "../types"
 
 function EventItem({ uniqueEvent }: { uniqueEvent: UniqueEvent }) {
   return (
     <List.Item styles={{
       item: {
-        'display': 'block',
+        'display': 'flex',
         'width': '100%',
         'padding': '1.5rem',
         'margin': '1rem',
@@ -23,14 +23,31 @@ function EventItem({ uniqueEvent }: { uniqueEvent: UniqueEvent }) {
       }}>
         <Stack style={{
           width: '200px',
+          height: '100px',
+          background: '#000',
+          border: '1px solid #000',
+          overflow: 'hidden',
         }}>
           <Image src={uniqueEvent.image} />
         </Stack>
         <Stack style={{
-          display: 'flex',
-          justifyContent: 'flex-start'
+          justifyContent: 'flex-start',
+          alignSelf: 'flex-start',
+          gap: 0,
+          textAlign: 'left',
         }}>
-          {uniqueEvent.title}
+          <Group>
+            <Text c="#cccccc" size="xs">Location: {uniqueEvent.location || 'N/A'}</Text>
+            <Text c="#cccccc" size="xs">Time: {uniqueEvent.time || 'N/A'}</Text>
+          </Group>
+          <Text component="h3">
+            <Anchor href={uniqueEvent.link} c="#fff">
+              {uniqueEvent.title}
+            </Anchor>
+          </Text>
+          <Stack>
+            <Text c="#cccccc" size="xs">There are {uniqueEvent.similar_events?.length || 0} similar events.</Text>
+          </Stack>
         </Stack>
       </Group>
     </List.Item>
