@@ -28,8 +28,8 @@ if __name__ == "__main__":
     fetch_amount = fetch_eventbrite(query_date.eventbrite())
     Logger.log(f"eventbrite fetched: {fetch_amount} results")
 
-    # fetch_amount = fetch_meetup(query_date.meetup())
-    # print(f"meetup fetched: {fetch_amount} results")
+    fetch_amount = fetch_meetup(query_date.meetup())
+    print(f"meetup fetched: {fetch_amount} results")
 
     joined_amount = collect_all_data()
     Logger.log(f"total data records: {joined_amount}")
