@@ -1,7 +1,7 @@
 import { List } from '@mantine/core'
 import EventItem from "./EventItem"
 import { UniqueEvent } from "../types"
-import uniqueEventList from '../../../data/unique.json'
+import uniqueEventList from '../../../data/recemondations.json'
 
 function EventList() {
   console.log(uniqueEventList)
