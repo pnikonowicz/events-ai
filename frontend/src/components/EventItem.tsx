@@ -18,10 +18,12 @@ function EventItem({ uniqueEvent }: { uniqueEvent: UniqueEvent }) {
     }}>
       <Group component="div" styles={{
         root: {
+          alignItems: 'flex-start',
           width: '100%',
         }
       }}>
         <Stack style={{
+
           width: '200px',
           height: '100px',
           background: '#000',
@@ -46,7 +48,17 @@ function EventItem({ uniqueEvent }: { uniqueEvent: UniqueEvent }) {
             </Anchor>
           </Text>
           <Stack>
-            <Text c="#cccccc" size="xs">There are {uniqueEvent.similar_events?.length || 0} similar events.</Text>
+            <Text c="#cccccc" size="xs">There are {uniqueEvent.similar_events.length || 0} similar events.</Text>
+            {uniqueEvent.similar_events.length > 0 && (
+              <Stack gap="0">
+                <Text size="xs">Show Events</Text>
+                <Stack gap="0">
+                  {uniqueEvent.similar_events.map((uniqueEvent) => (
+                    <Anchor href={uniqueEvent.link} target="_blank" c="#fff" size="xs" fs="italic">{uniqueEvent.title}</Anchor>
+                  ))}
+                </Stack>
+              </Stack>
+            )}
           </Stack>
         </Stack>
       </Group>
