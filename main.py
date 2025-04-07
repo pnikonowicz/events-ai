@@ -29,7 +29,7 @@ if __name__ == "__main__":
     Logger.log(f"eventbrite fetched: {fetch_amount} results")
 
     fetch_amount = fetch_meetup(query_date.meetup())
-    print(f"meetup fetched: {fetch_amount} results")
+    Logger.log(f"meetup fetched: {fetch_amount} results")
 
     joined_amount = collect_all_data()
     Logger.log(f"total data records: {joined_amount}")
@@ -47,4 +47,4 @@ if __name__ == "__main__":
     Logger.log(f"found: {recommendation_count} recommendation(s)")
 
     output_html_location = to_html()
-    print(f"see results at: {output_html_location}")
+    Logger.log(f"see results at: {output_html_location}")
