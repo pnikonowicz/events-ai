@@ -6,5 +6,5 @@ export type UniqueEvent = {
   title: string;
   time: string | null;
   location: string | null;
-  similar_events?: UniqueEvent[];
+  similar_events: UniqueEvent[];
 }
