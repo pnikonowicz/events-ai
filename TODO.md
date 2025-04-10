@@ -22,7 +22,6 @@
 * retrieve embeddings
 * ai model name
 * common dir names
-* log
 * get_query_text_contents
 * paths
 * json schema to common location
