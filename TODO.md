@@ -1,6 +1,8 @@
 # Apply stemming or lemitization to vectors
 
 # multi tennant
+* to_html is not multitennant because it writes to disk. 
+    1. needs to put this processing in memory instead    
 
 # handle multiple days for data gathering
 * eventbrite
