@@ -5,3 +5,5 @@ langchain-google-genai
 pytest
 mcp
 mcp[cli]
+aiohttp
+aiodns

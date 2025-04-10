@@ -12,7 +12,8 @@
 	// "features": {},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [
-		5173
+		5173, // nodejs
+		8080  // aiohttp 
 	],
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "pip install requests-html lxml_html_clean scikit-learn langchain-google-genai pytest",
