@@ -5,6 +5,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../.
 from mcp.server.fastmcp import FastMCP
 from common.paths import Paths
 from bs4 import BeautifulSoup
+from common.logger import Logger
 
 # Create an MCP server
 mcp = FastMCP("Demo")
@@ -57,4 +58,4 @@ def echo_prompt(message: str) -> str:
 
 if __name__ == "__main__":
     # mcp.run()
-    print(recommendations())
+    Logger.print(recommendations())

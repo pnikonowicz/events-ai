@@ -83,8 +83,8 @@ def get_all_results(target_date, session=HTMLSession()):
     response_json = grab_results(query_json, session)
     
     if response_json['data'] == None:
-      print("could not retrieve data")
-      print(response_json)
+      Logger.print("could not retrieve data")
+      Logger.print(response_json)
       return []
     
     hasNextPage = response_json['data']['result']['pageInfo']['hasNextPage']
