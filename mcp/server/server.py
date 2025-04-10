@@ -25,7 +25,7 @@ def recommendations(number_of_items : int = 10) -> str:
         see the README.md
     """
 
-    html_file = os.path.join(Paths.DATA_DIR, "all.html")
+    html_file = Paths.ALL_HTML
     with open(html_file, 'r') as file:
         html_content = file.read()
 

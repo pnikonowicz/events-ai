@@ -101,7 +101,7 @@ def to_html():
     recemondation_json_file = os.path.join(Paths.DATA_DIR, 'recemondations.json')
     recemondation_html_content = get_recemondation_html_content(recemondation_json_file)
 
-    html_file = os.path.join(Paths.DATA_DIR, "all.html")
+    html_file = Paths.ALL_HTML
     write_html_to_file(html_file, recemondation_html_content)
 
     return pathlib.Path(os.path.abspath(html_file)).as_uri()
