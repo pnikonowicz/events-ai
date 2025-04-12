@@ -3,6 +3,9 @@
 # multi tennant
 * to_html is not multitennant because it writes to disk. 
     1. needs to put this processing in memory instead    
+* use gcp cloud run
+* verify image hosts site
+* create endpoint that refreshes data
 
 # handle multiple days for data gathering
 * eventbrite
