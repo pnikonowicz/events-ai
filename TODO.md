@@ -1,8 +1,12 @@
 # Apply stemming or lemitization to vectors
 
 # multi tennant
-* to_html is not multitennant because it writes to disk. 
-    1. needs to put this processing in memory instead    
+
+## extract_recommendation reads query embeddings as argument
+
+## extract_recommendation should not write to file
+    - need to use memory to support multi tennancy
+    - to_html should not read from file either
 * use gcp cloud run
 * verify image hosts site
 * create endpoint that refreshes data
