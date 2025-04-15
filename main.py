@@ -5,7 +5,7 @@ from fetch.unique import unique
 from ai.json_data_to_embeddings import data_to_embeddings
 from ai.query_data_to_embedding import query_to_embeddings
 from ai.embeddings_to_recommendation_json import extract_recommendation
-from web.json_data_to_html import to_html
+from web.json_data_to_html import html_to_file
 import os
 from shutil import rmtree
 from common.paths import Paths
@@ -44,6 +44,6 @@ if __name__ == "__main__":
     recommendation_count = extract_recommendation(threshold=.85)
     Logger.log(f"found: {recommendation_count} recommendation(s)")
 
-    output_html_location = to_html()
+    output_html_location = html_to_file()
     Logger.log(f"see results at: {output_html_location}")
 

@@ -97,7 +97,7 @@ def get_recemondation_html_content(recemondation_json_file):
         return ""
     
 
-def to_html():
+def html_to_file():
     recemondation_json_file = os.path.join(Paths.DATA_DIR, 'recemondations.json')
     recemondation_html_content = get_recemondation_html_content(recemondation_json_file)
 
