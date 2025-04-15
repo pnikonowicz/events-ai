@@ -96,10 +96,14 @@ def get_recemondation_html_content(recemondation_json_file):
         Logger.warn(f"no recemondation data file found at {recemondation_json_file}, skipping")
         return ""
     
-
-def html_to_file():
+def to_html():
     recemondation_json_file = os.path.join(Paths.DATA_DIR, 'recemondations.json')
     recemondation_html_content = get_recemondation_html_content(recemondation_json_file)
+
+    return recemondation_html_content
+
+def html_to_file():
+    recemondation_html_content = to_html()
 
     html_file = Paths.ALL_HTML
     write_html_to_file(html_file, recemondation_html_content)
