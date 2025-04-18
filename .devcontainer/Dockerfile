@@ -6,7 +6,7 @@ FROM mcr.microsoft.com/devcontainers/python:1-3.12-bullseye
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Create a script file sourced by both interactive and non-interactive bash shells
-ENV BASH_ENV /root/.bash_env
+ENV BASH_ENV=/root/.bash_env
 RUN touch "${BASH_ENV}"
 RUN echo '. "${BASH_ENV}"' >> ~/.bashrc
 
