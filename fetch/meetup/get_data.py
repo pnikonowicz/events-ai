@@ -26,7 +26,7 @@ def create_query_json(endCursor, start_date):
   "extensions": {
     "persistedQuery": {
       "version": 1,
-      "sha256Hash": "d3b3542df9c417007a7e6083b931d2ed67073f4d74891c3f14da403164e56469"
+      "sha256Hash": "23a3bb8cf7dd8f0e806c265be70fd604eae93ba9cced577c5f51c94889d3901f"
     }
   }
 }
