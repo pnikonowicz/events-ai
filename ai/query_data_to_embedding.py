@@ -40,15 +40,23 @@ def remove_file(filename):
     else:
         Logger.log(f"filename {filename} not found, nothing to delete")
 
-def query_to_embeddings_from_file():
-    previous_events_dir = os.path.join(Paths.PROJECT_DIR, 'previous_events')
+def query_to_embeddings(query_texts):
     secrets_dir = os.path.join(Paths.PROJECT_DIR, "secrets")
     api_key_file = os.path.join(secrets_dir, "google-api-key")
+    api_key = load_api_key(api_key_file)
+    google_ai_model = "models/text-embedding-004"
+
+    embeddings = get_embeddings_from(google_ai_model, api_key, query_texts)
+
+    return embeddings
+
+def query_to_embeddings_from_file():
+    previous_events_dir = os.path.join(Paths.PROJECT_DIR, 'previous_events')
     query_embeddings_file = os.path.join(Paths.DATA_DIR, 'query.embeddings.json')
 
     remove_file(query_embeddings_file)
 
-    if not os.path.exists(api_key_file):
+    if not os.path.exists(previous_events_dir):
         Logger.warn(f"""{previous_events_dir} does not exist. add previous events to this location, one for each event. example:
     previous_events
         - fun_event.event
@@ -59,10 +67,7 @@ def query_to_embeddings_from_file():
         return 0
     
     query_texts = get_query_text_contents(previous_events_dir)
-    api_key = load_api_key(api_key_file)
-    google_ai_model = "models/text-embedding-004"
-
-    embeddings = get_embeddings_from(google_ai_model, api_key, query_texts)
+    embeddings = query_to_embeddings(query_texts)
 
     write_embeddings(query_embeddings_file, embeddings)
 

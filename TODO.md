@@ -3,6 +3,7 @@
 # multi tennant
 
 ## extract_recommendation reads query embeddings as argument
+* pass query embeddings to extract_recommendation as argument
 
 ## extract_recommendation should not write to file
     - need to use memory to support multi tennancy
