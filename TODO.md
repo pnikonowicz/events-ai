@@ -1,9 +1,5 @@
 # Apply stemming or lemitization to vectors
 
-# add CI test for docker image compile 
-
-* verify we can build the image in a test
-
 # multi tennant
 
 ## extract_recommendation reads query embeddings as argument
