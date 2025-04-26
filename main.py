@@ -4,7 +4,7 @@ from fetch.collect import collect_all_data
 from fetch.unique import unique
 from ai.json_data_to_embeddings import data_to_embeddings
 from ai.query_data_to_embedding import query_to_embeddings_from_file
-from ai.embeddings_to_recommendation_json import extract_recommendation
+from ai.embeddings_to_recommendation_json import extract_recommendation_from_file
 from web.json_data_to_html import html_to_file
 import os
 from shutil import rmtree
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     query_embeddings_count = query_to_embeddings_from_file()
     Logger.log(f"created {query_embeddings_count} query embeddings")
 
-    recommendation_count = extract_recommendation(threshold=.85)
+    recommendation_count = extract_recommendation_from_file(threshold=.85)
     Logger.log(f"found: {recommendation_count} recommendation(s)")
 
     output_html_location = html_to_file()

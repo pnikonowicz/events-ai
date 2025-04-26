@@ -117,7 +117,7 @@ def remove_file(filename):
     else:
         Logger.log(f"filename {filename} not found, nothing to delete")
 
-def extract_recommendation(threshold):
+def extract_recommendation_from_file(threshold):
     data_embeddings_path = os.path.join(Paths.DATA_DIR, 'data.embeddings.json')
     query_emeddings_path = os.path.join(Paths.DATA_DIR, 'query.embeddings.json')
     recommendation_json_filename = os.path.join(Paths.DATA_DIR, "recemondations.json")
