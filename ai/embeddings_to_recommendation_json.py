@@ -117,6 +117,35 @@ def remove_file(filename):
     else:
         Logger.log(f"filename {filename} not found, nothing to delete")
 
+def extract_recommendation(original_query_data, query_embeddings, threshold):
+    json_data_file = os.path.join(Paths.DATA_DIR, 'unique.json')
+    original_data = read_data(json_data_file) # data used to create the data embeddings
+    data_embeddings_path = os.path.join(Paths.DATA_DIR, 'data.embeddings.json')
+
+    if len(query_embeddings) == 0:
+        Logger.warn("no query embeddings found")
+        return original_data, 0
+    
+    if not os.path.exists(data_embeddings_path):
+        Logger.warn("no data embeddings found")
+        return original_data, 0
+    
+    data_embeddings = read_embeddings(data_embeddings_path)
+    if len(data_embeddings) == 0:
+        Logger.warn("no data embeddings found")
+        return original_data, 0
+    
+    normalized_data_embeddings = normalize_embeddings(data_embeddings)
+    normalized_query_embeddings = normalize_embeddings(query_embeddings)
+
+    similarity_matrix = cosine_similarity(normalized_query_embeddings, normalized_data_embeddings)
+    recomendation_indexes, recomendation_count = grab_similar_items(similarity_matrix, threshold)
+
+    recommendation_json = join_recommendation_indexes_with_original_data(recomendation_indexes, original_query_data, original_data)
+
+    return recommendation_json, recomendation_count
+
+    
 def extract_recommendation_from_file(threshold):
     data_embeddings_path = os.path.join(Paths.DATA_DIR, 'data.embeddings.json')
     query_emeddings_path = os.path.join(Paths.DATA_DIR, 'query.embeddings.json')
@@ -139,26 +168,9 @@ def extract_recommendation_from_file(threshold):
         write_data(recommendation_json_filename, original_data)
         return 0
 
-    data_embeddings = read_embeddings(data_embeddings_path)
     query_embeddings = read_embeddings(query_emeddings_path)
 
-    if len(data_embeddings) == 0:
-        Logger.warn("no data embeddings found")
-        write_data(recommendation_json_filename, original_data)
-        return 0
-
-    if len(query_embeddings) == 0:
-        Logger.warn("no query embeddings found")
-        write_data(recommendation_json_filename, original_data)
-        return 0
-
-    normalized_data_embeddings = normalize_embeddings(data_embeddings)
-    normalized_query_embeddings = normalize_embeddings(query_embeddings)
-
-    similarity_matrix = cosine_similarity(normalized_query_embeddings, normalized_data_embeddings)
-    recomendation_indexes, recomendation_count = grab_similar_items(similarity_matrix, threshold)
-
-    recommendation_json = join_recommendation_indexes_with_original_data(recomendation_indexes, original_query_data, original_data)
+    recommendation_json, recomendation_count = extract_recommendation(original_query_data, query_embeddings, threshold)
 
     write_data(recommendation_json_filename, recommendation_json)
 

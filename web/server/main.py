@@ -4,24 +4,24 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../.
 
 from aiohttp import web
 from common.logger import Logger
-from ai.embeddings_to_recommendation_json import extract_recommendation_from_file
+from ai.embeddings_to_recommendation_json import extract_recommendation
 from ai.query_data_to_embedding import query_to_embeddings
-from web.json_data_to_html import to_html
-from common.paths import Paths
+from web.json_data_to_html import json_to_html
 
 async def handle(request):
     query_text_contents = [
         "Animation Nights New York (ANNY) at The Gutter Spare Room!",
-        "Coffee for Creatives NYC: Special Guest in Casting"
+        "Coffee for Creatives NYC: Special Guest in Casting",
+        "NYC Networking Event: Make New Friends and/or Business Connections"
     ]
     
     query_embeddings = query_to_embeddings(query_text_contents)
     Logger.log(f"query embeddings: {len(query_embeddings)}")
 
-    recommendation_count = extract_recommendation_from_file(threshold=.85)
+    recommendation_json, recommendation_count = extract_recommendation(query_text_contents, query_embeddings, threshold=.85)
     Logger.log(f"found: {recommendation_count} recommendation(s)")
 
-    recommendation_html = to_html()
+    recommendation_html = json_to_html(recommendation_json)
     
     return web.Response(text=recommendation_html, content_type='text/html')
 
