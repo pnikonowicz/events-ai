@@ -78,7 +78,7 @@ def get_all_results(target_date, session=HTMLSession()):
   nextCursor = ""
   json_results = []
 
-  while hasNextPage:
+  while hasNextPage and nextCursor != None:
     query_json = create_query_json(nextCursor, target_date)
     response_json = grab_results(query_json, session)
     
