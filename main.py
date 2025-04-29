@@ -12,11 +12,7 @@ from common.paths import Paths
 from fetch.target_date import QueryDate
 from common.logger import Logger
 
-def remove_dir(dir):
-    if os.path.exists(dir):
-        rmtree(dir)
-    else:
-        Logger.log(f"{dir} not found, nothing to delete")
+from common.paths import remove_dir
 
 if __name__ == "__main__":
     query_date = QueryDate.Today
