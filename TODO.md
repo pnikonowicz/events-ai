@@ -6,8 +6,6 @@
 * cache the query embedding so that we do not exceed our token limits
 
 ## extract_recommendation should not write to file
-    - need to use memory to support multi tennancy
-    - to_html should not read from file either
 * use gcp cloud run
 * verify image hosts site
 * create endpoint that refreshes data
