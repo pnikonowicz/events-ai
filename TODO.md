@@ -5,8 +5,10 @@
 ## extract_recommendation reads query embeddings as argument
 * cache the query embedding so that we do not exceed our token limits
 
+## deploy to cloud run
+* github action to gcp registry: https://docs.github.com/en/actions/use-cases-and-examples/deploying/deploying-to-google-kubernetes-engine
+ 
 ## extract_recommendation should not write to file
-* use gcp cloud run
 * verify image hosts site
 * create endpoint that refreshes data
 
