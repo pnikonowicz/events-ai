@@ -70,3 +70,7 @@ replace the docker image to be the image from `.devcontainer/Dockerfile` add the
 	}
 }
 ```
+
+### Deployment steps to prod
+
+1. build image with `docker build -f .devcontainer/Dockerfile -t events-ai:dev .`
