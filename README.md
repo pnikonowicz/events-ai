@@ -74,3 +74,4 @@ replace the docker image to be the image from `.devcontainer/Dockerfile` add the
 ### Deployment steps to prod
 
 1. build image with `docker build -f .devcontainer/Dockerfile -t events-ai:dev .`
+2. run image with `docker run -p 8080:8080 -it events-ai:dev`
