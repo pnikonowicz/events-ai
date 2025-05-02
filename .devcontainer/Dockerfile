@@ -15,6 +15,6 @@ WORKDIR /app
 COPY . .
 RUN pip install -r requirements.txt
 
-# RUN rm -rf data
+RUN rm -rf data
 
 CMD [ "/usr/local/bin/python", "./web/server/main.py"]
