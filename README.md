@@ -5,6 +5,8 @@
 ### Overview  
 This recommendation engine helps discover unique events from multiple data sources, personalized to your preferences based on past events you've attended.  
 
+Currently hosted at: https://events-ai-server-152896986419.us-central1.run.app/
+
 ### Goal  
 **Question:** *Are there any events happening that I might be interested in?*  
 - Enter details about past events you've attended.  
@@ -73,12 +75,23 @@ replace the docker image to be the image from `.devcontainer/Dockerfile` add the
 
 ### Deployment steps to prod
 
-1. build image with `docker build -f .devcontainer/Dockerfile -t events-ai:dev .`
-2. run image with `docker run -p 8080:8080 -it events-ai:dev`
+The containers used here will have a folder mounted to /app/data when deployed to gcp.
 
-## devops
+#### server
 
-1. build: `docker build -f .devcontainer/Dockerfile -t events-ai:dev .`
-2. push: `docker push pnikonowicz/events-ai:dev`
+hosts web requests
 
-uri: docker.io/pnikonowicz/events-ai:dev
+1. build: `docker build -f .devcontainer/Dockerfile -t pnikonowicz/events-ai-server:dev-<version> .`
+2. push: `docker push pnikonowicz/events-ai-server:dev-<version>`
+
+#### job
+
+fetches data and creates initial embedding processing. 
+there is a cron job setup to run this daily at 4:30am EDT.
+
+1. build: `docker build -f web/fetch/Dockerfile -t pnikonowicz/events-ai-fetch:dev-<version> .`
+2. push: `docker push pnikonowicz/events-ai-fetch:dev-<version>`
+
+#### dockerhub container locations
+1. server: `docker.io/pnikonowicz/events-ai-server:dev-<version>`
+2. fetch: `docker.io/pnikonowicz/events-ai-fetch:dev-<version>`
