@@ -2,6 +2,8 @@
 
 # multi tennant
 
+## add healthcheck endpoint
+
 ## extract_recommendation reads query embeddings as argument
 * cache the query embedding so that we do not exceed our token limits
 

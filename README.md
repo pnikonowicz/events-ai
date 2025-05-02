@@ -75,3 +75,10 @@ replace the docker image to be the image from `.devcontainer/Dockerfile` add the
 
 1. build image with `docker build -f .devcontainer/Dockerfile -t events-ai:dev .`
 2. run image with `docker run -p 8080:8080 -it events-ai:dev`
+
+## devops
+
+1. build: `docker build -f .devcontainer/Dockerfile -t events-ai:dev .`
+2. push: `docker push pnikonowicz/events-ai:dev`
+
+uri: docker.io/pnikonowicz/events-ai:dev
