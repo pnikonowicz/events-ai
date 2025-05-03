@@ -17,6 +17,12 @@
 * add time to list output
 * show what data source is responsible for the result
 
+# add loading screen
+
+it takes a few seconds for the container to start up. so instead of directly connecting
+to the container, connect to a static html page that shows a loading image and immediately
+redirects to our container. the loading screen can be as interactive as wanted
+
 # add robots.txt
 
 for non-user agents
