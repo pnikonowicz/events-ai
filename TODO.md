@@ -17,6 +17,12 @@
 * add time to list output
 * show what data source is responsible for the result
 
+# add robots.txt
+
+for non-user agents
+https://events-ai-server-152896986419.us-central1.run.app/robots.txt
+
+
 # fix 404 img bug
 
 GET404 143 B 33 ms Firefox 138 https://events-ai-server-152896986419.us-central1.run.app/None
