@@ -17,6 +17,12 @@
 * add time to list output
 * show what data source is responsible for the result
 
+# fix 404 img bug
+
+GET404 143 B 33 ms Firefox 138 https://events-ai-server-152896986419.us-central1.run.app/None
+
+I think it's coming from when an image has no url to grab
+
 # refactor common areas
 * write to file
 * write json to file
