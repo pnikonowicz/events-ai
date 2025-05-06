@@ -13,6 +13,9 @@
 # handle multiple days for data gathering
 * eventbrite
 
+# show site summary at top
+* meetup results and eventbrite results sum so that we know that meetup results are included
+  
 # list results
 * add time to list output
 * show what data source is responsible for the result
