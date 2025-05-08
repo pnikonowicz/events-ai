@@ -4,6 +4,14 @@
 
 ## add healthcheck endpoint
 
+## only use one container
+* parameterize the start CMD so that only one container is used for fetch and server
+* rotate google secret api key
+* delete all unused keys
+
+## put default previous events into blob storage
+* this will fix issues when containers have different copies of these files
+
 ## extract_recommendation reads query embeddings as argument
 * cache the query embedding so that we do not exceed our token limits
 
