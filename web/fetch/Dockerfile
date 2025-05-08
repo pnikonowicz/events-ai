@@ -9,5 +9,6 @@ RUN pip install -r requirements.txt
 
 # data will be mounted in gcp
 RUN rm -rf data
+RUN rm -rf secrets
 
 CMD [ "/usr/local/bin/python", "./web/fetch/main.py"]
