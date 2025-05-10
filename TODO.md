@@ -4,6 +4,8 @@
 
 ## add healthcheck endpoint
 
+## make deploying loading screen automatic
+* when the loading screen changes, automatically update the blob in our public bucket
 ## extract_recommendation reads query embeddings as argument
 * cache the query embedding so that we do not exceed our token limits
 
