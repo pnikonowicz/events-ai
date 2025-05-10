@@ -54,11 +54,21 @@
             font-weight: 500;
             letter-spacing: 0.5px;
         }
+
+        .loading-text::before {
+            content: "Loading...";
+            animation: changeText 20s steps(1) forwards;
+        }
+
+        @keyframes changeText {
+            0% { content: "Loading"; }
+            40% { content: "Almost there!!"; }
+            100% { content: "Uh oh :("; }
+        }
         
         .loading-progress {
             margin-top: 15px;
-            width: 200px;
-            height: 6px;
+            height: 3pt;
             background-color: #333333;
             border-radius: 3px;
             overflow: hidden;
@@ -69,18 +79,16 @@
             width: 0%;
             background-color: #8e44ad;
             background-image: linear-gradient(90deg, #8e44ad, #9b59b6);
-            animation: progress 3s ease-in-out infinite;
+            animation: progress 20s ease-in-out forwards;
             box-shadow: 0 0 10px rgba(142, 68, 173, 0.7);
         }
         
         @keyframes progress {
             0% { width: 0%; }
             50% { width: 70%; }
-            80% { width: 90%; }
-            95% { width: 95%; }
-            100% { width: 0%; }
+            100% { width: 95%; }
         }
-        
+
         .loading-message {
             margin-top: 15px;
             color: #888888;
@@ -91,7 +99,7 @@
 <body>
     <div class="loading-container">
         <div class="loading-spinner"></div>
-        <div class="loading-text">Loading</div>
+        <div class="loading-text"></div>
         <div class="loading-progress">
             <div class="progress-bar"></div>
         </div>
