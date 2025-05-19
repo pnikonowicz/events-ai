@@ -98,3 +98,18 @@ This container is used for all services:
 
 #### dockerhub container locations
 1. `docker.io/pnikonowicz/events-ai:dev-<version>`
+
+# common issues
+### GRPC Illegal header value
+
+This is probably a copy and paste issue from windows to WSL. to verify:
+
+see if a `0a` (new line) char exists
+```
+xxd secrets/google-api-key
+```
+
+and if you see the char:
+```
+ truncate -s -1 secrets/google-api-key
+```
