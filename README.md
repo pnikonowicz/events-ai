@@ -31,12 +31,19 @@ This project:
 - **Recommendations**: Uses an AI model to compare past events with all unique events, recommending those above a similarity threshold.  
 
 ### Running the Project  
-To process and view events with similar events grouped:  
-1. execute `main.py`
 
-#### If you want recommendations
+# To run locally
+1. Prerequistes: you need folders: 
+```
+	mkdir -p previous_events secrets weights
+```
 1. add previous events to a `previous_events` folder relative to the projct dir
 2. add google api key to `secrets/google-api-key`
+1. first fetch events with: `python web/fetch/main.py`
+2. run web server with: `python web/server/main.py`
+
+#### Previous Events
+These are events that you've been to in the past. Each event goes in it's own file. The filename can be anything. 
 
 #### Custom weights
 You may want some items grouped up more aggressively. Or you may want some items grouped up less aggressively. For that, you can use custom weights. Create the following file: `weights/weights.json`
