@@ -2,7 +2,7 @@ from ai.embeddings_to_recommendation_json import extract_recommendation_from_fil
 from web.json_data_to_html import html_to_file
 from fetch.target_date import QueryDate
 from common.logger import Logger
-from web.server.main import setup
+from web.fetch.main import setup
 from common.paths import remove_dir
 from common.paths import Paths
 
