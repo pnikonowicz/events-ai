@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
 from typing import List
 from dataclasses import asdict
+from hashlib import sha256
+
 import json
 
 @dataclass
@@ -22,3 +24,6 @@ def read_data(json_data_file):
     with open(json_data_file, 'r') as file:
         data_list = json.load(file)
         return [Data(**item) for item in data_list]
+    
+def query_data_to_embedding_filename(query_text):
+    return sha256(query_text.encode('ascii')).hexdigest()

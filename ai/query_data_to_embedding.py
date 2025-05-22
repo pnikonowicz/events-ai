@@ -1,8 +1,12 @@
 import os
 import json
+
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from common.paths import Paths
 from common.logger import Logger
+from common.paths import remove_dir
+from common.paths import make_dir
+from common.data import query_data_to_embedding_filename
 
 def get_query_text_contents(root_folder):
     query_text_contents = []
@@ -25,9 +29,14 @@ def get_embeddings_from(model_name, api_key, data):
     embeddings = embedding_api.embed_documents(data)
     return embeddings
 
-def write_embeddings(output_file, embeddings):
-    with open(output_file, "w") as json_file:
-        json.dump(embeddings, json_file, indent=4)
+def write_embeddings(embedding_dir, embeddings, query_texts):
+    for query_idx in range(0, len(query_texts)):
+        query_text = query_texts[query_idx]
+        embedding = embeddings[query_idx]
+        output_file = query_data_to_embedding_filename(query_text)
+        
+        with open(os.path.join(embedding_dir, output_file), "w") as json_file:
+            json.dump(embedding, json_file, indent=4)
 
 def load_api_key(filename):
     with open(filename, 'r') as file:
@@ -52,9 +61,8 @@ def query_to_embeddings(query_texts):
 
 def query_to_embeddings_from_file():
     previous_events_dir = os.path.join(Paths.PROJECT_DIR, 'previous_events')
-    query_embeddings_file = os.path.join(Paths.DATA_DIR, 'query.embeddings.json')
 
-    remove_file(query_embeddings_file)
+    remove_dir(Paths.QUERY_EMBEDDINGS_DIR)
 
     if not os.path.exists(previous_events_dir):
         Logger.warn(f"""{previous_events_dir} does not exist. add previous events to this location, one for each event. example:
@@ -69,6 +77,7 @@ def query_to_embeddings_from_file():
     query_texts = get_query_text_contents(previous_events_dir)
     embeddings = query_to_embeddings(query_texts)
 
-    write_embeddings(query_embeddings_file, embeddings)
+    make_dir(Paths.QUERY_EMBEDDINGS_DIR)
+    write_embeddings(Paths.QUERY_EMBEDDINGS_DIR, embeddings, query_texts)
 
     return len(embeddings)

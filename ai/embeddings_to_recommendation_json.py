@@ -5,11 +5,23 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from common.paths import Paths
 from common.logger import Logger
-from common.data import Data, write_data, read_data
+from common.data import Data, write_data, read_data, query_data_to_embedding_filename
 
 def read_embeddings(file_name):
     with open(file_name) as file:
         return json.load(file)
+
+def read_query_embeddings(query_embedding_dir, original_query_data):
+    embeddings = []
+
+    for query_data_idx in range(0, len(original_query_data)):
+        query_text = original_query_data[query_data_idx]
+        embedding_file_name = query_data_to_embedding_filename(query_text)
+
+        with open(os.path.join(query_embedding_dir, embedding_file_name)) as file:
+            embeddings.append(json.load(file))
+
+    return embeddings
     
 def normalize_embeddings(embeddings):
     normalized = normalize(embeddings, "l2")
@@ -160,12 +172,12 @@ def extract_recommendation_from_file(threshold):
         write_data(recommendation_json_filename, original_data)
         return 0
     
-    if not os.path.exists(Paths.QUERY_EMBEDDINGS):
+    if not os.path.exists(Paths.QUERY_EMBEDDINGS_DIR):
         Logger.warn("no query embeddings found")
         write_data(recommendation_json_filename, original_data)
         return 0
 
-    query_embeddings = read_embeddings(Paths.QUERY_EMBEDDINGS)
+    query_embeddings = read_query_embeddings(Paths.QUERY_EMBEDDINGS_DIR, original_query_data)
 
     recommendation_json, recomendation_count = extract_recommendation(original_query_data, query_embeddings, threshold)
 
