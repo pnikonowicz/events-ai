@@ -6,7 +6,6 @@ import numpy as np
 from common.paths import Paths
 from common.logger import Logger
 from common.data import Data, write_data, read_data
-from dataclasses import asdict
 
 def read_embeddings(file_name):
     with open(file_name) as file:
