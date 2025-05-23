@@ -13,6 +13,12 @@
 ## auto push docker changes
 * when one of the prod docker files change, upload to dockerhub
 
+
+# SRE
+
+## alert on fetch errors
+if a fetch fails, notify
+
 # handle multiple days for data gathering
 * eventbrite
 
