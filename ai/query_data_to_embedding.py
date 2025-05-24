@@ -49,7 +49,7 @@ def remove_file(filename):
     else:
         Logger.log(f"filename {filename} not found, nothing to delete")
 
-def query_to_embeddings(query_texts):
+def query_to_embeddings(embedding_cache, embedding_service, query_texts):
     secrets_dir = os.path.join(Paths.PROJECT_DIR, "secrets")
     api_key_file = os.path.join(secrets_dir, "google-api-key")
     api_key = load_api_key(api_key_file)
