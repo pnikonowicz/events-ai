@@ -26,7 +26,7 @@ def setup(query_date):
 
 
     fetch_amount = fetch_eventbrite(query_date.eventbrite())
-    Logger.log(f"eventbrite fetched: {fetch_amount} results")
+    Logger.log(f"eventbrite fetched: {fetch_amount} pages")
 
     fetch_amount = fetch_meetup(query_date.meetup())
     Logger.log(f"meetup fetched: {fetch_amount} results")
