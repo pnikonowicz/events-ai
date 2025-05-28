@@ -1,0 +1,145 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Query Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .query-field {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Query Form</h1>
+    <form id="queryForm" action="http://mypage.com" method="POST">
+        <div class="query-field">
+            <label for="query1">Query 1:</label>
+            <input type="text" id="query1" name="query1" value="Default query 1">
+        </div>
+        <div class="query-field">
+            <label for="query2">Query 2:</label>
+            <input type="text" id="query2" name="query2" value="Default query 2">
+        </div>
+        <div class="query-field">
+            <label for="query3">Query 3:</label>
+            <input type="text" id="query3" name="query3" value="Default query 3">
+        </div>
+        <div class="query-field">
+            <label for="query4">Query 4:</label>
+            <input type="text" id="query4" name="query4" value="Default query 4">
+        </div>
+        <div class="query-field">
+            <label for="query5">Query 5:</label>
+            <input type="text" id="query5" name="query5" value="Default query 5">
+        </div>
+        <div class="query-field">
+            <label for="query6">Query 6:</label>
+            <input type="text" id="query6" name="query6" value="Default query 6">
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('queryForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Collect query values in order
+            const queries = [
+                document.getElementById('query1').value,
+                document.getElementById('query2').value,
+                document.getElementById('query3').value,
+                document.getElementById('query4').value,
+                document.getElementById('query5').value,
+                document.getElementById('query6').value
+            ];
+
+            // Create JSON payload
+            const payload = JSON.stringify(queries);
+
+            // Perform POST request
+            fetch('http://mypage.com', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: payload
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = 'http://mypage.com';
+                } else {
+                    console.error('Failed to submit form');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
