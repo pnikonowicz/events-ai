@@ -1,6 +1,5 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 from typing import List
-from dataclasses import asdict
 from hashlib import sha256
 
 import json
@@ -15,6 +14,20 @@ class Data:
     similar_events: List['Data'] = field(default_factory=list)
     recommendation_source: str = field(default=None)
 
+    def to_dict(self):
+        """Convert the dataclass to a JSON-serializable dictionary."""
+        data = asdict(self)
+        # Ensure similar_events is recursively converted
+        data['similar_events'] = [event.to_dict() for event in self.similar_events]
+        return data
+
+class DataEncoder(json.JSONEncoder):
+    """Custom JSON encoder for Data class."""
+    def default(self, obj):
+        if isinstance(obj, Data):
+            return obj.to_dict()
+        return super().default(obj)
+
 def write_data(output_file, data_objects):
     data = [asdict(d) for d in data_objects]
     with open(output_file, "w") as json_file:
@@ -27,3 +40,6 @@ def read_data(json_data_file):
     
 def query_data_to_embedding_filename(query_text):
     return sha256(query_text.encode('ascii')).hexdigest()
+
+def to_json_string(data): 
+    return json.dumps(data, cls=DataEncoder, indent=2)
