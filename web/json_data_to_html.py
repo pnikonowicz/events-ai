@@ -1,4 +1,3 @@
-import json
 import os
 from common.paths import Paths
 import pathlib
