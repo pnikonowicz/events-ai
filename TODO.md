@@ -13,8 +13,8 @@
 ## auto push docker changes
 * when one of the prod docker files change, upload to dockerhub
 
-## make deploying loading screen automatic
-* when the loading screen changes, automatically update the blob in our public bucket
+## make deploying static assets automatic
+* when static assets (web/static) changes, automatically update the blob in our public bucket
 
 ## add healthcheck endpoint
 * for gcs to determine that servcie is up and running
