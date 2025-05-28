@@ -8,7 +8,6 @@ from fetch.meetup.get_data import fetch as fetch_meetup
 from fetch.collect import collect_all_data
 from fetch.unique import unique
 from ai.json_data_to_embeddings import data_to_embeddings
-from ai.query_data_to_embedding import query_to_embeddings_from_file
 from common.paths import Paths
 from fetch.target_date import QueryDate
 from common.logger import Logger
@@ -39,9 +38,6 @@ def setup(query_date):
 
     embeddings_count = data_to_embeddings()
     Logger.log(f"created {embeddings_count} data embeddings")
-
-    query_embeddings_count = query_to_embeddings_from_file()
-    Logger.log(f"created {query_embeddings_count} query embeddings")
 
 if __name__ == '__main__':
     Logger.log("global setup")

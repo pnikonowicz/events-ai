@@ -7,6 +7,8 @@ from common.logger import Logger
 from common.paths import remove_dir
 from common.paths import make_dir
 from common.data import query_data_to_embedding_filename
+from .embedding_service import EmbeddingService
+from .embedding_cache import EmbeddingCache
 
 def get_query_text_contents(root_folder):
     query_text_contents = []
@@ -20,15 +22,6 @@ def get_query_text_contents(root_folder):
     
     return query_text_contents
 
-def get_embeddings_from(model_name, api_key, data):
-    embedding_api = GoogleGenerativeAIEmbeddings(
-        model=model_name,
-        google_api_key = api_key
-    )
-
-    embeddings = embedding_api.embed_documents(data)
-    return embeddings
-
 def write_embeddings(embedding_dir, embeddings, query_texts):
     for query_idx in range(0, len(query_texts)):
         query_text = query_texts[query_idx]
@@ -38,10 +31,7 @@ def write_embeddings(embedding_dir, embeddings, query_texts):
         with open(os.path.join(embedding_dir, output_file), "w") as json_file:
             json.dump(embedding, json_file, indent=4)
 
-def load_api_key(filename):
-    with open(filename, 'r') as file:
-        content = file.read()
-    return content
+
 
 def remove_file(filename):
     if os.path.exists(filename):
@@ -49,35 +39,33 @@ def remove_file(filename):
     else:
         Logger.log(f"filename {filename} not found, nothing to delete")
 
-def query_to_embeddings(query_texts):
-    secrets_dir = os.path.join(Paths.PROJECT_DIR, "secrets")
-    api_key_file = os.path.join(secrets_dir, "google-api-key")
-    api_key = load_api_key(api_key_file)
-    google_ai_model = "models/text-embedding-004"
+def query_to_embeddings(embedding_cache: EmbeddingCache, embedding_service: EmbeddingService, query_texts):
+    embeddings = [None] * len(query_texts) # fixed length array
+    query_texts_that_need_embeddings = []
+    query_texts_original_idx = []
 
-    embeddings = get_embeddings_from(google_ai_model, api_key, query_texts)
+    for idx, query in enumerate(query_texts):
+        query = query_texts[idx]
+        if embedding_cache.contains(query):
+            embeddings[idx] = embedding_cache.get(query)
+        else:
+            query_texts_that_need_embeddings.append(query)
+            query_texts_original_idx.append(idx)
 
+    if len(query_texts_that_need_embeddings) > 0:
+        new_embeddings = embedding_service.fetch(query_texts_that_need_embeddings) # from get_embeddings_from
+        
+        for query_text, new_embedding, original_query_idx in zip(query_texts_that_need_embeddings, new_embeddings, query_texts_original_idx):
+            embedding_cache.set(
+                query_text,
+                new_embedding
+            )
+            embeddings[original_query_idx] = new_embedding
+    
     return embeddings
 
 def query_to_embeddings_from_file():
-    previous_events_dir = os.path.join(Paths.PROJECT_DIR, 'previous_events')
+    query_texts = get_query_text_contents(Paths.PREVIOUS_EVENTS)
+    embeddings = query_to_embeddings(EmbeddingCache(), EmbeddingService(), query_texts)
 
-    remove_dir(Paths.QUERY_EMBEDDINGS_DIR)
-
-    if not os.path.exists(previous_events_dir):
-        Logger.warn(f"""{previous_events_dir} does not exist. add previous events to this location, one for each event. example:
-    previous_events
-        - fun_event.event
-        - fun_event_2.event
-
-    the filenames are not important.
-              """)
-        return 0
-    
-    query_texts = get_query_text_contents(previous_events_dir)
-    embeddings = query_to_embeddings(query_texts)
-
-    make_dir(Paths.QUERY_EMBEDDINGS_DIR)
-    write_embeddings(Paths.QUERY_EMBEDDINGS_DIR, embeddings, query_texts)
-
-    return len(embeddings)
+    return embeddings

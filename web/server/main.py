@@ -6,13 +6,13 @@ from aiohttp import web
 from common.logger import Logger
 from web.json_data_to_html import json_to_html
 from ai.embeddings_to_recommendation_json import extract_recommendation
-from ai.embeddings_to_recommendation_json import read_query_embeddings
+from ai.query_data_to_embedding import query_to_embeddings_from_file
 from ai.embeddings_to_recommendation_json import get_previous_events
 from common.paths import Paths
 from common.logger import Logger
 
 original_query_data = get_previous_events(Paths.PREVIOUS_EVENTS)
-query_embeddings = read_query_embeddings(Paths.QUERY_EMBEDDINGS_DIR, original_query_data)
+query_embeddings = query_to_embeddings_from_file()
 
 async def handle(request):
     recommendation_json, recommendation_count = extract_recommendation(original_query_data, query_embeddings, threshold=.85)
