@@ -1,6 +1,6 @@
 import json
 from common.data import Data
-from common.data import to_json_string, from_data_dict
+from common.data import to_json_string, from_json_string
 
 expected_json_string = '''[
   {
@@ -39,18 +39,15 @@ expected_data_object = [
   )
 ]
 
-def from_json_file(data):
-    return json.loads(data, object_hook = from_data_dict)
-    
 def test_json_serializer():
     json_string = to_json_string(expected_data_object)
     
     assert expected_json_string == json_string
 
 def test_json_deserializer():
-    data_object = from_json_file(expected_json_string)
+    data_object = from_json_string(expected_json_string)
 
     assert data_object == expected_data_object
 
 def test_round_trip():
-    assert to_json_string(from_json_file(expected_json_string)) == expected_json_string
+    assert to_json_string(from_json_string(expected_json_string)) == expected_json_string

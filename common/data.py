@@ -45,10 +45,13 @@ def write_data(output_file, data_objects):
 
 def read_data(json_data_file):
     with open(json_data_file, 'r') as file:
-        return json.load(file, object_hook = from_data_dict)
+        return from_json_string(file.read())
     
 def query_data_to_embedding_filename(query_text):
     return sha256(query_text.encode('ascii')).hexdigest()
 
 def to_json_string(data): 
     return json.dumps(data, cls=DataEncoder, indent=2)
+
+def from_json_string(data):
+    return json.loads(data, object_hook = from_data_dict)
