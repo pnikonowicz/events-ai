@@ -22,15 +22,7 @@ class Data:
         return data
 
 def from_data_dict(dict):
-    return Data(
-        image=dict['image'],
-        link=dict['link'],
-        title=dict['title'],
-        time=dict['time'],
-        location=dict['location'],
-        similar_events=dict['similar_events'],
-        recommendation_source=dict['recommendation_source']
-    )
+    return Data(**dict)
 
 class DataEncoder(json.JSONEncoder):
     def default(self, obj):
