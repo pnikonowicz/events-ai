@@ -17,8 +17,7 @@ class Data:
     def to_dict(self):
         """Convert the dataclass to a JSON-serializable dictionary."""
         data = asdict(self)
-
-        # Ensure similar_events is recursively convertedclea
+        # Ensure similar_events is recursively converted
         data['similar_events'] = [event.to_dict() for event in self.similar_events]
         return data
 
