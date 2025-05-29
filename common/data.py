@@ -21,8 +21,18 @@ class Data:
         data['similar_events'] = [event.to_dict() for event in self.similar_events]
         return data
 
+def from_data_dict(dict):
+    return Data(
+        image=dict['image'],
+        link=dict['link'],
+        title=dict['title'],
+        time=dict['time'],
+        location=dict['location'],
+        similar_events=dict['similar_events'],
+        recommendation_source=dict['recommendation_source']
+    )
+
 class DataEncoder(json.JSONEncoder):
-    """Custom JSON encoder for Data class."""
     def default(self, obj):
         if isinstance(obj, Data):
             return obj.to_dict()
@@ -35,8 +45,7 @@ def write_data(output_file, data_objects):
 
 def read_data(json_data_file):
     with open(json_data_file, 'r') as file:
-        data_list = json.load(file)
-        return [Data(**item) for item in data_list]
+        return json.load(file, object_hook = from_data_dict)
     
 def query_data_to_embedding_filename(query_text):
     return sha256(query_text.encode('ascii')).hexdigest()

@@ -55,7 +55,7 @@ def json_to_html(items : List[Data]):
     for item in items:
         similiar_events_json = item.similar_events
         html_similar_event_inner = '<a href="{link}" target="about:blank"> {title} </a>'
-        similiar_events_titles = "\n".join(html_similar_event_inner.format(link=event["link"], title=event["title"]) for event in similiar_events_json)
+        similiar_events_titles = "\n".join(html_similar_event_inner.format(link=event.link, title=event.title) for event in similiar_events_json)
         html_similiar_events = f"""
             <div class="similiar_events">
                 {similiar_events_titles}
