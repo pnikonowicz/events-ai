@@ -3,7 +3,7 @@
 # multi tennant
 
 ## add request previous event argument
-* the server currently does not accept any arguemnts. allow a json [] for previous events to be sent down and processed on demand
+* allow redirect to use a variable domain for url, or just use a relative root
 
 ## create previous events front end
 * allow for a user to enter in their previous events
