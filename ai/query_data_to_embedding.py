@@ -1,11 +1,8 @@
 import os
 import json
 
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from common.paths import Paths
 from common.logger import Logger
-from common.paths import remove_dir
-from common.paths import make_dir
 from common.data import query_data_to_embedding_filename
 from .embedding_service import EmbeddingService
 from .embedding_cache import EmbeddingCache
