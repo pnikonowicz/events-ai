@@ -17,7 +17,7 @@ from ai.embedding_cache import EmbeddingCache
 original_query_data = get_previous_events(Paths.PREVIOUS_EVENTS)
 
 async def redirect_to_handle(request):
-    url = "http://localhost:8080/recommendations"
+    url = f"{request.scheme}://{request.host}/recommendations"
     
     async with ClientSession() as session:
         async with session.post(url, json=original_query_data) as response:

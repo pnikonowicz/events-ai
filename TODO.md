@@ -2,11 +2,12 @@
 
 # multi tennant
 
-## add request previous event argument
-* allow redirect to use a variable domain for url, or just use a relative root
-
 ## create previous events front end
 * allow for a user to enter in their previous events
+* have our events be embedded in the form as default values
+
+## allow events to be saved
+this way the user does not need to re-enter events all the time
 
 # Dev ops
 
