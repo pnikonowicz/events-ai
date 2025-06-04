@@ -19,6 +19,8 @@ this way the user does not need to re-enter events all the time
 
 ## restrict gcs servcie account to public bucket
 * currrently has access to all buckets. only allow access to public bucket
+* should probably be `projects/_/buckets/events-ai-public` but remember it takes time to propagate
+* more infor here: https://cloud.google.com/iam/docs/conditions-resource-attributes#resource-name
 
 # SRE
 
