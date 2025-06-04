@@ -27,4 +27,4 @@ jobs:
           path: './web/static/'
           destination: 'events-ai-public'
           parent: false
-          remove: true
+          process_gcloudignore: false
