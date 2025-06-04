@@ -14,11 +14,11 @@ this way the user does not need to re-enter events all the time
 ## auto push docker changes
 * when one of the prod docker files change, upload to dockerhub
 
-## make deploying static assets automatic
-* when static assets (web/static) changes, automatically update the blob in our public bucket
-
 ## add healthcheck endpoint
 * for gcs to determine that servcie is up and running
+
+## restrict gcs servcie account to public bucket
+* currrently has access to all buckets. only allow access to public bucket
 
 # SRE
 
