@@ -3,6 +3,7 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
 from aiohttp import web, ClientSession
+from multidict import MultiDict
 from common.logger import Logger
 from web.json_data_to_html import json_to_html
 from ai.embeddings_to_recommendation_json import extract_recommendation
@@ -13,14 +14,20 @@ from common.logger import Logger
 from common.data import to_json_string
 from ai.embedding_service import EmbeddingService
 from ai.embedding_cache import EmbeddingCache
+import random
+
 
 original_query_data = get_previous_events(Paths.PREVIOUS_EVENTS)
 
 async def redirect_to_handle(request):
     url = f"{request.scheme}://{request.host}/recommendations"
     
+    original_query_form_data = MultiDict()
+    for query in original_query_data:
+        original_query_form_data.add(f"{random.randint(1, 10000000)}", query)
+
     async with ClientSession() as session:
-        async with session.post(url, json=original_query_data) as response:
+        async with session.post(url, data=original_query_form_data) as response:
             if response.status == 200:
                 text = await response.text()
                 return web.Response(text = text, content_type='text/html')
@@ -29,7 +36,9 @@ async def redirect_to_handle(request):
                 return web.Response(text = f"Request failed with status: {response.status}: {text}", content_type='text/html')
 
 async def handle(request):
-    original_query_data = await request.json() # should be json array of strings
+    original_query_form_data = await request.post() # should be json array of strings
+    original_query_data = [f"{value}" for key, value in original_query_form_data.items()]
+    Logger.log(f"data: {original_query_data}")
 
     if not isinstance(original_query_data, list):
         return web.Response(
