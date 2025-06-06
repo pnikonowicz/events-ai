@@ -33,5 +33,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            docker.io/pnikonowicz/events-ai:dev-${{ github.run_attempt }}
+            docker.io/pnikonowicz/events-ai:dev-${{ github.run_number }}
       
