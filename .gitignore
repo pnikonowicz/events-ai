@@ -4,7 +4,6 @@
 secrets/
 data/
 previous_events/
-weights/
 
 frontend/node_modules/
 frontend/dist/
