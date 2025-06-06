@@ -15,6 +15,10 @@ are shown on the site, group the events by source type, eventbrite, meetup, etc.
 
 # Dev ops
 
+## clenaup unused repositories on dockerhub
+the fetch and server repositories should no longer be being used. 
+verify this and remove if true
+
 ## fix persisted query for meetup
 the query id is wrong (again)
 
