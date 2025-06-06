@@ -15,6 +15,9 @@ are shown on the site, group the events by source type, eventbrite, meetup, etc.
 
 # Dev ops
 
+## fix persisted query for meetup
+the query id is wrong (again)
+
 ## auto push docker changes
 * when one of the prod docker files change, upload to dockerhub
 
