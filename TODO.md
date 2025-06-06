@@ -1,6 +1,6 @@
 # Apply stemming or lemitization to vectors
 
-# multi tennant
+# full stack
 
 ## create previous events front end
 * allow for a user to enter in their previous events
@@ -8,6 +8,10 @@
 
 ## allow events to be saved
 this way the user does not need to re-enter events all the time
+
+## show preview counts on query page
+when the query page is loaded, contain counters that show how many events 
+are shown on the site, group the events by source type, eventbrite, meetup, etc..
 
 # Dev ops
 
