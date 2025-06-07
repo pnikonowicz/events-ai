@@ -9,7 +9,97 @@
             max-width: 600px;
             margin: 20px auto;
             padding: 20px;
+            min-height: 100vh;
+            background-color: #1a1a1a;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
+
+        /******/
+        /* LOADING */
+        /*******/
+
+        .loading-container {
+            text-align: center;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .loading-spinner:after {
+            content: " ";
+            display: block;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 6px solid #8e44ad;
+            border-color: #8e44ad transparent #8e44ad transparent;
+            animation: spinner 1.2s linear infinite;
+            box-shadow: 0 0 15px rgba(142, 68, 173, 0.5);
+        }
+        
+        @keyframes spinner {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .loading-text {
+            color: #e0e0e0;
+            font-size: 24px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .loading-text::before {
+            content: "Loading...";
+            animation: changeText 20s steps(1) forwards;
+        }
+
+        @keyframes changeText {
+            0% { content: "Loading"; }
+            40% { content: "Almost there!!"; }
+            100% { content: "Uh oh :("; }
+        }
+        
+        .loading-progress {
+            margin-top: 15px;
+            height: 3pt;
+            background-color: #333333;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #8e44ad;
+            background-image: linear-gradient(90deg, #8e44ad, #9b59b6);
+            animation: progress 20s ease-in-out forwards;
+            box-shadow: 0 0 10px rgba(142, 68, 173, 0.7);
+        }
+        
+        @keyframes progress {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 95%; }
+        }
+
+        .loading-message {
+            margin-top: 15px;
+            color: #888888;
+            font-size: 14px;
+        }
+
+        /******/
+        /* FORM */
+        /*******/
         
         form {
             max-width: 600px;
@@ -70,7 +160,7 @@
         }
     </style>
 </head>
-<body>
+<body onload="setup()" onunload="">
     <h1>Query Form</h1>
     <form id="queryForm" action="https://events-ai-server-152896986419.us-central1.run.app/recommendations" method="POST">
         <div class="query-field">
@@ -99,5 +189,28 @@
         </div>
         <button type="submit">Submit</button>        
     </form>
+    <div id="loading" class="loading-container">
+        <div class="loading-spinner"></div>
+        <div class="loading-text"></div>
+        <div class="loading-progress">
+            <div class="progress-bar"></div>
+        </div>
+        <div class="loading-message">We need to load up a container for your events. </div>
+        <div class="loading-message">Please wait (should be 10 seconds) </div>
+    </div>
+    <script>
+        function setup() {
+            document.getElementById('queryForm').style.display = 'block';
+            document.getElementById('loading').style.display = 'none';
+
+            document.getElementById('queryForm').addEventListener('submit', function(event) {
+                document.getElementById('queryForm').style.display = 'none';
+                document.getElementById('loading').style.display = 'block';
+
+                return true;
+            });
+        }
+
+    </script>
 </body>
 </html>
