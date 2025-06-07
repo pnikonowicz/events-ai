@@ -83,13 +83,14 @@
 
         .loading-text::before {
             content: "Loading...";
-            animation: changeText 20s steps(1) forwards;
+            animation: changeText 25s steps(1) forwards;
         }
 
         @keyframes changeText {
             0% { content: "Loading"; }
-            40% { content: "Almost there!!"; }
-            100% { content: "Uh oh :("; }
+            30% { content: "Almost there!!"; }
+            60% { content: "Should just be about done now"; }
+            100% { content: "Hmmm... :/"; }
         }
         
         .loading-progress {
@@ -105,7 +106,7 @@
             width: 0%;
             background-color: #8e44ad;
             background-image: linear-gradient(90deg, #8e44ad, #9b59b6);
-            animation: progress 20s ease-in-out forwards;
+            animation: progress 25s ease-in-out forwards;
             box-shadow: 0 0 10px rgba(142, 68, 173, 0.7);
         }
         
@@ -229,7 +230,7 @@
             <div class="progress-bar"></div>
         </div>
         <div class="loading-message">We need to load up a container for your events. </div>
-        <div class="loading-message">Please wait (should be 10 seconds) </div>
+        <div class="loading-message">Please wait (should be 20 seconds) </div>
     </div>
     
     <script>

@@ -57,13 +57,13 @@
 
         .loading-text::before {
             content: "Loading...";
-            animation: changeText 20s steps(1) forwards;
+            animation: changeText 25s steps(1) forwards;
         }
 
         @keyframes changeText {
             0% { content: "Loading"; }
             40% { content: "Almost there!!"; }
-            100% { content: "Uh oh :("; }
+            100% { content: "And here we go!"; }
         }
         
         .loading-progress {
@@ -86,7 +86,7 @@
         @keyframes progress {
             0% { width: 0%; }
             50% { width: 70%; }
-            100% { width: 95%; }
+            100% { width: 99%; }
         }
 
         .loading-message {
