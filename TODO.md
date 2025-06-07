@@ -1,6 +1,8 @@
-# Apply stemming or lemitization to vectors
 
 # full stack
+
+## additinal data sites
+* luma: https://lu.ma/nyc
 
 ## create previous events front end
 * allow for a user to enter in their previous events
@@ -13,7 +15,22 @@ this way the user does not need to re-enter events all the time
 when the query page is loaded, contain counters that show how many events 
 are shown on the site, group the events by source type, eventbrite, meetup, etc..
 
+## list times
+* add time to list output
+
+## handle multiple days for data gathering
+currently just shows today. would be nice to have tomorrow or weekend as well
+
+## show site summary at top
+* meetup results and eventbrite results sum so that we know that meetup results are included
+
+
 # Dev ops
+
+## add robots.txt
+for non-user agents
+https://events-ai-server-152896986419.us-central1.run.app/robots.txt
+
 
 ## clenaup unused repositories on dockerhub
 the fetch and server repositories should no longer be being used. 
@@ -38,23 +55,13 @@ the query id is wrong (again)
 ## alert on fetch errors
 if a fetch fails, notify
 
-# handle multiple days for data gathering
-* eventbrite
-
-# show site summary at top
-* meetup results and eventbrite results sum so that we know that meetup results are included
   
-# list results
-* add time to list output
-* show what data source is responsible for the result
 
-# add robots.txt
+========================
 
-for non-user agents
-https://events-ai-server-152896986419.us-central1.run.app/robots.txt
+# Bugs
 
-
-# fix 404 img bug
+## fix 404 img bug
 
 GET404 143 B 33 ms Firefox 138 https://events-ai-server-152896986419.us-central1.run.app/None
 
@@ -71,12 +78,9 @@ I think it's coming from when an image has no url to grab
 * paths
 * json schema to common location
 
-# additinal data sites
-* luma: https://lu.ma/nyc
-
-# a front end that allows for entering all needed info
-
 # out of scope
 ### ranking results
 it would be interesting to allow for certain past events to be ranked by how much they enjoyed the event. using attenuation, we can adjust the previous event to better affect future recemondations 
+
+### Apply stemming or lemitization to vectors
 
