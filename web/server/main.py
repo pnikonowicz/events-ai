@@ -20,14 +20,18 @@ import random
 original_query_data = get_previous_events(Paths.PREVIOUS_EVENTS)
 
 async def redirect_to_handle(request):
-    url = f"{request.scheme}://{request.host}/recommendations"
+    scheme = request.scheme
+    if 'localhost' not in request.host:
+        scheme = 'https' # assume prod
+
+    url = f"{scheme}://{request.host}/recommendations"
     
     original_query_form_data = MultiDict()
     for query in original_query_data:
         original_query_form_data.add(f"{random.randint(1, 10000000)}", query)
 
     async with ClientSession() as session:
-        async with session.post(url, data=original_query_form_data) as response:
+        async with session.post(url, data=original_query_form_data, allow_redirects=False) as response:
             if response.status == 200:
                 text = await response.text()
                 return web.Response(text = text, content_type='text/html')
