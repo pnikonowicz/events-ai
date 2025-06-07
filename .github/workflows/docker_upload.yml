@@ -6,9 +6,7 @@ on:
     workflows: ["Events-AI tests"]
     types:
       - completed
-  push:
-    branches:
-      - main
+
 jobs:
   docker:
     runs-on: ubuntu-latest
