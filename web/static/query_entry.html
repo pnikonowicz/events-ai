@@ -193,32 +193,32 @@
         We use this data solely to understand your interests and match you with events you’re most likely to enjoy.
         </p>
 
-        <form id="queryForm" action="https://events-ai-server-152896986419.us-central1.run.app/recommendations" method="POST">
-            <div class="query-field">
-                <label for="query1">Query 1:</label>
-                <input type="text" id="query1" name="query1" value="Animation Nights New York (ANNY) at The Gutter Spare Room!">
+        <form id="eventsForm" action="https://events-ai-server-152896986419.us-central1.run.app/recommendations" method="POST">
+            <div class="event-field">
+                <label for="event1">Previous Event 1:</label>
+                <input type="text" id="event1" name="event1" value="Animation Nights New York (ANNY) at The Gutter Spare Room!">
             </div>
-            <div class="query-field">
-                <label for="query2">Query 2:</label>
-                <input type="text" id="query2" name="query2" value='Church Street Boxing Presents "MAYHEM"''>
+            <div class="event-field">
+                <label for="event2">Previous Event 2:</label>
+                <input type="text" id="event2" name="event2" value='Church Street Boxing Presents "MAYHEM"'>
             </div>
-            <div class="query-field">
-                <label for="query3">Query 3:</label>
-                <input type="text" id="query3" name="query3" value="Coffee for Creatives NYC: Special Guest in Casting">
+            <div class="event-field">
+                <label for="event3">Previous Event 3:</label>
+                <input type="text" id="event3" name="event3" value="Coffee for Creatives NYC: Special Guest in Casting">
             </div>
-            <div class="query-field">
-                <label for="query4">Query 4:</label>
-                <input type="text" id="query4" name="query4" value="Music Open Jam @ Funkadelic Studios">
+            <div class="event-field">
+                <label for="event4">Previous Event 4:</label>
+                <input type="text" id="event4" name="event4" value="Music Open Jam @ Funkadelic Studios">
             </div>
-            <div class="query-field">
-                <label for="query5">Query 5:</label>
-                <input type="text" id="query5" name="query5" value="Industry Night NYC: Film + Music + More!">
+            <div class="event-field">
+                <label for="event5">Previous Event 5:</label>
+                <input type="text" id="event5" name="event5" value="Industry Night NYC: Film + Music + More!">
             </div>
-            <div class="query-field">
-                <label for="query6">Query 6:</label>
-                <input type="text" id="query6" name="query6" value="NYC Networking Event: Make New Friends and/or Business Connections">
+            <div class="event-field">
+                <label for="event6">Previous Event 6:</label>
+                <input type="text" id="event6" name="event6" value="NYC Networking Event: Make New Friends and/or Business Connections">
             </div>
-            <button type="submit">Submit</button>        
+            <button type="submit">Submit</button>
         </form>
     </div>
 
@@ -234,11 +234,11 @@
     
     <script>
         function setup() {
-            document.getElementById('queryForm').style.display = 'block';
+            document.getElementById('eventsForm').style.display = 'block';
             document.getElementById('loading').style.display = 'none';
 
-            document.getElementById('queryForm').addEventListener('submit', function(event) {
-                document.getElementById('queryForm').style.display = 'none';
+            document.getElementById('eventsForm').addEventListener('submit', function(event) {
+                document.getElementById('eventsForm').style.display = 'none';
                 document.getElementById('loading').style.display = 'block';
 
                 return true;
