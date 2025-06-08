@@ -37,7 +37,8 @@ the fetch and server repositories should no longer be being used.
 verify this and remove if true
 
 ## fix persisted query for meetup
-the query id is wrong (again)
+the persisted query graphql sha changes often. 
+allow this query sha to update dynamically
 
 ## auto push docker changes
 * when one of the prod docker files change, upload to dockerhub
