@@ -42,7 +42,7 @@ This project:
 2. run web server with: `python web/server/main.py`
 
 #### Previous Events
-These are events that you've been to in the past. Each event goes in it's own file. The filename can be anything. 
+These are events that you've been to in the past. 
 
 #### Custom weights
 You may want some items grouped up more aggressively. Or you may want some items grouped up less aggressively. For that, you can use custom weights. Create the following file: `weights/weights.json`
