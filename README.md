@@ -32,7 +32,7 @@ This project:
 
 ### Running the Project  
 
-# To run locally
+# To run locally (from inside the dev container see: https://code.visualstudio.com/docs/devcontainers/containers)
 1. Prerequistes: you need folders: 
 ```
 	mkdir -p secrets
