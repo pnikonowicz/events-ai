@@ -4,10 +4,6 @@
 ## additinal data sites
 * luma: https://lu.ma/nyc
 
-## create previous events front end
-* allow for a user to enter in their previous events
-* have our events be embedded in the form as default values
-
 ## allow events to be saved
 this way the user does not need to re-enter events all the time
 
@@ -26,6 +22,10 @@ currently just shows today. would be nice to have tomorrow or weekend as well
 
 
 # Dev ops
+
+## allow query.html to point to local env
+currently the query.html page has a static link to the prod site. 
+making this variable depending on environment will make development easier
 
 ## add robots.txt
 for non-user agents
