@@ -20,6 +20,9 @@ currently just shows today. would be nice to have tomorrow or weekend as well
 ## show site summary at top
 * meetup results and eventbrite results sum so that we know that meetup results are included
 
+## dynamically generate previous events
+use supported data sites to grab previous events that the user
+has attended so that they will not have to enter in this information manually
 
 # Dev ops
 
