@@ -32,7 +32,7 @@ for non-user agents
 https://events-ai-server-152896986419.us-central1.run.app/robots.txt
 
 
-## clenaup unused repositories on dockerhub
+## cleanup unused repositories on dockerhub
 the fetch and server repositories should no longer be being used. 
 verify this and remove if true
 
