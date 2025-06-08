@@ -81,22 +81,8 @@ replace the docker image to be the image from `.devcontainer/Dockerfile` add the
 
 ### Deployment steps to prod
 
-The containers used here will have a folder mounted to /app/data and /app/secrets when deployed to gcp.
-
-#### containers
-
-This container is used for all services:
-
-
-1. set version: `export EVENTS_AI_VERSION='dev-<version>'`
-1. build: `docker build -f web/Dockerfile -t pnikonowicz/events-ai:$EVENTS_AI_VERSION .`
-1. run fetch (locally): `docker run -it -v ./previous_events:/app/previous_events -v ./data:/app/data -v ./secrets:/app/secrets pnikonowicz/events-ai:$EVENTS_AI_VERSION ./web/fetch/main.py`
-1. run server (locally): `docker run -it -v ./previous_events:/app/previous_events -v ./data:/app/data -v ./secrets:/app/secrets -p 8080:8080 pnikonowicz/events-ai:$EVENTS_AI_VERSION ./web/server/main.py`
-1. push: `docker push pnikonowicz/events-ai:$EVENTS_AI_VERSION`
-
-
-#### dockerhub container locations
-1. `docker.io/pnikonowicz/events-ai:dev-<version>`
+The containers will be uploaded to dockerhub at https://hub.docker.com/repository/docker/pnikonowicz/events-ai/ via a github action. 
+Afterwards, gcp cloudrun destination images will need to be updated to point to the new container. 
 
 # common issues
 ### GRPC Illegal header value
