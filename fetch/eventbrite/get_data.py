@@ -95,9 +95,9 @@ def fetch(target_day):
     
     raw_htmls = fetch_from_eventbrite(target_day, raw_data_dir)
     
-    to_json(Paths, raw_data_dir)
+    event_count = to_json(Paths, raw_htmls)
 
-    return len(raw_htmls)
+    return event_count
 
 def fetch_from_eventbrite(target_day, raw_data_dir):
     first_result_html = fetch_result(1, target_day)

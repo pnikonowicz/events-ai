@@ -91,10 +91,8 @@ def get_raw_htmls(raw_data_dir):
                 raw_htmls.append(data)
     return raw_htmls
 
-def to_json(Paths, raw_data_dir):
+def to_json(Paths, raw_htmls):
     data_dir = os.path.join(Paths.DATA_DIR, 'eventbrite')
-
-    raw_htmls = get_raw_htmls(raw_data_dir)
 
     total_number_of_results_fetched, html_results, text_results = fetch_all_results(raw_htmls)
     Logger.log(f"fetched: {total_number_of_results_fetched} results")
@@ -105,3 +103,5 @@ def to_json(Paths, raw_data_dir):
     write_data(json_data_file, json_data)
 
     Logger.log(f"translated {len(json_data)} events to json")
+
+    return len(json_data)
