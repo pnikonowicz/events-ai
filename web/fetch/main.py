@@ -13,7 +13,7 @@ from fetch.target_date import QueryDate
 from common.logger import Logger
 from common.paths import clear_directory
 
-def setup(query_date):
+def fetch_all_event_data(query_date):
     Logger.log("clearing data")
     clear_result = clear_directory(Paths.DATA_DIR)
     
@@ -41,4 +41,4 @@ def setup(query_date):
 
 if __name__ == '__main__':
     Logger.log("global setup")
-    setup(QueryDate.Today)
+    fetch_all_event_data(QueryDate.Today)
