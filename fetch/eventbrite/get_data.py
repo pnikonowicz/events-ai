@@ -108,7 +108,8 @@ def fetch_from_eventbrite(target_day, raw_data_dir):
     number_of_pages = get_number_of_pages_from_html(first_result_html)
 
     raw_htmls = fetch_all_raw_html(target_day, number_of_pages)
-    for i in range(1, len(raw_htmls)):
+    for i in range(1, len(raw_htmls)): # write all html to file io
         raw_html = raw_htmls[i]
         write_raw_data_to_file(raw_data_dir, i, raw_html)
+
     return raw_htmls
