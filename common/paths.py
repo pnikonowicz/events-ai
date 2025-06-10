@@ -8,6 +8,7 @@ class Paths:
     ALL_HTML = os.path.join(DATA_DIR, "all.html")
     QUERY_EMBEDDINGS_DIR = os.path.join(DATA_DIR, 'query_embeddings')
     PREVIOUS_EVENTS = os.path.join(PROJECT_DIR, 'previous_events')
+    FETCH_AMOUNTS = os.path.join(DATA_DIR, "fetch_amounts.json")
 
 def remove_dir(dir):
     if os.path.exists(dir):

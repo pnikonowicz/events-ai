@@ -12,6 +12,7 @@ from common.paths import Paths
 from fetch.target_date import QueryDate
 from common.logger import Logger
 from common.paths import clear_directory
+from common.fetch_amounts import write_fetch_amounts_to_file
 
 def fetch_all_event_data(query_date):
     Logger.log("clearing data")
@@ -24,11 +25,13 @@ def fetch_all_event_data(query_date):
         exit(1)
 
 
-    fetch_amount = fetch_eventbrite(query_date.eventbrite())
-    Logger.log(f"eventbrite fetched: {fetch_amount} results")
+    eventbrite_fetch_amount = fetch_eventbrite(query_date.eventbrite())
+    Logger.log(f"eventbrite fetched: {eventbrite_fetch_amount} results")
 
-    fetch_amount = fetch_meetup(query_date.meetup())
-    Logger.log(f"meetup fetched: {fetch_amount} results")
+    meetup_fetch_amount = fetch_meetup(query_date.meetup())
+    Logger.log(f"meetup fetched: {meetup_fetch_amount} results")
+
+    write_fetch_amounts_to_file(Paths.FETCH_AMOUNTS, eventbrite_fetch_amount, meetup_fetch_amount)
 
     joined_amount = collect_all_data()
     Logger.log(f"total data records: {joined_amount}")
