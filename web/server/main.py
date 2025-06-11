@@ -12,6 +12,7 @@ from ai.embeddings_to_recommendation_json import get_previous_events
 from common.paths import Paths
 from common.logger import Logger
 from common.data import to_json_string
+from common.fetch_amounts import read_fetch_amounts_from_file
 from ai.embedding_service import EmbeddingService
 from ai.embedding_cache import EmbeddingCache
 
@@ -69,13 +70,19 @@ async def handleJSON(request):
 
     return web.json_response(recommendation_json)
 
+async def handleCounts(request):
+    amounts_json = read_fetch_amounts_from_file(Paths.FETCH_AMOUNTS)
+
+    return web.json_response(amounts_json)
+
 if __name__ == '__main__':
     app = web.Application()
     app.add_routes(
         [
             web.get('/', redirect_to_handle),
             web.post('/recommendations', handle),
-            web.get('/json', handleJSON)
+            web.get('/json', handleJSON),
+            web.get('/counts', handleCounts)
         ]
     )
     web.run_app(app)
