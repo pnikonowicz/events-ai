@@ -14,8 +14,6 @@ from common.logger import Logger
 from common.data import to_json_string
 from ai.embedding_service import EmbeddingService
 from ai.embedding_cache import EmbeddingCache
-import random
-
 
 original_query_data = get_previous_events(Paths.PREVIOUS_EVENTS)
 
@@ -28,7 +26,7 @@ async def redirect_to_handle(request):
     
     original_query_form_data = MultiDict()
     for query in original_query_data:
-        original_query_form_data.add(f"{random.randint(1, 10000000)}", query) # key is ignored
+        original_query_form_data.add(f"query[]", query)
 
     async with ClientSession() as session:
         async with session.post(url, data=original_query_form_data, allow_redirects=False) as response:
