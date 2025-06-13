@@ -25,6 +25,8 @@ def recommendations(number_of_items : int = 10) -> str:
         see the README.md
     """
 
+    raise "not implemented, need to reach out to server. All_HTML file is no longer supported"
+    
     html_file = Paths.ALL_HTML
     with open(html_file, 'r') as file:
         html_content = file.read()
