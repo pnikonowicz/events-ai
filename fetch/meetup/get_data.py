@@ -1,7 +1,6 @@
 import os
 import json
 from requests_html import HTMLSession
-import datetime
 from common.paths import Paths
 from common.logger import Logger
 from common.data import Data, write_data

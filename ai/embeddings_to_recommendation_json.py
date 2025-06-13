@@ -155,33 +155,3 @@ def extract_recommendation(original_query_data, query_embeddings, threshold):
     recommendation_json = join_recommendation_indexes_with_original_data(recomendation_indexes, original_query_data, original_data)
 
     return recommendation_json, recomendation_count
-
-    
-def extract_recommendation_from_file(threshold):
-    data_embeddings_path = os.path.join(Paths.DATA_DIR, 'data.embeddings.json')
-    recommendation_json_filename = os.path.join(Paths.DATA_DIR, "recemondations.json")
-
-    remove_file(recommendation_json_filename)
-
-    json_data_file = os.path.join(Paths.DATA_DIR, 'unique.json')
-    original_data = read_data(json_data_file) # data used to create the data embeddings
-    original_query_data = get_previous_events(Paths.PREVIOUS_EVENTS)
-
-    if not os.path.exists(data_embeddings_path):
-        Logger.warn("no data embeddings found")
-        write_data(recommendation_json_filename, original_data)
-        return 0
-    
-    if not os.path.exists(Paths.QUERY_EMBEDDINGS_DIR):
-        Logger.warn("no query embeddings found")
-        write_data(recommendation_json_filename, original_data)
-        return 0
-
-    query_embeddings = read_query_embeddings(Paths.QUERY_EMBEDDINGS_DIR, original_query_data)
-
-    recommendation_json, recomendation_count = extract_recommendation(original_query_data, query_embeddings, threshold)
-
-    write_data(recommendation_json_filename, recommendation_json)
-
-    return recomendation_count
-
