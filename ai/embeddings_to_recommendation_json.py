@@ -3,9 +3,9 @@ import os
 from sklearn.preprocessing import normalize
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
-from common.paths import Paths
+from common.paths import DataPath
 from common.logger import Logger
-from common.data import Data, write_data, read_data, query_data_to_embedding_filename
+from common.data import Data, read_data, query_data_to_embedding_filename
 
 def read_embeddings(file_name):
     with open(file_name) as file:
@@ -128,10 +128,10 @@ def remove_file(filename):
     else:
         Logger.log(f"filename {filename} not found, nothing to delete")
 
-def extract_recommendation(original_query_data, query_embeddings, threshold):
-    json_data_file = os.path.join(Paths.DATA_DIR, 'unique.json')
+def extract_recommendation(data_path: DataPath, original_query_data, query_embeddings, threshold):
+    json_data_file = os.path.join(data_path.data_dir(), 'unique.json')
     original_data = read_data(json_data_file) # data used to create the data embeddings
-    data_embeddings_path = os.path.join(Paths.DATA_DIR, 'data.embeddings.json')
+    data_embeddings_path = os.path.join(data_path.data_dir(), 'data.embeddings.json')
 
     if len(query_embeddings) == 0:
         Logger.warn("no query embeddings found")

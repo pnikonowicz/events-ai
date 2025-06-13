@@ -20,10 +20,14 @@ class QueryDate:
             return MeetupQueryDate.Today()
         def eventbrite():
             return EventbriteQueryDate.Today()
+        def str():
+            return "today"
         
     class Tomorrow:
         def meetup():
             return MeetupQueryDate.Tomorrow()
         def eventbrite():
             return EventbriteQueryDate.Tomorrow()
+        def str(): 
+            return "tomorrow"
     

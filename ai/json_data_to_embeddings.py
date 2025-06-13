@@ -1,7 +1,7 @@
 import os
 import json
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from common.paths import Paths
+from common.paths import Paths, DataPath
 from common.logger import Logger
 
 def load_json(json_data_file):
@@ -38,11 +38,11 @@ def remove_file(filename):
     else:
         Logger.log(f"filename {filename} not found, nothing to delete")
 
-def data_to_embeddings():
-    json_data_file = os.path.join(Paths.DATA_DIR, 'unique.json')
+def data_to_embeddings(data_path: DataPath):
+    json_data_file = os.path.join(data_path.data_dir(), 'unique.json')
     secrets_dir = os.path.join(Paths.PROJECT_DIR, "secrets")
     api_key_file = os.path.join(secrets_dir, "google-api-key")
-    embeddings_file = os.path.join(Paths.DATA_DIR, "data.embeddings.json")
+    embeddings_file = os.path.join(data_path.data_dir(), "data.embeddings.json")
 
     remove_file(embeddings_file)
 

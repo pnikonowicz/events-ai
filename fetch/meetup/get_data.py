@@ -1,7 +1,7 @@
 import os
 import json
 from requests_html import HTMLSession
-from common.paths import Paths
+from common.paths import DataPath
 from common.logger import Logger
 from common.data import Data, write_data
 
@@ -120,8 +120,8 @@ def write_text_to_file(data_dir, text_results):
     with open(text_file, "w") as file:
         file.write(text_results)
 
-def fetch(target_date):
-  data_dir = os.path.join(Paths.DATA_DIR, "meetup")
+def fetch(data_path: DataPath, target_date):
+  data_dir = os.path.join(data_path.data_dir(), "meetup")
   data_file = os.path.join(data_dir, 'data.json')
 
   edges_json = get_all_results(target_date)    

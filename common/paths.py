@@ -1,6 +1,7 @@
 import os
 from shutil import rmtree
 from common.logger import Logger
+from fetch.target_date import QueryDate
 
 class Paths:
     PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
@@ -8,6 +9,19 @@ class Paths:
     QUERY_EMBEDDINGS_DIR = os.path.join(DATA_DIR, 'query_embeddings')
     PREVIOUS_EVENTS = os.path.join(PROJECT_DIR, 'previous_events')
     FETCH_AMOUNTS = os.path.join(DATA_DIR, "fetch_amounts.json")
+
+class DataPath:
+    def __init__(self, query_date: QueryDate):
+        self.path = query_date.str()
+
+    def __str__(self):
+        return self.path
+
+    def data_dir(self):
+        return Paths.DATA_DIR
+    
+    def query_embeddings_dir(self):
+        return Paths.QUERY_EMBEDDINGS_DIR
 
 def remove_dir(dir):
     if os.path.exists(dir):

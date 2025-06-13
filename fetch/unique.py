@@ -3,7 +3,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import os
 import json
 import numpy as np
-from common.paths import Paths
+from common.paths import Paths, DataPath
 from common.logger import Logger
 from common.data import Data, write_data
 
@@ -72,8 +72,8 @@ def grab_first_in_group(grouped_json):
         dups_removed += len(group) - 1 if len(group) > 0 else 0
     return unique_flatten, dups_removed
 
-def unique(threshold):
-    data_json_file = os.path.join(Paths.DATA_DIR, "joined.json")
+def unique(data_path: DataPath, threshold):
+    data_json_file = os.path.join(data_path.data_dir(), "joined.json")
     data_json = get_json_data_from_file(data_json_file)
 
     weights_file = os.path.join(Paths.PROJECT_DIR, "weights", "weights.json")
@@ -82,7 +82,7 @@ def unique(threshold):
     grouped_json = group_similar(data_json, weights_json, threshold)
     unique_json, dups_removed = grab_first_in_group(grouped_json)
 
-    json_output_file = os.path.join(Paths.DATA_DIR, 'unique.json')
+    json_output_file = os.path.join(data_path.data_dir(), 'unique.json')
     write_data(json_output_file, unique_json)
     # write_json_to_file(json_output_file, grouped_json)
 

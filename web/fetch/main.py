@@ -8,15 +8,17 @@ from fetch.meetup.get_data import fetch as fetch_meetup
 from fetch.collect import collect_all_data
 from fetch.unique import unique
 from ai.json_data_to_embeddings import data_to_embeddings
-from common.paths import Paths
 from fetch.target_date import QueryDate
 from common.logger import Logger
-from common.paths import clear_directory
+from common.paths import clear_directory, DataPath, Paths
 from common.fetch_amounts import write_fetch_amounts_to_file
 
 def fetch_all_event_data(query_date):
-    Logger.log("clearing data")
-    clear_result = clear_directory(Paths.DATA_DIR)
+    data_path = DataPath(query_date)
+
+    Logger.log(f"clearing data: {data_path}")
+    
+    clear_result = clear_directory(data_path.data_dir())
     
     if clear_result: 
         Logger.log("data cleared")
@@ -33,13 +35,13 @@ def fetch_all_event_data(query_date):
 
     write_fetch_amounts_to_file(Paths.FETCH_AMOUNTS, eventbrite_fetch_amount, meetup_fetch_amount)
 
-    joined_amount = collect_all_data()
+    joined_amount = collect_all_data(data_path)
     Logger.log(f"total data records: {joined_amount}")
 
-    dups_removed_amount = unique(.60)
+    dups_removed_amount = unique(data_path, .60)
     Logger.log(f"found {dups_removed_amount} duplicates")
 
-    embeddings_count = data_to_embeddings()
+    embeddings_count = data_to_embeddings(data_path)
     Logger.log(f"created {embeddings_count} data embeddings")
 
 if __name__ == '__main__':

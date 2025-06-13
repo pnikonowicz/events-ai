@@ -3,7 +3,7 @@ from shutil import rmtree
 from requests_html import HTMLSession
 from requests_html import HTML
 from .to_json import to_json
-from common.paths import Paths
+from common.paths import DataPath
 from common.logger import Logger
 from concurrent.futures import ThreadPoolExecutor
 
@@ -89,13 +89,13 @@ def remove_dir(dir):
     else:
         Logger.log("dir not found, nothing to delete")
 
-def fetch(target_day):
-    data_dir = os.path.join(Paths.DATA_DIR, "eventbrite")
+def fetch(data_path: DataPath, target_day):
+    data_dir = os.path.join(data_path.data_dir(), "eventbrite")
     raw_data_dir = os.path.join(data_dir)
     
     raw_htmls = fetch_from_eventbrite(target_day, raw_data_dir)
     
-    event_count = to_json(Paths, raw_htmls)
+    event_count = to_json(data_path.data_dir(), raw_data_dir)
 
     return event_count
 

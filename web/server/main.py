@@ -9,7 +9,8 @@ from web.json_data_to_html import json_to_html
 from ai.embeddings_to_recommendation_json import extract_recommendation
 from ai.query_data_to_embedding import query_to_embeddings, query_to_embeddings_from_file
 from ai.embeddings_to_recommendation_json import get_previous_events
-from common.paths import Paths
+from common.paths import Paths, DataPath
+from fetch.target_date import QueryDate
 from common.logger import Logger
 from common.data import to_json_string
 from common.fetch_amounts import read_fetch_amounts_from_file
@@ -17,6 +18,7 @@ from ai.embedding_service import EmbeddingService
 from ai.embedding_cache import EmbeddingCache
 
 original_query_data = get_previous_events(Paths.PREVIOUS_EVENTS)
+data_path = DataPath(QueryDate.Today)
 
 async def redirect_to_handle(request):
     scheme = request.scheme
@@ -52,7 +54,7 @@ async def handle(request):
     
     query_embeddings = query_to_embeddings(EmbeddingCache(), EmbeddingService(), original_query_data)
 
-    recommendation_json, recommendation_count = extract_recommendation(original_query_data, query_embeddings, threshold=.85)
+    recommendation_json, recommendation_count = extract_recommendation(data_path, original_query_data, query_embeddings, threshold=.85)
     Logger.log(f"found: {recommendation_count} recommendation(s)")
 
     recommendation_html = json_to_html(recommendation_json)
@@ -63,7 +65,7 @@ query_embeddings = query_to_embeddings_from_file()
 
 async def handleJSON(request):
     recommendation_list, recommendation_count = extract_recommendation(
-        original_query_data, query_embeddings, threshold=.85)
+        data_path, original_query_data, query_embeddings, threshold=.85)
     Logger.log(f"found: {recommendation_count} recommendation(s)")
 
     recommendation_json = to_json_string(recommendation_list)
