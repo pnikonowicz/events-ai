@@ -1,7 +1,6 @@
 import os
 from shutil import rmtree
 from common.logger import Logger
-from fetch.target_date import QueryDate
 
 class Paths:
     PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
@@ -11,8 +10,8 @@ class Paths:
     FETCH_AMOUNTS = os.path.join(DATA_DIR, "fetch_amounts.json")
 
 class DataPath:
-    def __init__(self, query_date: QueryDate):
-        self.day = query_date.str()
+    def __init__(self, day):
+        self.day = day
 
     def __str__(self):
         return self.day

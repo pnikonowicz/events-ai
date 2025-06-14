@@ -18,14 +18,13 @@ from ai.embedding_service import EmbeddingService
 from ai.embedding_cache import EmbeddingCache
 
 original_query_data = get_previous_events(Paths.PREVIOUS_EVENTS)
-data_path = DataPath(QueryDate.Today)
 
 async def redirect_to_handle(request):
     scheme = request.scheme
     if 'localhost' not in request.host:
         scheme = 'https' # assume prod
 
-    url = f"{scheme}://{request.host}/recommendations"
+    url = f"{scheme}://{request.host}/recommendations?day=today"
     
     original_query_form_data = MultiDict()
     for query in original_query_data:
@@ -52,6 +51,14 @@ async def handle(request):
             status=400
         )
     
+    day = request.query.get('day')
+    if day is None:
+        return web.Response(
+            text="Missing required query parameter: 'day'",
+            status=400
+        )
+    data_path = DataPath(day)
+
     query_embeddings = query_to_embeddings(EmbeddingCache(), EmbeddingService(), original_query_data)
 
     recommendation_json, recommendation_count = extract_recommendation(data_path, original_query_data, query_embeddings, threshold=.85)
@@ -64,6 +71,8 @@ async def handle(request):
 query_embeddings = query_to_embeddings_from_file()
 
 async def handleJSON(request):
+    data_path = DataPath(QueryDate.Today)
+
     recommendation_list, recommendation_count = extract_recommendation(
         data_path, original_query_data, query_embeddings, threshold=.85)
     Logger.log(f"found: {recommendation_count} recommendation(s)")
