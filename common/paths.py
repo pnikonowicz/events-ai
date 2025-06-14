@@ -12,10 +12,10 @@ class Paths:
 
 class DataPath:
     def __init__(self, query_date: QueryDate):
-        self.path = query_date.str()
+        self.day = query_date.str()
 
     def __str__(self):
-        return self.path
+        return self.day
 
     def data_dir(self):
         return Paths.DATA_DIR
