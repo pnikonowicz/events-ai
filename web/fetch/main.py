@@ -27,10 +27,10 @@ def fetch_all_event_data(query_date):
         exit(1)
 
 
-    eventbrite_fetch_amount = fetch_eventbrite(query_date.eventbrite())
+    eventbrite_fetch_amount = fetch_eventbrite(data_path, query_date.eventbrite())
     Logger.log(f"eventbrite fetched: {eventbrite_fetch_amount} results")
 
-    meetup_fetch_amount = fetch_meetup(query_date.meetup())
+    meetup_fetch_amount = fetch_meetup(data_path, query_date.meetup())
     Logger.log(f"meetup fetched: {meetup_fetch_amount} results")
 
     write_fetch_amounts_to_file(Paths.FETCH_AMOUNTS, eventbrite_fetch_amount, meetup_fetch_amount)
