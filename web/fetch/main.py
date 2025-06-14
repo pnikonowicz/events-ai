@@ -33,8 +33,6 @@ def fetch_all_event_data(query_date):
     meetup_fetch_amount = fetch_meetup(data_path, query_date.meetup())
     Logger.log(f"meetup fetched: {meetup_fetch_amount} results")
 
-    write_fetch_amounts_to_file(Paths.FETCH_AMOUNTS, eventbrite_fetch_amount, meetup_fetch_amount)
-
     joined_amount = collect_all_data(data_path)
     Logger.log(f"total data records: {joined_amount}")
 
@@ -43,6 +41,8 @@ def fetch_all_event_data(query_date):
 
     embeddings_count = data_to_embeddings(data_path)
     Logger.log(f"created {embeddings_count} data embeddings")
+
+    write_fetch_amounts_to_file(Paths.FETCH_AMOUNTS, eventbrite_fetch_amount, meetup_fetch_amount)
 
 if __name__ == '__main__':
     Logger.log("global setup")
