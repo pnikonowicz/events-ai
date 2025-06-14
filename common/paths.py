@@ -18,7 +18,7 @@ class DataPath:
         return self.day
 
     def dir(self):
-        return Paths.DATA_DIR
+        return os.path.join(Paths.DATA_DIR, self.day)
 
 def remove_dir(dir):
     if os.path.exists(dir):

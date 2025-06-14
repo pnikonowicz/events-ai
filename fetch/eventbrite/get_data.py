@@ -95,7 +95,7 @@ def fetch(data_path: DataPath, target_day):
     
     raw_htmls = fetch_from_eventbrite(target_day, raw_data_dir)
     
-    event_count = to_json(data_path.dir(), raw_data_dir)
+    event_count = to_json(data_dir, raw_htmls)
 
     return event_count
 
