@@ -16,7 +16,7 @@ from common.fetch_amounts import write_fetch_amounts_to_file
 def fetch_all_event_data(query_date):
     data_path = DataPath(query_date)
 
-    Logger.log(f"clearing data: {data_path}")
+    Logger.log(f"clearing data: {Paths.DATA_DIR}")
     
     clear_result = clear_directory(Paths.DATA_DIR)
     
