@@ -19,9 +19,6 @@ class DataPath:
 
     def data_dir(self):
         return Paths.DATA_DIR
-    
-    def query_embeddings_dir(self):
-        return Paths.QUERY_EMBEDDINGS_DIR
 
 def remove_dir(dir):
     if os.path.exists(dir):
