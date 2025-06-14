@@ -18,7 +18,7 @@ def fetch_all_event_data(query_date):
 
     Logger.log(f"clearing data: {data_path}")
     
-    clear_result = clear_directory(data_path.data_dir())
+    clear_result = clear_directory(data_path.dir())
     
     if clear_result: 
         Logger.log("data cleared")

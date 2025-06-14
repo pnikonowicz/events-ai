@@ -121,7 +121,7 @@ def write_text_to_file(data_dir, text_results):
         file.write(text_results)
 
 def fetch(data_path: DataPath, target_date):
-  data_dir = os.path.join(data_path.data_dir(), "meetup")
+  data_dir = os.path.join(data_path.dir(), "meetup")
   data_file = os.path.join(data_dir, 'data.json')
 
   edges_json = get_all_results(target_date)    

@@ -20,8 +20,8 @@ def write_aggregated_json(output_path, data):
         json.dump(data, file, indent=4)
 
 def collect_all_data(data_path: DataPath):
-    aggregate_json = collect_json_data(data_path.data_dir())
-    output_file_name = os.path.join(data_path.data_dir(), "joined.json")
+    aggregate_json = collect_json_data(data_path.dir())
+    output_file_name = os.path.join(data_path.dir(), "joined.json")
     write_aggregated_json(output_file_name, aggregate_json)
 
     return len(aggregate_json)

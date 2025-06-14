@@ -17,7 +17,7 @@ class DataPath:
     def __str__(self):
         return self.day
 
-    def data_dir(self):
+    def dir(self):
         return Paths.DATA_DIR
 
 def remove_dir(dir):
