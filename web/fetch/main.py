@@ -13,19 +13,8 @@ from common.logger import Logger
 from common.paths import clear_directory, DataPath, Paths
 from common.fetch_amounts import write_fetch_amounts_to_file
 
-def fetch_all_event_data(query_date):
-    data_path = DataPath("today")
-
-    Logger.log(f"clearing data: {Paths.DATA_DIR}")
-    
-    clear_result = clear_directory(Paths.DATA_DIR)
-    
-    if clear_result: 
-        Logger.log("data cleared")
-    else:
-        Logger.error("data not cleared")
-        exit(1)
-
+def fetch_all_event_data(query_date: QueryDate):
+    data_path = DataPath(query_date.day())
 
     eventbrite_fetch_amount = fetch_eventbrite(data_path, query_date.eventbrite())
     Logger.log(f"eventbrite fetched: {eventbrite_fetch_amount} results")
@@ -45,5 +34,15 @@ def fetch_all_event_data(query_date):
     write_fetch_amounts_to_file(Paths.FETCH_AMOUNTS, eventbrite_fetch_amount, meetup_fetch_amount)
 
 if __name__ == '__main__':
-    Logger.log("global setup")
+    Logger.log(f"clearing data: {Paths.DATA_DIR}")
+    
+    clear_result = clear_directory(Paths.DATA_DIR)
+    
+    if clear_result: 
+        Logger.log("data cleared")
+    else:
+        Logger.error("data not cleared")
+        exit(1)
+
     fetch_all_event_data(QueryDate.Today)
+    fetch_all_event_data(QueryDate.Tomorrow)
