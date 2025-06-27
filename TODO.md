@@ -11,6 +11,10 @@ this way the user does not need to re-enter events all the time
 when the query page is loaded, contain counters that show how many events 
 are shown on the site, group the events by source type, eventbrite, meetup, etc..
 
+## move CSS to a different file
+
+the css files are getting too big
+
 ## list times
 * add time to list output
 
