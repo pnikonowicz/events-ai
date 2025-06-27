@@ -189,10 +189,71 @@
                 background-color: #0056b3;
             }
         }
+
+        /*
+            badge counts
+        */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: #007bff;
+            color: white;
+            border-radius: 50px;
+            padding: 0.5em 1em;
+            font-size: 1rem;
+            gap: 0.5em;
+            min-width: 120px;
+            }
+
+            .badge-label {
+                flex-grow: 1;
+            }
+
+            .badge-count {
+                background-color: white;
+                color: #007bff;
+                border-radius: 999px;
+                padding: 0.2em 0.6em;
+                font-weight: bold;
+                min-width: 2em;
+                text-align: center;
+            }
+
+            /* Spinner inside the count */
+            .spinner {
+                border: 2px solid #f3f3f3;
+                border-top: 2px solid #007bff;
+                border-radius: 50%;
+                width: 1em;
+                height: 1em;
+                animation: spin 1s linear infinite;
+                margin: 0 auto;
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
     </style>
 </head>
+
 <body onload="setup()" onunload="">
-    <div class="container">
+        <div class="container">
+            <div class="badge-group">
+            <div class="badge" >
+                <div class="badge-label">Meetup</div>
+                <div class="badge-count" id="count-meetup">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+            <div class="badge" >
+                <div class="badge-label">Eventbrite</div>
+                <div class="badge-count" id="count-eventbrite">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+
         <h1>events-ai</h1>
         
         <p class="description">
@@ -246,6 +307,22 @@
     </div>
     
     <script>
+        function fetchCount(source) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const result = Math.floor(Math.random() * 3000);
+                    resolve(result);
+                }, 2000);
+            });
+        }
+
+        async function updateCount(id, fetchSource) {
+            const countEl = document.getElementById(id);
+            const count = await fetchCount(fetchSource);
+
+            countEl.textContent = count;
+        }
+
         function setup() {
             document.getElementById('eventsForm').style.display = 'block';
             document.getElementById('loading').style.display = 'none';
@@ -256,6 +333,9 @@
 
                 return true;
             });
+
+            updateCount("count-meetup", "meetup");
+            updateCount("count-eventbrite", "eventbrite");
         }
 
         document.getElementById('eventsForm').addEventListener('submit', function(event) {
