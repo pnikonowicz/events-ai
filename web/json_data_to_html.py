@@ -8,7 +8,7 @@ def json_to_html(items : List[Data]):
     html_content = """
     <html>
     <head>
-        <title>JSON to HTML</title>
+        <title>events-ai: recommendations</title>
         <style>
             body { background-color: #000; color: #fff; font-family: Arial, sans-serif; }
             ul { list-style-type: none; padding: 0; }
