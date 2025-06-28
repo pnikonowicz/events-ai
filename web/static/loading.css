@@ -1,0 +1,80 @@
+        .loading-container {
+            padding-top: 20pt;
+            text-align: center;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .loading-spinner:after {
+            content: " ";
+            display: block;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 6px solid #8e44ad;
+            border-color: #8e44ad transparent #8e44ad transparent;
+            animation: spinner 1.2s linear infinite;
+            box-shadow: 0 0 15px rgba(142, 68, 173, 0.5);
+        }
+        
+        @keyframes spinner {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .loading-text {
+            color: #e0e0e0;
+            font-size: 24px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .loading-text::before {
+            content: "Loading...";
+            animation: changeText 25s steps(1) forwards;
+        }
+
+        @keyframes changeText {
+            0% { content: "Loading"; }
+            30% { content: "Almost there!!"; }
+            60% { content: "Should just be about done now"; }
+            100% { content: "Hmmm... :/"; }
+        }
+        
+        .loading-progress {
+            margin-top: 15px;
+            height: 3pt;
+            background-color: #333333;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #8e44ad;
+            background-image: linear-gradient(90deg, #8e44ad, #9b59b6);
+            animation: progress 25s ease-in-out forwards;
+            box-shadow: 0 0 10px rgba(142, 68, 173, 0.7);
+        }
+        
+        @keyframes progress {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 95%; }
+        }
+
+        .loading-message {
+            margin-top: 15px;
+            color: #888888;
+            font-size: 14px;
+        }
