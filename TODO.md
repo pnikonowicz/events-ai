@@ -13,6 +13,12 @@ are shown on the site, group the events by source type, eventbrite, meetup, etc.
 
 * wire up fetch to show actual results
 
+## add form clear button
+
+allow form to be cleared of previous events
+
+* ensure that backend can handle null or empty or whitespace previous event strings
+
 ## list times
 * add time to list output
 
