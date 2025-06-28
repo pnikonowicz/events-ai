@@ -13,10 +13,6 @@ are shown on the site, group the events by source type, eventbrite, meetup, etc.
 
 * wire up fetch to show actual results
 
-## move CSS to a different file
-
-the css files are getting too big
-
 ## list times
 * add time to list output
 
