@@ -77,20 +77,26 @@
     </div>
     
     <script>
-        function fetchCount(source) {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    const result = Math.floor(Math.random() * 3000);
-                    resolve(result);
-                }, 2000);
-            });
-        }
+        const baseUrl = 'https://events-ai-server-152896986419.us-central1.run.app';
 
-        async function updateCount(id, fetchSource) {
-            const countEl = document.getElementById(id);
-            const count = await fetchCount(fetchSource);
+        async function updateCounts() {
+            const meetupCountEl = document.getElementById('count-meetup');
+            const eventbriteCountEl = document.getElementById('count-eventbrite');
 
-            countEl.textContent = count;
+            try {
+                const response = await fetch(`${baseUrl}/counts`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const counts = await response.json();
+
+                meetupCountEl.textContent = counts.meetup;
+                eventbriteCountEl.textContent = counts.eventbrite;
+            } catch (error) {
+                console.error("Could not fetch counts:", error);
+                meetupCountEl.textContent = 'N/A';
+                eventbriteCountEl.textContent = 'N/A';
+            }
         }
 
         function setup() {
@@ -104,16 +110,15 @@
                 return true;
             });
 
-            updateCount("count-meetup", "meetup");
-            updateCount("count-eventbrite", "eventbrite");
+            updateCounts();
         }
 
         document.getElementById('eventsForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
             const selectedDay = event.target.elements.day.value;
-            const baseUrl = 'https://events-ai-server-152896986419.us-central1.run.app/recommendations';
-            event.target.action = `${baseUrl}?day=${selectedDay}`;
+            const recommendationsUrl = `${baseUrl}/recommendations`;
+            event.target.action = `${recommendationsUrl}?day=${selectedDay}`;
             event.target.submit();
         });
 

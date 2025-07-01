@@ -3,6 +3,7 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
 from aiohttp import web, ClientSession
+import aiohttp_cors
 from multidict import MultiDict
 from common.logger import Logger
 from web.json_data_to_html import json_to_html
@@ -88,6 +89,17 @@ async def handleCounts(request):
 
 if __name__ == '__main__':
     app = web.Application()
+    
+    # Configure CORS
+    cors = aiohttp_cors.setup(app, defaults={
+        "*": aiohttp_cors.ResourceOptions(
+            allow_credentials=True,
+            expose_headers="*",
+            allow_headers="*",
+        )
+    })
+
+    # Add routes
     app.add_routes(
         [
             web.get('/', redirect_to_handle),
@@ -96,4 +108,9 @@ if __name__ == '__main__':
             web.get('/counts', handleCounts)
         ]
     )
+
+    # Apply CORS to all routes
+    for route in list(app.router.routes()):
+        cors.add(route)
+
     web.run_app(app)
