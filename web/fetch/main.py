@@ -31,7 +31,7 @@ def fetch_all_event_data(query_date: QueryDate):
     embeddings_count = data_to_embeddings(data_path)
     Logger.log(f"created {embeddings_count} data embeddings")
 
-    write_fetch_amounts_to_file(Paths.FETCH_AMOUNTS, eventbrite_fetch_amount, meetup_fetch_amount)
+    return eventbrite_fetch_amount, meetup_fetch_amount
 
 if __name__ == '__main__':
     Logger.log(f"clearing data: {Paths.DATA_DIR}")
@@ -44,5 +44,10 @@ if __name__ == '__main__':
         Logger.error("data not cleared")
         exit(1)
 
-    fetch_all_event_data(QueryDate.Today)
-    fetch_all_event_data(QueryDate.Tomorrow)
+    today_eventbrite_amount, today_meetup_amount = fetch_all_event_data(QueryDate.Today)
+    tomorrow_eventbrite_amount, tomorrow_meetup_amount = fetch_all_event_data(QueryDate.Tomorrow)
+
+    total_eventbrite_amount = today_eventbrite_amount + tomorrow_eventbrite_amount
+    total_meetup_amount = today_meetup_amount + tomorrow_meetup_amount
+
+    write_fetch_amounts_to_file(Paths.FETCH_AMOUNTS, total_eventbrite_amount, total_meetup_amount)
