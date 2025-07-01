@@ -7,12 +7,6 @@
 ## allow events to be saved
 this way the user does not need to re-enter events all the time
 
-## show preview counts on query page
-when the query page is loaded, contain counters that show how many events 
-are shown on the site, group the events by source type, eventbrite, meetup, etc..
-
-* wire up fetch to show actual results
-
 ## add form clear button
 
 allow form to be cleared of previous events
@@ -24,9 +18,6 @@ allow form to be cleared of previous events
 
 ## handle multiple days for data gathering
 currently just shows today. would be nice to have tomorrow or weekend as well
-
-## show site summary at top
-* meetup results and eventbrite results sum so that we know that meetup results are included
 
 ## dynamically generate previous events
 use supported data sites to grab previous events that the user
