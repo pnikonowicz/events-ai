@@ -38,30 +38,16 @@
             <label>
                 <input type="radio" name="day" value="tomorrow"> Tomorrow
             </label>
-            <div class="event-field">
-                <label for="event1">Previous Event 1:</label>
-                <input type="text" id="event1" name="event1" value="Animation Nights New York (ANNY) at The Gutter Spare Room!">
+            <div id="eventFieldsContainer">
+                <!-- Event fields will be dynamically inserted here -->
             </div>
-            <div class="event-field">
-                <label for="event2">Previous Event 2:</label>
-                <input type="text" id="event2" name="event2" value='Church Street Boxing Presents "MAYHEM"'>
-            </div>
-            <div class="event-field">
-                <label for="event3">Previous Event 3:</label>
-                <input type="text" id="event3" name="event3" value="Coffee for Creatives NYC: Special Guest in Casting">
-            </div>
-            <div class="event-field">
-                <label for="event4">Previous Event 4:</label>
-                <input type="text" id="event4" name="event4" value="Music Open Jam @ Funkadelic Studios">
-            </div>
-            <div class="event-field">
-                <label for="event5">Previous Event 5:</label>
-                <input type="text" id="event5" name="event5" value="Industry Night NYC: Film + Music + More!">
-            </div>
-            <div class="event-field">
-                <label for="event6">Previous Event 6:</label>
-                <input type="text" id="event6" name="event6" value="NYC Networking Event: Make New Friends and/or Business Connections">
-            </div>
+            <template id="eventFieldTemplate">
+                <div class="event-field">
+                    <input type="text" id="eventX" name="eventX" value="">
+                    <button type="button" class="remove-event-btn">&#10005;</button>
+                </div>
+            </template>
+            <button type="button" id="addEventBtn">Add Event</button>
             <button type="submit">Submit</button>
         </form>
     </div>
@@ -78,6 +64,43 @@
     
     <script>
         const baseUrl = 'https://events-ai-server-152896986419.us-central1.run.app';
+
+        function createEventFieldFromTemplate(index, value = "") {
+            const template = document.getElementById('eventFieldTemplate');
+            const clone = template.content.firstElementChild.cloneNode(true);
+            const input = clone.querySelector('input');
+            const removeBtn = clone.querySelector('.remove-event-btn');
+
+            input.id = `event${index+1}`;
+            input.name = `event${index+1}`;
+            input.value = value;
+
+            removeBtn.onclick = function() {
+                // Remove the row (the .event-field div) containing this button
+                clone.remove();
+                updateEventFieldLabels();
+            };
+
+            return clone;
+        }
+
+        function updateEventFieldLabels() {
+            const container = document.getElementById('eventFieldsContainer');
+            const fields = container.querySelectorAll('.event-field');
+            fields.forEach((field, idx) => {
+                const input = field.querySelector('input');
+                input.id = `event${idx+1}`;
+                input.name = `event${idx+1}`;
+            });
+        }
+
+        function setupDynamicEventFields(defaultEvents) {
+            const container = document.getElementById('eventFieldsContainer');
+            container.innerHTML = '';
+            defaultEvents.forEach((val, idx) => {
+                container.appendChild(createEventFieldFromTemplate(idx, val));
+            });
+        }
 
         async function updateCounts() {
             const meetupCountEl = document.getElementById('count-meetup');
@@ -103,10 +126,27 @@
             document.getElementById('eventsForm').style.display = 'block';
             document.getElementById('loading').style.display = 'none';
 
+            // Setup dynamic event fields
+            const defaultEvents = [
+                "Animation Nights New York (ANNY) at The Gutter Spare Room!",
+                'Church Street Boxing Presents "MAYHEM"',
+                "Coffee for Creatives NYC: Special Guest in Casting",
+                "Music Open Jam @ Funkadelic Studios",
+                "Industry Night NYC: Film + Music + More!",
+                "NYC Networking Event: Make New Friends and/or Business Connections"
+            ];
+            setupDynamicEventFields(defaultEvents);
+
+            document.getElementById('addEventBtn').onclick = function() {
+                const container = document.getElementById('eventFieldsContainer');
+                const idx = container.querySelectorAll('.event-field').length;
+                container.appendChild(createEventFieldFromTemplate(idx, ""));
+                updateEventFieldLabels();
+            };
+
             document.getElementById('eventsForm').addEventListener('submit', function(event) {
                 document.getElementById('eventsForm').style.display = 'none';
                 document.getElementById('loading').style.display = 'block';
-
                 return true;
             });
 
