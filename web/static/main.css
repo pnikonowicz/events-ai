@@ -1,33 +1,3 @@
-/* Event field flex layout for input and remove button */
-.event-field {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-}
-.event-field input[type="text"] {
-    flex: 1 1 auto;
-}
-/* Remove event button (red X) styling */
-.remove-event-btn {
-    color: #fff;
-    background: #e53935;
-    border: none;
-    border-radius: 50%;
-    width: 1.8em;
-    height: 1.8em;
-    font-size: 1.1em;
-    font-weight: bold;
-    cursor: pointer;
-    margin-left: 0.5em;
-    align-self: center;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    transition: background 0.2s;
-}
-.remove-event-btn:hover {
-    background: #b71c1c;
-}
         body {
             font-family: Arial, sans-serif;
             max-width: 50%;
@@ -127,4 +97,35 @@
             button:hover {
                 background-color: #0056b3;
             }
+        }
+
+        /* Event field flex layout for input and remove button */
+        .event-field {
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+        .event-field input[type="text"] {
+            flex: 1 1 auto;
+        }
+        /* Remove event button (red X) styling */
+        .remove-event-btn {
+            color: #fff;
+            background: #e53935;
+            border: none;
+            border-radius: 50%;
+            width: 1.8em;
+            height: 1.8em;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 0.5em;
+            align-self: center;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            transition: background 0.2s;
+        }
+        .remove-event-btn:hover {
+            background: #b71c1c;
         }
