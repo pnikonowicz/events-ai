@@ -1,6 +1,10 @@
 
 # full stack
 
+## print helpful message if no data
+if the fetch data job fails, and no data exists,
+print a nice message that explains this instead of a 500 error
+
 ## additinal data sites
 * luma: https://lu.ma/nyc
 
@@ -57,6 +61,10 @@ allow this query sha to update dynamically
 
 ## alert on fetch errors
 if a fetch fails, notify
+
+## set billing threshold
+if billing goes over threshold, deativate service to prevent overuse
+
 
   
 
