@@ -41,8 +41,9 @@ async def redirect_to_handle(request):
                 return web.Response(text = f"Request failed with status: {response.status}: {text}", content_type='text/html')
 
 async def handle(request):
+
     original_query_form_data = await request.post() # should be json array of strings
-    original_query_data = [f"{value}" for key, value in original_query_form_data.items()]
+    original_query_data = [f"{value}" for key, value in original_query_form_data.items() if key != 'day']
     Logger.log(f"data: {original_query_data}")
 
     if not isinstance(original_query_data, list):
