@@ -50,6 +50,7 @@
             </template>
             <button type="button" id="addEventBtn">Add Event</button>
             <button type="submit">Submit</button>
+            <button type="button" id="clearAllBtn" >Clear All</button>
         </form>
     </div>
 
@@ -65,6 +66,11 @@
     
     <script>
         const baseUrl = 'https://events-ai-server-152896986419.us-central1.run.app';
+
+        function clearAllEventFields() {
+            const container = document.getElementById('eventFieldsContainer');
+            container.innerHTML = '';
+        }
 
         function createEventFieldFromTemplate(index, value = "") {
             const template = document.getElementById('eventFieldTemplate');
@@ -143,6 +149,10 @@
                 const idx = container.querySelectorAll('.event-field').length;
                 container.appendChild(createEventFieldFromTemplate(idx, ""));
                 updateEventFieldLabels();
+            };
+
+            document.getElementById('clearAllBtn').onclick = function() {
+                clearAllEventFields();
             };
 
             document.getElementById('eventsForm').addEventListener('submit', function(event) {
