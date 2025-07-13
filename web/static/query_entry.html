@@ -33,12 +33,12 @@
         </p>
 
         <form id="eventsForm" action="about:blank" method="POST">
-            <label>
-                <input type="radio" name="day" value="today" checked> Today
-            </label>
-            <label>
-                <input type="radio" name="day" value="tomorrow"> Tomorrow
-            </label>
+            <div id="dayRadioButtons"></div>
+            <template id="dayRadioTemplate">
+                <label>
+                    <input type="radio" name="day" value=""> <span class="day-label"></span>
+                </label>
+            </template>
             <div id="eventFieldsContainer">
                 <!-- Event fields will be dynamically inserted here -->
             </div>
@@ -143,9 +143,54 @@
             "NYC Networking Event: Make New Friends and/or Business Connections"
         ];
 
+        function setupDayRadioButtons() {
+            const daysOfWeek = [
+                'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+            ];
+            const todayIdx = new Date().getDay();
+            const dayRadioDiv = document.getElementById('dayRadioButtons');
+            const template = document.getElementById('dayRadioTemplate');
+            dayRadioDiv.innerHTML = '';
+
+            // Helper to create a radio button from template
+            function createRadio(value, labelText, checked = false, disabled = false) {
+                const clone = template.content.firstElementChild.cloneNode(true);
+                const input = clone.querySelector('input');
+                const span = clone.querySelector('.day-label');
+                input.value = value;
+                span.textContent = labelText;
+                input.checked = checked;
+                input.disabled = disabled;
+                return clone;
+            }
+
+            // Today
+            dayRadioDiv.appendChild(createRadio('today', 'Today', true, false));
+
+            // Tomorrow
+            dayRadioDiv.appendChild(createRadio('tomorrow', 'Tomorrow', false, false));
+
+            // Remaining days (starting from day after tomorrow)
+            let plusN = 1;
+            for (let i = 2; i < 7; i++) {
+                const idx = (todayIdx + i) % 7;
+                const dayName = daysOfWeek[idx];
+                let label = '';
+                if (dayName === 'Friday' || dayName === 'Saturday' || dayName === 'Sunday') {
+                    label = dayName;
+                } else {
+                    label = `+${plusN}`;
+                }
+                dayRadioDiv.appendChild(createRadio('plus' + plusN, label, false, true));
+                plusN++;
+            }
+        }
+
         function setup() {
             document.getElementById('eventsForm').style.display = 'block';
             document.getElementById('loading').style.display = 'none';
+
+            setupDayRadioButtons();
 
             // Setup dynamic event fields
             setupDynamicEventFields(defaultEvents);
