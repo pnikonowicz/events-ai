@@ -50,7 +50,8 @@
             </template>
             <button type="button" id="addEventBtn">Add Event</button>
             <button type="submit">Submit</button>
-            <button type="button" id="clearAllBtn" >Clear All</button>
+            <button type="button" id="clearAllBtn">Clear All</button>
+            <button type="button" id="restoreDefaultsBtn">Restore Defaults</button>
         </form>
     </div>
 
@@ -132,19 +133,21 @@
             }
         }
 
+
+        const defaultEvents = [
+            "Animation Nights New York (ANNY) at The Gutter Spare Room!",
+            'Church Street Boxing Presents "MAYHEM"',
+            "Coffee for Creatives NYC: Special Guest in Casting",
+            "Music Open Jam @ Funkadelic Studios",
+            "Industry Night NYC: Film + Music + More!",
+            "NYC Networking Event: Make New Friends and/or Business Connections"
+        ];
+
         function setup() {
             document.getElementById('eventsForm').style.display = 'block';
             document.getElementById('loading').style.display = 'none';
 
             // Setup dynamic event fields
-            const defaultEvents = [
-                "Animation Nights New York (ANNY) at The Gutter Spare Room!",
-                'Church Street Boxing Presents "MAYHEM"',
-                "Coffee for Creatives NYC: Special Guest in Casting",
-                "Music Open Jam @ Funkadelic Studios",
-                "Industry Night NYC: Film + Music + More!",
-                "NYC Networking Event: Make New Friends and/or Business Connections"
-            ];
             setupDynamicEventFields(defaultEvents);
 
             document.getElementById('addEventBtn').onclick = function() {
@@ -156,6 +159,10 @@
 
             document.getElementById('clearAllBtn').onclick = function() {
                 clearAllEventFields();
+            };
+
+            document.getElementById('restoreDefaultsBtn').onclick = function() {
+                setupDynamicEventFields(defaultEvents);
             };
 
             document.getElementById('eventsForm').addEventListener('submit', function(event) {
