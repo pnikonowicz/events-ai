@@ -70,6 +70,9 @@
         function clearAllEventFields() {
             const container = document.getElementById('eventFieldsContainer');
             container.innerHTML = '';
+            // Add one empty event field after clearing
+            container.appendChild(createEventFieldFromTemplate(0, ""));
+            updateEventFieldLabels();
         }
 
         function createEventFieldFromTemplate(index, value = "") {
