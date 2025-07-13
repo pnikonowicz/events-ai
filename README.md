@@ -5,7 +5,7 @@
 ### Overview  
 This recommendation engine helps discover unique events from multiple data sources, personalized to your preferences based on past events you've attended.  
 
-Currently hosted at: [https://storage.cloud.google.com/events-ai-public/events-ai-loading.html](https://storage.cloud.google.com/events-ai-public/query_entry.html)
+Currently hosted at: [https://storage.cloud.google.com/events-ai-public/query_entry.html](https://storage.cloud.google.com/events-ai-public/query_entry.html)
 
 ### Goal  
 **Question:** *Are there any events happening that I might be interested in?*  
