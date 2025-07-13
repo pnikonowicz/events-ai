@@ -153,8 +153,13 @@
             document.getElementById('addEventBtn').onclick = function() {
                 const container = document.getElementById('eventFieldsContainer');
                 const idx = container.querySelectorAll('.event-field').length;
-                container.appendChild(createEventFieldFromTemplate(idx, ""));
+                const newField = createEventFieldFromTemplate(idx, "");
+                container.appendChild(newField);
                 updateEventFieldLabels();
+                
+                // Focus the input of the newly added event field
+                const input = newField.querySelector('input');
+                input.focus();
             };
 
             document.getElementById('clearAllBtn').onclick = function() {
