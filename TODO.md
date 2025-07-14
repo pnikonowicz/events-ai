@@ -7,6 +7,7 @@ print a nice message that explains this instead of a 500 error
 
 ## additinal data sites
 * luma: https://lu.ma/nyc
+* luma api: https://api.lu.ma/discover/get-paginated-events (uses a cursor)
 
 ## allow events to be saved
 this way the user does not need to re-enter events all the time
