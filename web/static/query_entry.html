@@ -145,9 +145,6 @@
         ];
 
         function setupDayRadioButtons() {
-            const daysOfWeek = [
-                'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
-            ];
             const todayIdx = new Date().getDay();
             const dayRadioDiv = document.getElementById('dayRadioButtons');
             const template = document.getElementById('dayRadioTemplate');
@@ -175,20 +172,6 @@
             if (todayIdx !== 4) { // 5 = Friday
                 dayRadioDiv.appendChild(createRadio('friday', 'Friday', false, false));
             }            
-            // Remaining days (starting from day after tomorrow)
-            let plusN = 1;
-            for (let i = 2; i < 7; i++) {
-                const idx = (todayIdx + i) % 7;
-                const dayName = daysOfWeek[idx];
-                let label = '';
-                if (dayName === 'Friday' || dayName === 'Saturday' || dayName === 'Sunday') {
-                    label = dayName;
-                } else {
-                    label = `+${plusN}`;
-                }
-                dayRadioDiv.appendChild(createRadio('plus' + plusN, label, false, true));
-                plusN++;
-            }
         }
 
         function setup() {
