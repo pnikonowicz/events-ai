@@ -61,6 +61,13 @@ async def handle(request):
         )
     data_path = DataPath(day)
 
+    # if data path does not exist, return error
+    if not data_path.exists():
+        return web.Response(
+            text=f"Data path {data_path} does not exist.",
+            status=404
+        )
+
     query_embeddings = query_to_embeddings(EmbeddingCache(), EmbeddingService(), original_query_data)
 
     recommendation_json, recommendation_count = extract_recommendation(data_path, original_query_data, query_embeddings, threshold=.85)
