@@ -170,6 +170,10 @@
             // Tomorrow
             dayRadioDiv.appendChild(createRadio('tomorrow', 'Tomorrow', false, false));
 
+            // Friday (if today is not Friday)
+            if (todayIdx !== 4) { // 5 = Friday
+                dayRadioDiv.appendChild(createRadio('friday', 'Friday', false, false));
+            }            
             // Remaining days (starting from day after tomorrow)
             let plusN = 1;
             for (let i = 2; i < 7; i++) {

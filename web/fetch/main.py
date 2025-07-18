@@ -12,6 +12,8 @@ from fetch.target_date import QueryDate
 from common.logger import Logger
 from common.paths import clear_directory, DataPath, Paths
 from common.fetch_amounts import write_fetch_amounts_to_file
+import datetime
+
 
 def fetch_all_event_data(query_date: QueryDate):
     data_path = DataPath(query_date.day())
@@ -35,7 +37,6 @@ def fetch_all_event_data(query_date: QueryDate):
 
 if __name__ == '__main__':
     Logger.log(f"clearing data: {Paths.DATA_DIR}")
-    
     clear_result = clear_directory(Paths.DATA_DIR)
     
     if clear_result: 
@@ -47,7 +48,17 @@ if __name__ == '__main__':
     today_eventbrite_amount, today_meetup_amount = fetch_all_event_data(QueryDate.Today)
     tomorrow_eventbrite_amount, tomorrow_meetup_amount = fetch_all_event_data(QueryDate.Tomorrow)
 
-    total_eventbrite_amount = today_eventbrite_amount + tomorrow_eventbrite_amount
-    total_meetup_amount = today_meetup_amount + tomorrow_meetup_amount
+    today = datetime.datetime.today().weekday()  # Monday is 0, Sunday is 6
+
+    # Only fetch Friday's data if today is not Friday (4)
+    if today == 4:
+        friday_eventbrite_amount = 0
+        friday_meetup_amount = 0
+        Logger.log("Today is Friday, skipping Friday's data fetch.")
+    else:
+        friday_eventbrite_amount, friday_meetup_amount = fetch_all_event_data(QueryDate.Friday)
+
+    total_eventbrite_amount = today_eventbrite_amount + tomorrow_eventbrite_amount + friday_eventbrite_amount
+    total_meetup_amount = today_meetup_amount + tomorrow_meetup_amount + friday_meetup_amount
 
     write_fetch_amounts_to_file(Paths.FETCH_AMOUNTS, total_eventbrite_amount, total_meetup_amount)
