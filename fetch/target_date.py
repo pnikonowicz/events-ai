@@ -15,37 +15,45 @@ class MeetupQueryDate:
         return closest_friday.strftime("%Y-%m-%d")
 
 class EventbriteQueryDate:
-    def Today():
-        return "today"
-    
-    def Tomorrow():
-        return "tomorrow"
-    
-    def Friday():
-        return "friday"
+    BASE_URL = "https://www.eventbrite.com/d/ny--new-york/events--{day}/?page={page_number}"
+
+    def __init__(self, day: str):
+        self.day = day
+
+    def create(self, page_number: int) -> str:
+        return self.BASE_URL.format(day=self.day, page_number=page_number)
     
 class QueryDate:
     class Today:
+        @staticmethod
         def meetup():
             return MeetupQueryDate.Today()
+        @staticmethod
         def eventbrite():
-            return EventbriteQueryDate.Today()
+            return EventbriteQueryDate("today")
+        @staticmethod
         def day():
             return "today"
-        
+
     class Tomorrow:
+        @staticmethod
         def meetup():
             return MeetupQueryDate.Tomorrow()
+        @staticmethod
         def eventbrite():
-            return EventbriteQueryDate.Tomorrow()
+            return EventbriteQueryDate("tomorrow")
+        @staticmethod
         def day():
             return "tomorrow"
-    
+
     class Friday:
+        @staticmethod
         def meetup():
             return MeetupQueryDate.Friday()
+        @staticmethod
         def eventbrite():
-            return EventbriteQueryDate.Friday()
+            return EventbriteQueryDate("friday")
+        @staticmethod
         def day():
             return "friday"
     

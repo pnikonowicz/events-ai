@@ -6,12 +6,12 @@ from .to_json import to_json
 from common.paths import DataPath
 from common.logger import Logger
 from concurrent.futures import ThreadPoolExecutor
+from fetch.target_date import EventbriteQueryDate
 
-def fetch_result(page_number, target_day):
-    url = create_search_url(target_day, page_number)
+def fetch_result(target_day: EventbriteQueryDate, page_number):
+    url = target_day.create(page_number)
     session = HTMLSession()
     response = session.get(url)
-    
     return response.text
 
 
@@ -39,9 +39,6 @@ def write_to_file(data_dir, text_results, html_results):
     with open(html_file, "w") as file:
         file.write(html_results)     
 
-def create_search_url(day, page_number):
-    return f"https://www.eventbrite.com/d/ny--new-york/events--{day}/?page={page_number}"
-
 def get_number_of_pages_from_html(raw_html):
     response_html = HTML(html=raw_html)
     page_numbers = response_html.find('footer', first=True).text
@@ -62,13 +59,13 @@ def get_number_of_pages(url):
 
     return get_number_of_pages_from_html(response_html)
 
-def fetch_raw_html(target_day, page_number) -> str:
-    url = create_search_url(target_day, page_number)
+def fetch_raw_html(target_day: EventbriteQueryDate, page_number) -> str:
+    url = target_day.create(page_number)
     Logger.log(f"fetching results for: {url}")
     raw_html = fetch_results(url)
     return raw_html
 
-def fetch_all_raw_html(target_day, number_of_pages):
+def fetch_all_raw_html(target_day: EventbriteQueryDate, number_of_pages):
     raw_htmls = []
 
     Logger.log(f"fetching {number_of_pages} pages")
@@ -89,7 +86,7 @@ def remove_dir(dir):
     else:
         Logger.log("dir not found, nothing to delete")
 
-def fetch(data_path: DataPath, target_day):
+def fetch(data_path: DataPath, target_day: EventbriteQueryDate):
     data_dir = os.path.join(data_path.dir(), "eventbrite")
     raw_data_dir = os.path.join(data_dir)
     
@@ -99,9 +96,8 @@ def fetch(data_path: DataPath, target_day):
 
     return event_count
 
-def fetch_from_eventbrite(target_day, raw_data_dir):
-    first_result_html = fetch_result(1, target_day)
-
+def fetch_from_eventbrite(target_day: EventbriteQueryDate, raw_data_dir):
+    first_result_html = fetch_result(target_day, 1)
     remove_dir(raw_data_dir)
     write_raw_data_to_file(raw_data_dir, 1, first_result_html)
 
