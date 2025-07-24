@@ -14,12 +14,27 @@ class MeetupQueryDate:
         closest_friday = date_time_now + datetime.timedelta(days=days_until_friday)
         return closest_friday.strftime("%Y-%m-%d")
 
+
 class EventbriteQueryDate:
     BASE_URL = "https://www.eventbrite.com/d/ny--new-york/events--{day}/?page={page_number}"
 
     def __init__(self, day: str):
         self.day = day
 
+    def create(self, page_number: int) -> str:
+        return self.BASE_URL.format(day=self.day, page_number=page_number)
+
+class FridayEventbriteQueryDate:
+    BASE_URL = "https://www.eventbrite.com/d/ny--new-york/all-events/?page={page_number}&start_date={day}&end_date={day}"
+    
+    def __init__(self, date_time_now=datetime.datetime.now()):
+        weekday = date_time_now.weekday()  # Monday=0, Sunday=6
+        days_until_friday = (4 - weekday) % 7
+        closest_friday = date_time_now + datetime.timedelta(days=days_until_friday)
+        day_str = closest_friday.strftime("%Y-%m-%d")
+        
+        self.day = day_str
+    
     def create(self, page_number: int) -> str:
         return self.BASE_URL.format(day=self.day, page_number=page_number)
     
@@ -52,7 +67,7 @@ class QueryDate:
             return MeetupQueryDate.Friday()
         @staticmethod
         def eventbrite():
-            return EventbriteQueryDate("friday")
+            return FridayEventbriteQueryDate()
         @staticmethod
         def day():
             return "friday"

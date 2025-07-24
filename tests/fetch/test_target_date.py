@@ -29,3 +29,21 @@ def test_meetupquerydate_friday():
     result = target_date.MeetupQueryDate.Friday(date_time_now=saturday)
     assert result == expected_friday
 
+def test_eventbritequerydate_friday():
+    # Set a fixed date for reproducibility
+    fixed_now = datetime.datetime(2025, 7, 18)  # Friday
+    expected_friday = "2025-07-18"
+    url = target_date.FridayEventbriteQueryDate(fixed_now).create(2)
+    assert expected_friday in url
+
+    # Test for a Thursday
+    thursday = datetime.datetime(2025, 7, 17)  # Thursday
+    expected_friday = "2025-07-18"
+    url = target_date.FridayEventbriteQueryDate(thursday).create(2)
+    assert expected_friday in url
+
+    # Test for a Saturday (should return next Friday)
+    saturday = datetime.datetime(2025, 7, 19)  # Saturday
+    expected_friday = "2025-07-25"
+    url = target_date.FridayEventbriteQueryDate(saturday).create(2)
+    assert expected_friday in url

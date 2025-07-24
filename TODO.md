@@ -1,9 +1,6 @@
 
 # full stack
 
-## bug friday
-have day return the date of the first friday relative to today in YYYY-MM-DD format
-
 ## print helpful message if no data
 if the fetch data job fails, and no data exists,
 print a nice message that explains this instead of a 500 error
