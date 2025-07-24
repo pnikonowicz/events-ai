@@ -50,11 +50,11 @@ if __name__ == '__main__':
 
     today = datetime.datetime.today().weekday()  # Monday is 0, Sunday is 6
 
-    # Only fetch Friday's data if today is not Friday (4)
-    if today == 4:
+    # Only fetch Friday's data if today is not Thursday (3) OR Friday (4)
+    if today == 4 or today == 3:
         friday_eventbrite_amount = 0
         friday_meetup_amount = 0
-        Logger.log("Today is Friday, skipping Friday's data fetch.")
+        Logger.log("Today is Thursday or Friday, skipping Friday's data fetch.")
     else:
         friday_eventbrite_amount, friday_meetup_amount = fetch_all_event_data(QueryDate.Friday)
 

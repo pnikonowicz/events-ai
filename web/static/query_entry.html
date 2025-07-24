@@ -168,10 +168,10 @@
             // Tomorrow
             dayRadioDiv.appendChild(createRadio('tomorrow', 'Tomorrow', false, false));
 
-            // Friday (if today is not Friday)
-            if (todayIdx !== 5) { // 5 = Friday
+            // Friday (only if today is Thursday or Friday)
+            if (todayIdx !== 4 && todayIdx !== 5) { // 4 = Thursday, 5 = Friday
                 dayRadioDiv.appendChild(createRadio('friday', 'Friday', false, false));
-            }            
+            }
         }
 
         function setup() {
