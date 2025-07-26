@@ -106,10 +106,10 @@
             });
         }
 
-        function setupDynamicEventFields(defaultEvents) {
+        function setupDynamicEventFields(events) {
             const container = document.getElementById('eventFieldsContainer');
             container.innerHTML = '';
-            defaultEvents.forEach((val, idx) => {
+            events.forEach((val, idx) => {
                 container.appendChild(createEventFieldFromTemplate(idx, val));
             });
         }
@@ -180,8 +180,21 @@
 
             setupDayRadioButtons();
 
-            // Setup dynamic event fields
-            setupDynamicEventFields(defaultEvents);
+            // Restore events from localStorage if available, else use defaults
+            let events = [];
+            try {
+                const stored = localStorage.getItem('userEvents');
+                if (stored) {
+                    events = JSON.parse(stored);
+                }
+            } catch (e) {
+                console.debug('Error reading localStorage: loading defaults');
+                events = [];
+            }
+            if (!events || events.length === 0) {
+                events = defaultEvents;
+            }
+            setupDynamicEventFields(events);
 
             document.getElementById('addEventBtn').onclick = function() {
                 const container = document.getElementById('eventFieldsContainer');
@@ -206,6 +219,16 @@
             document.getElementById('eventsForm').addEventListener('submit', function(event) {
                 document.getElementById('eventsForm').style.display = 'none';
                 document.getElementById('loading').style.display = 'block';
+
+                // Save events to localStorage on submit
+                const container = document.getElementById('eventFieldsContainer');
+                const fields = container.querySelectorAll('.event-field input');
+                const eventValues = Array.from(fields).map(input => input.value).filter(val => val.trim() !== '');
+                try {
+                    localStorage.setItem('userEvents', JSON.stringify(eventValues));
+                } catch (e) {
+                    console.log('Error saving to localStorage:', e);
+                }
                 return true;
             });
 
