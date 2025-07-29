@@ -5,6 +5,10 @@
 some events are clever but are at the same location.
 add a second grouping for events at the same location
 
+## improved badging
+* show location counts when a badge is clicked
+* show how many groups were created when a badge is clicked
+
 ## additinal data sites
 * luma: https://lu.ma/nyc
 * luma api: https://api.lu.ma/discover/get-paginated-events (uses a cursor)
