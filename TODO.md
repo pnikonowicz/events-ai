@@ -1,6 +1,10 @@
 
 # full stack
 
+## group by location
+some events are clever but are at the same location.
+add a second grouping for events at the same location
+
 ## additinal data sites
 * luma: https://lu.ma/nyc
 * luma api: https://api.lu.ma/discover/get-paginated-events (uses a cursor)
