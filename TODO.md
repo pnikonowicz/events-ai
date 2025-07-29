@@ -1,28 +1,15 @@
 
 # full stack
 
-## print helpful message if no data
-if the fetch data job fails, and no data exists,
-print a nice message that explains this instead of a 500 error
-
 ## additinal data sites
 * luma: https://lu.ma/nyc
 * luma api: https://api.lu.ma/discover/get-paginated-events (uses a cursor)
 
-## allow events to be saved
-this way the user does not need to re-enter events all the time
-
-## add form clear button
-
-allow form to be cleared of previous events
-
-* ensure that backend can handle null or empty or whitespace previous event strings
-
 ## list times
-* add time to list output
+* add time to meetup events
 
 ## handle multiple days for data gathering
-currently just shows today. would be nice to have tomorrow or weekend as well
+add saturday
 
 ## dynamically generate previous events
 use supported data sites to grab previous events that the user
@@ -38,7 +25,6 @@ making this variable depending on environment will make development easier
 for non-user agents
 https://events-ai-server-152896986419.us-central1.run.app/robots.txt
 
-
 ## cleanup unused repositories on dockerhub
 the fetch and server repositories should no longer be being used. 
 verify this and remove if true
@@ -46,9 +32,6 @@ verify this and remove if true
 ## fix persisted query for meetup
 the persisted query graphql sha changes often. 
 allow this query sha to update dynamically
-
-## auto push docker changes
-* when one of the prod docker files change, upload to dockerhub
 
 ## add healthcheck endpoint
 * for gcs to determine that servcie is up and running
