@@ -10,37 +10,47 @@ def json_to_html(items : List[Data]):
     <head>
         <title>events-ai: recommendations</title>
         <style>
-            body { background-color: #000; color: #fff; font-family: Arial, sans-serif; }
+            body { 
+                background-color: #000; color: #fff; font-family: Arial, sans-serif; 
+                width: 100%;
+            }
             ul { list-style-type: none; padding: 0; }
             li { 
-                margin: 1em 0; 
+                background: linear-gradient(135deg, #1e3c72, #2a5298); 
+                display: flex; 
+                justify-content: space-between; 
                 align-items: center; 
-                background: linear-gradient(135deg, #1e3c72, #2a5298); /* Deep blue gradient */
-                padding: 2em;
-                border-radius: 5em;
-                box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.2);
-                display: flex;
-            }
-            li div {
-                display: flex;
-                flex-direction: column;
-            }
+                padding: 1em; 
+                margin-bottom: 1em; 
+                border-radius: 1em;
+            }            
             img { 
-                width: 100px; 
+                width: 5em; 
                 height: auto; 
-                margin-right: 20px;
-                border-radius: 5px;
-                object-fit: cover;
             }
-            a { text-decoration: none; color: #fff; font-size: 18px; font-weight: bold; }
+            a { text-decoration: none; color: #fff; font-size: 2rem; font-weight: bold; }
             a:hover { text-decoration: underline; color: #ffcc00; }
             span {
                     display: flex;
                     flex-direction: column;
+                    font-size: 1.5rem;
+
+            }
+            .similar_events_count {
+                margin-top: 0.5em;
+                font-size: 1.2rem;
+                color: #ffcc00;
             }
             .similiar_events {
                 margin-left: 1em;
-                padding: 1em;                
+                margin-top: 1em;
+            }
+            .similar_event_item {
+                margin-bottom: 0.5em;
+            }
+            .event_details {
+                margin-top: 1em;
+                font-size: 1.2rem;  
             }
         </style>
 
@@ -52,6 +62,7 @@ def json_to_html(items : List[Data]):
 
     for item in items:
         similiar_events_json = item.similar_events
+        html_similar_event_inner = '<span class="similar_event_item"><a href="{link}" target="about:blank"> {title} </a></span>'
         html_similar_event_inner = '<a href="{link}" target="about:blank"> {title} </a>'
         similiar_events_titles = "\n".join(html_similar_event_inner.format(link=event.link, title=event.title) for event in similiar_events_json)
         html_similiar_events = f"""
@@ -61,15 +72,17 @@ def json_to_html(items : List[Data]):
         """
         html_content += f"""
             <li>
-                <img src="{ item.image }" alt="Thumbnail">
                 <div>
-                    <span>because you liked: { item.recommendation_source }<span>
-                    <span>time: { item.time }</span>
-                    <span>location: { item.location }</span>
                     <a href="{ item.link }" target="about:blank">{ item.title }</a>
-                    <span>there are also { len(similiar_events_json) } similiar events</span>
+                    <span class="similar_events_count">there are also { len(similiar_events_json) } similiar events</span>
                     { html_similiar_events }
+                    <div class="event_details">
+                        <span>because you liked: { item.recommendation_source }<span>
+                        <span>time: { item.time }</span>
+                        <span>location: { item.location }</span>
+                    </div>
                 </div>
+                <a href="{ item.link }" target="about:blank"><img src="{ item.image }" alt="Thumbnail"></a>
             </li>
         """
 
