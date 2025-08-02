@@ -63,18 +63,23 @@ def json_to_html(items : List[Data]):
     for item in items:
         similiar_events_json = item.similar_events
         html_similar_event_inner = '<span class="similar_event_item"><a href="{link}" target="about:blank"> {title} </a></span>'
-        html_similar_event_inner = '<a href="{link}" target="about:blank"> {title} </a>'
         similiar_events_titles = "\n".join(html_similar_event_inner.format(link=event.link, title=event.title) for event in similiar_events_json)
-        html_similiar_events = f"""
-            <div class="similiar_events">
-                {similiar_events_titles}
-            </div>
-        """
+        
+        html_similiar_events = ""
+        similar_events_count_html = ""
+        if len(similiar_events_json) > 0:
+            html_similiar_events = f"""
+                <div class="similiar_events">
+                    {similiar_events_titles}
+                </div>
+            """
+            similar_events_count_html = f'<span class="similar_events_count">there are also {len(similiar_events_json)} similiar events</span>'
+        
         html_content += f"""
             <li>
                 <div>
                     <a href="{ item.link }" target="about:blank">{ item.title }</a>
-                    <span class="similar_events_count">there are also { len(similiar_events_json) } similiar events</span>
+                    { similar_events_count_html }
                     { html_similiar_events }
                     <div class="event_details">
                         <span>because you liked: { item.recommendation_source }<span>
