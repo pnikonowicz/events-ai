@@ -19,11 +19,19 @@
     font-weight: bold;
     cursor: pointer;
     margin-left: 0.5em;
-    align-self: center;
-    justify-content: center;
-    align-items: center;
-    display: flex;
 }
+
+.button-submit {
+    margin-left: auto;
+    align-self: center;
+    padding: 0.5em 1em;
+    background: #1976d2;
+    color: #fff;
+    border-radius: 0.3em;
+    cursor: pointer;
+    font-weight: bold;
+}
+
 .remove-event-btn:hover {
     background: #b71c1c;
 }
