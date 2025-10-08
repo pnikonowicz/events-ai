@@ -25,7 +25,7 @@ def create_query_json(endCursor, start_date):
   "extensions": {
     "persistedQuery": {
       "version": 1,
-      "sha256Hash": "88182025a4c22fcd2cff99b1abc89c34b17cf6198e652a58e2419327dbc37db2"
+      "sha256Hash": "41c4ab255edd3c793ee394cfaeec3f4e823eab251620360e4705032be0f949a1"
     }
   }
 }
@@ -81,8 +81,8 @@ def get_all_results(target_date, session=HTMLSession()):
     query_json = create_query_json(nextCursor, target_date)
     response_json = grab_results(query_json, session)
     
-    if response_json['data'] == None:
-      Logger.log("could not retrieve data")
+    if 'data' not in response_json or response_json['data'] is None:
+      Logger.log("could not retrieve data: 'data' key missing or None")
       Logger.log(str(response_json))
       return []
     

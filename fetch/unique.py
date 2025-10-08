@@ -75,6 +75,10 @@ def grab_first_in_group(grouped_json):
 def unique(data_path: DataPath, threshold):
     data_json_file = os.path.join(data_path.dir(), "joined.json")
     data_json = get_json_data_from_file(data_json_file)
+    
+    if(len(data_json) == 0):
+        Logger.log("no data to process for uniqueness")
+        return 0
 
     weights_file = os.path.join(Paths.PROJECT_DIR, "weights", "weights.json")
     weights_json = get_discriminitive_weights_from_file(weights_file)

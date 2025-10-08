@@ -50,6 +50,10 @@ def data_to_embeddings(data_path: DataPath):
         Logger.warn(f"{api_key_file} does not exist. add an api key to this file to enable recommondations.")
         return 0
 
+    if(json_data_file is None or not os.path.exists(json_data_file)):
+        Logger.warn(f"{json_data_file} does not exist. no data to create embeddings from.")
+        return 0
+    
     json_data = load_json(json_data_file)
     api_key = load_api_key(api_key_file)
 
