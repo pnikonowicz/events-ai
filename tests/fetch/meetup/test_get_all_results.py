@@ -16,7 +16,7 @@ def test_get_all_results_extracts_graphql_and_formats_to_json_schema():
 
     json_response = {
         "data": {
-            "result": { 
+            "results": { 
                 "pageInfo": { 
                     "hasNextPage": False,
                     "endCursor": "end_cursor",
