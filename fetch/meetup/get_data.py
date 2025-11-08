@@ -8,7 +8,7 @@ from common.data import Data, write_data
 def create_query_json(endCursor, start_date):
     json_string = '''
 {
-  "operationName": "recommendedEventsWithSeries",
+  "operationName": "eventSearchWithSeries",
   "variables": {
     "first": 20,
     "lat": "40.75",
@@ -20,12 +20,13 @@ def create_query_json(endCursor, start_date):
     "seriesStartDate": "2025-01-30",
     "sortField": "RELEVANCE",
     "doConsolidateEvents": true,
-    "after": "MTAw"
+    "after": "MTAw",
+    "query": "tomorrow"
   },
   "extensions": {
     "persistedQuery": {
       "version": 1,
-      "sha256Hash": "41c4ab255edd3c793ee394cfaeec3f4e823eab251620360e4705032be0f949a1"
+      "sha256Hash": "da731d01050869ca222fe3296033c78f6500fa92261b9580e526b9978d0143f4"
     }
   }
 }
@@ -86,9 +87,9 @@ def get_all_results(target_date, session=HTMLSession()):
       Logger.log(str(response_json))
       return []
     
-    hasNextPage = response_json['data']['result']['pageInfo']['hasNextPage']
-    nextCursor = response_json['data']['result']['pageInfo']['endCursor']
-    formatted_json = to_formatted_json(response_json['data']['result']['edges'])
+    hasNextPage = response_json['data']['results']['pageInfo']['hasNextPage']
+    nextCursor = response_json['data']['results']['pageInfo']['endCursor']
+    formatted_json = to_formatted_json(response_json['data']['results']['edges'])
     
     json_results.extend(formatted_json)
 
