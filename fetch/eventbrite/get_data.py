@@ -6,7 +6,7 @@ from .to_json import to_json
 from common.paths import DataPath
 from common.logger import Logger
 from concurrent.futures import ThreadPoolExecutor
-from fetch.target_date import EventbriteQueryDate
+from fetch.target_date import EventbriteQueryDate, QueryDate
 
 def fetch_result(target_day: EventbriteQueryDate, page_number):
     url = target_day.create(page_number)
@@ -27,6 +27,15 @@ def write_raw_data_to_file(data_dir, page_number, raw_html):
     text_file = os.path.join(data_dir, f"{page_number}.html")
     with open(text_file, "w") as file:
         file.write(raw_html)
+
+def read_raw_data_from_file(data_dir, page_number):
+    text_file = os.path.join(data_dir, f"{page_number}.html")
+    if not os.path.exists(text_file):
+        Logger.error(f"file not found: {text_file}")
+        return []
+
+    with open(text_file, "r") as file:
+        return file.read()
 
 def write_to_file(data_dir, text_results, html_results): 
     os.makedirs(data_dir, exist_ok=True)
@@ -49,7 +58,7 @@ def get_number_of_pages_from_html(raw_html):
             return int(number_str)
         
 
-    Logger.error(f"coudn't parse the string: {page_numbers}")
+    Logger.error(f"coudn't get_number_of_pages_from_html: {page_numbers}")
     exit(1)
 
 def get_number_of_pages(url):
@@ -86,13 +95,18 @@ def remove_dir(dir):
     else:
         Logger.log("dir not found, nothing to delete")
 
-def fetch(data_path: DataPath, target_day: EventbriteQueryDate):
+def fetch(query_date: QueryDate) -> int:
+    data_path: DataPath = DataPath(query_date.day())
+    target_day: EventbriteQueryDate = query_date.eventbrite()
+    
     data_dir = os.path.join(data_path.dir(), "eventbrite")
     raw_data_dir = os.path.join(data_dir)
     
     raw_htmls = fetch_from_eventbrite(target_day, raw_data_dir)
     
     event_count = to_json(data_dir, raw_htmls)
+
+    Logger.log(f"eventbrite fetched: {event_count} results")
 
     return event_count
 
@@ -109,3 +123,12 @@ def fetch_from_eventbrite(target_day: EventbriteQueryDate, raw_data_dir):
         write_raw_data_to_file(raw_data_dir, i, raw_html)
 
     return raw_htmls
+
+if __name__ == '__main__':
+    query_date: EventbriteQueryDate = QueryDate.Today
+    data_path: DataPath = DataPath(query_date.day())
+    data_dir = os.path.join(data_path.dir(), "eventbrite")
+
+    first_result_html = read_raw_data_from_file(data_dir, 1)
+    number_of_pages = get_number_of_pages_from_html(first_result_html)
+    Logger.log(f"number of pages: {number_of_pages}")

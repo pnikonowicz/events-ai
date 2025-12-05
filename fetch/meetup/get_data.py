@@ -4,6 +4,7 @@ from requests_html import HTMLSession
 from common.paths import DataPath
 from common.logger import Logger
 from common.data import Data, write_data
+from fetch.target_date import MeetupQueryDate, QueryDate
 
 def create_query_json(endCursor, start_date):
     json_string = '''
@@ -121,18 +122,25 @@ def write_text_to_file(data_dir, text_results):
     with open(text_file, "w") as file:
         file.write(text_results)
 
-def fetch(data_path: DataPath, target_date):
+def fetch(query_date: QueryDate) -> int:
+  data_path: DataPath = DataPath(query_date.day())
+  target_day: MeetupQueryDate = query_date.meetup()
+
   data_dir = os.path.join(data_path.dir(), "meetup")
   data_file = os.path.join(data_dir, 'data.json')
-
-  edges_json = get_all_results(target_date)    
+  
+  edges_json = get_all_results(target_day)    
   text_result = create_delimted_text_from_json(edges_json)
 
   os.makedirs(data_dir, exist_ok=True)
   write_data(data_file, edges_json)
   write_text_to_file(data_dir, text_result)
 
-  return len(edges_json)
+  event_count = len(edges_json)
+
+  Logger.log(f"meetup fetched: {event_count} results")
+
+  return event_count
 
 if __name__ == "__main__":
     fetch()
