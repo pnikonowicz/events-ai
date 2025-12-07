@@ -134,7 +134,7 @@ if __name__ == '__main__':
     # Logger.log(f"number of pages: {number_of_pages}")
 
     raw_htmls = []
-    raw_htmls.append(fetch_raw_html(query_date.eventbrite(), 2))
+    raw_htmls.append(first_result_html)
     event_count = to_json(data_dir, raw_htmls)
 
     Logger.log(f"eventbrite fetched: {event_count} results")

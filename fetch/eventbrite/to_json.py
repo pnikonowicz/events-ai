@@ -4,6 +4,7 @@ import json
 from requests_html import HTML
 from common.logger import Logger
 from common.data import Data, write_data
+import re
 
 def read_file(file_path):
     text = ''
@@ -12,36 +13,21 @@ def read_file(file_path):
             text += line
     return text
 
-def html_to_json(html_text): 
-    soup = BeautifulSoup(html_text, 'html.parser')
-
+def html_to_json(json_results): 
     data = []
-    for div in soup.find('html').find_all('div', recursive=False):
-        img = div.find('img', src=True)
-        time_and_location = div.find_all('p')
-        time = None
-        location = None
-        
-        if(len(time_and_location) > 1):
-            day_and_time = time_and_location[1].get_text(strip=True)
-            
-            split_day_and_time = day_and_time.split('•')
-            if(len(split_day_and_time) > 1):
-                time = split_day_and_time[1].strip()
-            else:
-                time = None
-                            
-        if(len(time_and_location) > 2):
-            location = time_and_location[2].get_text(strip=True)
-
-        div_data = Data(
-            image = img['src'] if img else None, # images are optional
-            link = div.find('a', href=True)['href'],
-            title = div.find('h3').get_text(strip=True),
-            time = time,
-            location = location
-        )
-        data.append(div_data)
+    for json_result in json_results:
+        result = json_result.get('search_data', {})
+        events = result.get('events', {}).get('events', [])
+        results = events.get('results', [])
+        for result in results:
+            new_data = Data(
+                image = results.get('image', {}).get('url', "about:blank"),
+                link = results.get('url', 'UNKNOWN_URL'),
+                title = result.get('summary', 'UNKNOWN_TITLE'),
+                time = results.get('start_time', 'UNKNOWN_START_TIME'),
+                location = result.get('primary_venue', {}).get('get', 'UNKNOWN_VENUE')
+            )
+        data.append(new_data)
     
     return data
 
@@ -67,19 +53,15 @@ def extract_html_results_from_html_page(raw_html):
 
 
 def fetch_all_results(raw_htmls):
-    total_number_of_results_fetched = 0
-    html_results = "<html>\n\n"
-    text_results = ""
+    json_results = []
     
     for raw_html in raw_htmls:
-        html_result, text_result, number_fetched = extract_html_results_from_html_page(raw_html)
-        html_results += html_result
-        text_results += text_result
-        total_number_of_results_fetched += number_fetched
+        match = re.search(r'__SERVER_DATA__\s*=\s*({.*?});', raw_html, re.DOTALL)
+        if match:
+            server_data_json = json.loads(match.group(1))
+            json_results.append(server_data_json)
 
-    html_results += "\n\n</html>"
-
-    return total_number_of_results_fetched, html_results, text_results
+    return json_results
 
 def get_raw_htmls(raw_data_dir):
     raw_htmls = []
@@ -92,10 +74,11 @@ def get_raw_htmls(raw_data_dir):
     return raw_htmls
 
 def to_json(data_dir, raw_htmls):
-    total_number_of_results_fetched, html_results, text_results = fetch_all_results(raw_htmls)
-    Logger.log(f"fetched: {total_number_of_results_fetched} results")
+    json_results = fetch_all_results(raw_htmls)
+    Logger.log(f"fetched: {len(json_results)} results")
     
-    json_data = html_to_json(html_results)
+    json_data = html_to_json(json_results)
+    Logger.log(f"extracted {len(json_data)} events to json data objects")
 
     json_data_file = os.path.join(data_dir, 'data.json')
     write_data(json_data_file, json_data)
@@ -103,3 +86,81 @@ def to_json(data_dir, raw_htmls):
     Logger.log(f"translated {len(json_data)} events to json")
 
     return len(json_data)
+
+
+#### ===============================================================
+
+def _extract_json_from_script(script_text, var_name):
+    # match var assignment like: window.__REACT_QUERY_STATE__ = {...}; or window.__SERVER_DATA__ = {...}
+    pattern = re.compile(rf"{re.escape(var_name)}\s*=\s*(\{{.*\}})\s*;?", re.S)
+    m = pattern.search(script_text)
+    if not m:
+        return None
+    return m.group(1)
+
+def get_eventbrite_page_count_from_html(raw_html):
+    soup = BeautifulSoup(raw_html, "html.parser")
+
+    # Prefer REACT_QUERY_STATE (contains "queries" -> state -> data -> events -> pagination)
+    candidate_vars = ["window.__REACT_QUERY_STATE__", "window.__SERVER_DATA__"]
+
+    for script in soup.find_all("script"):
+        script_text = script.string or script.get_text() or ""
+        for var in candidate_vars:
+            json_text = _extract_json_from_script(script_text, var)
+            if not json_text:
+                continue
+            try:
+                obj = json.loads(json_text)
+            except json.JSONDecodeError:
+                # If JSON is not strict JSON, consider json5:
+                try:
+                    import json5  # pip install json5
+                    obj = json5.loads(json_text)
+                except Exception:
+                    # give up on this script and try others
+                    continue
+
+            # Try common paths where pagination may live
+            # Path 1: react query state: queries[0].state.data.data.events.pagination.page_count
+            try:
+                queries = obj.get("queries") or []
+                if queries:
+                    q0 = queries[0]
+                    page_count = (
+                        q0.get("state", {})
+                          .get("data", {})
+                          .get("data", {})
+                          .get("events", {})
+                          .get("pagination", {})
+                          .get("page_count")
+                    )
+                    if isinstance(page_count, int):
+                        return page_count
+            except Exception:
+                pass
+
+            # Path 2: server data: search_data -> events -> pagination.page_count
+            try:
+                page_count = (
+                    obj.get("search_data", {})
+                       .get("events", {})
+                       .get("pagination", {})
+                       .get("page_count")
+                )
+                if isinstance(page_count, int):
+                    return page_count
+            except Exception:
+                pass
+
+    # Fallback: parse the footer text "1 of N" (existing method)
+    footer = soup.find("footer")
+    if footer and footer.get_text():
+        txt = footer.get_text(strip=True)
+        if txt.startswith("1 of"):
+            num = txt[len("1 of"):].strip()
+            if num.isdigit():
+                return int(num)
+
+    # If nothing found, return None
+    return None
