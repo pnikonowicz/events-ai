@@ -44,22 +44,19 @@ if __name__ == '__main__':
     
     total_eventbrite_amount += fetch_eventbrite(QueryDate.Today)
     total_meetup_amount += fetch_meetup(QueryDate.Today)
+    embed_all_event_data(QueryDate.Today)
 
     total_eventbrite_amount += fetch_eventbrite(QueryDate.Tomorrow)
     total_meetup_amount += fetch_meetup(QueryDate.Tomorrow)
+    embed_all_event_data(QueryDate.Tomorrow)
     
     today = datetime.datetime.today().weekday()  # Monday is 0, Sunday is 6
-
     # Only fetch Friday's data if today is not Thursday (3) OR Friday (4)
     if today == 4 or today == 3:
         Logger.log("Today is Thursday or Friday, skipping Friday's data fetch.")
     else:
         total_eventbrite_amount += fetch_eventbrite(QueryDate.Friday)
         total_meetup_amount += fetch_meetup(QueryDate.Friday)
-
-    Logger.log("embedding data")
-    embed_all_event_data(QueryDate.Today)
-    embed_all_event_data(QueryDate.Tomorrow)
-    embed_all_event_data(QueryDate.Friday)
+        embed_all_event_data(QueryDate.Friday)
 
     write_fetch_amounts_to_file(Paths.FETCH_AMOUNTS, total_eventbrite_amount, total_meetup_amount)
