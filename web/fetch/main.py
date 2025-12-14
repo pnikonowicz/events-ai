@@ -19,10 +19,9 @@ def embed_all_event_data(query_date: QueryDate):
     data_path = DataPath(query_date.day())
 
     Logger.log(f"collecting data from: {data_path.dir()}")
-
     joined_amount = collect_all_data(data_path)
-    Logger.log(f"total data records: {joined_amount}")
 
+    Logger.log(f"total data records: {joined_amount}")
     dups_removed_amount = unique(data_path, .60)
     Logger.log(f"found {dups_removed_amount} duplicates")
 
