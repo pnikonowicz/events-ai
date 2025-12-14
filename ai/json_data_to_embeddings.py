@@ -13,16 +13,16 @@ def load_api_key(filename):
         content = file.read()
     return content
 
-def get_embeddings_from_json_data(model_name, api_key, json_data):
+def get_embeddings_from_text_data(model_name, api_key, text_data: list[str]) -> list:
     embedding_api = GoogleGenerativeAIEmbeddings(
         model=model_name,
         google_api_key = api_key
     )
 
-    embeddings = embedding_api.embed_documents(json_data)
+    embeddings = embedding_api.embed_documents(texts=text_data)
     return embeddings
 
-def extract_text_from_json_data(json_data):
+def extract_text_from_json_data(json_data) -> list[str]:
     text_data = []
     for x in json_data:
         text_data.append(x['title'])
@@ -59,7 +59,7 @@ def data_to_embeddings(data_path: DataPath):
 
     google_ai_model = "models/text-embedding-004"
     text_data = extract_text_from_json_data(json_data)
-    embeddings = get_embeddings_from_json_data(google_ai_model, api_key, text_data)
+    embeddings = get_embeddings_from_text_data(google_ai_model, api_key, text_data)
     
     write_embeddings(embeddings_file, embeddings)
 
