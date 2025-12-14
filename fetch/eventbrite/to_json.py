@@ -73,7 +73,7 @@ def get_json_results(raw_htmls):
             server_data_json_text = match.group(1)
             json_results.append(server_data_json_text)
         else:
-            Logger.error(f"couldn't find __SERVER_DATA__ in html page {i+1}")
+            Logger.error(f"couldn't find __SERVER_DATA__ in html page {i+1}: {raw_html[:100]}...")
 
     return json_results
 
