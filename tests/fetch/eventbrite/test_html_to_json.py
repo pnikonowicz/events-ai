@@ -2,10 +2,10 @@ from fetch.eventbrite.to_json import json_text_to_data
 
 def test_json_to_data():
     json_text_a=""" 
-{"search_data": {"events": {"results": [{"primary_venue": {"name": "location_1"}, "start_time": "time_1", "summary": "title_1", "image": {"url": "image_url_1"}, "url": "link_url_1"}, {"image": {"url": "image_url_2"}, "url": "link_url_2"} ]}}}
+{"search_data": {"events": {"results": [{"primary_venue": {"name": "location_1"}, "start_time": "time_1", "summary": "title_1", "image": {"url": "image_url_1"}, "url": "link_url_1"}, {"summary": "title_2", "image": {"url": "image_url_2"}, "url": "link_url_2"} ]}}}
 """
     json_text_b=""" 
-{"search_data": {"events": {"results": [{"url": "link_url_3"} ]}}}
+{"search_data": {"events": {"results": [ {"summary": "title_3", "url": "link_url_3"}, {"url": "no summary, should not be incuded"} ]} }}
 """
     
     result = json_text_to_data([json_text_a, json_text_b])
@@ -20,12 +20,12 @@ def test_json_to_data():
 
     assert result[1].image == "image_url_2"
     assert result[1].link == "link_url_2"
-    assert result[1].title == "UNKNOWN_TITLE"
+    assert result[1].title == "title_2"
     assert result[1].time == "UNKNOWN_START_TIME"
     assert result[1].location == "UNKNOWN_VENUE"
 
     assert result[2].image == "about:blank"
     assert result[2].link == "link_url_3"
-    assert result[2].title == "UNKNOWN_TITLE"
+    assert result[2].title == "title_3"
     assert result[2].time == "UNKNOWN_START_TIME"
     assert result[2].location == "UNKNOWN_VENUE"

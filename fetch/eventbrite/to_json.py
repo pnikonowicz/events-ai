@@ -26,10 +26,15 @@ def json_text_to_data(json_texts : list[str]) -> list[Data]:
             continue
 
         for result in results:
+            summary = result.get('summary')
+            if summary is None:
+                Logger.log(f"=== skipping result with no summary in page: ({i+1})")
+                continue
+            
             new_data = Data(
                 image = result.get('image', {}).get('url', "about:blank"),
                 link = result.get('url', 'UNKNOWN_URL'),
-                title = result.get('summary', 'UNKNOWN_TITLE'),
+                title = summary,
                 time = result.get('start_time', 'UNKNOWN_START_TIME'),
                 location = result.get('primary_venue', {}).get('name', 'UNKNOWN_VENUE')
             )
