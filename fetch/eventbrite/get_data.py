@@ -2,7 +2,8 @@ import os
 from shutil import rmtree
 from requests_html import HTMLSession
 from requests_html import HTML
-from .to_json import to_json
+from .to_json import to_json, get_json_results
+import json
 from common.paths import DataPath
 from common.logger import Logger
 from concurrent.futures import ThreadPoolExecutor
@@ -49,24 +50,22 @@ def write_to_file(data_dir, text_results, html_results):
         file.write(html_results)     
 
 def get_number_of_pages_from_html(raw_html):
-    response_html = HTML(html=raw_html)
-    page_numbers = response_html.find('footer', first=True).text
+    json_results = get_json_results([raw_html])
+    Logger.log(f"fetched for pages: {len(json_results)} results")
 
-    if(page_numbers.startswith("1 of")):
-        number_str = page_numbers[len("1 of"):].strip()
-        if(number_str.isdigit()):
-            return int(number_str)
-        
+    if len(json_results) == 0:
+        Logger.error("coudn't get_number_of_pages_from_html: no json results")
+        return 0
+    
+    json_text = json_results[0]
+    json_object = json.loads(json_text)
 
-    Logger.error(f"coudn't get_number_of_pages_from_html: {page_numbers}")
-    exit(1)
+    search_data = json_object.get('search_data', {})
+    events = search_data.get('events', {})
+    pagination = events.get('pagination', {})
+    page_count = pagination.get('page_count', 0)
 
-def get_number_of_pages(url):
-    session = HTMLSession()
-    response = session.get(url)
-    response_html = response.html
-
-    return get_number_of_pages_from_html(response_html)
+    return page_count
 
 def fetch_raw_html(target_day: EventbriteQueryDate, page_number) -> str:
     url = target_day.create(page_number)
@@ -118,9 +117,9 @@ def fetch_from_eventbrite(target_day: EventbriteQueryDate, raw_data_dir):
     number_of_pages = get_number_of_pages_from_html(first_result_html)
 
     raw_htmls = fetch_all_raw_html(target_day, number_of_pages)
-    for i in range(1, len(raw_htmls)): # write all html to file io
+    for i in range(0, len(raw_htmls)): # write all html to file io
         raw_html = raw_htmls[i]
-        write_raw_data_to_file(raw_data_dir, i, raw_html)
+        write_raw_data_to_file(raw_data_dir, i+1, raw_html)
 
     return raw_htmls
 
