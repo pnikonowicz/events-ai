@@ -144,5 +144,5 @@ def fetch(query_date: QueryDate) -> int:
   return event_count
 
 if __name__ == "__main__":
-    fetch()
+    fetch(QueryDate.Today)
     
