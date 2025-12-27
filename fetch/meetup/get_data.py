@@ -9,25 +9,25 @@ from fetch.target_date import MeetupQueryDate, QueryDate
 def create_query_json(endCursor, start_date):
     json_string = '''
 {
-  "operationName": "eventSearchWithSeries",
+  "operationName": "recommendedEventsWithSeries",
   "variables": {
     "first": 20,
-    "lat": "40.75",
-    "lon": "-73.98999786376953",
-    "startDateRange": "2025-02-04T00:00:00-05:00",
-    "endDateRange": "2025-02-04T23:59:00-05:00",
-    "eventType": "PHYSICAL",
-    "numberOfEventsForSeries": 1,
-    "seriesStartDate": "2025-01-30",
+    "lat": 40.75,
+    "lon": -73.98999786376953,
+    "startDateRange": "2025-12-27T09:28:53-05:00[US/Eastern]",
+    "numberOfEventsForSeries": 5,
+    "seriesStartDate": "2025-12-27",
     "sortField": "RELEVANCE",
     "doConsolidateEvents": true,
-    "after": "MTAw",
-    "query": "tomorrow"
+    "doPromotePaypalEvents": false,
+    "indexAlias": "{\\"filterOutWrongLanguage\\": \\"true\\",\\"modelVersion\\": \\"split_offline_online\\"}",
+    "dataConfiguration": "{\\"isSimplifiedSearchEnabled\\": true, \\"include_events_from_user_chapters\\": true}",
+    "after": "MTI="
   },
   "extensions": {
     "persistedQuery": {
       "version": 1,
-      "sha256Hash": "da731d01050869ca222fe3296033c78f6500fa92261b9580e526b9978d0143f4"
+      "sha256Hash": "cf6348a7edb376af58158519e78130eb8beced0aaaed60ab379e82f25fd52eea"
     }
   }
 }
@@ -88,9 +88,10 @@ def get_all_results(target_date, session=HTMLSession()):
       Logger.log(str(response_json))
       return []
     
-    hasNextPage = response_json['data']['results']['pageInfo']['hasNextPage']
-    nextCursor = response_json['data']['results']['pageInfo']['endCursor']
-    formatted_json = to_formatted_json(response_json['data']['results']['edges'])
+    results = response_json['data']['result']
+    hasNextPage = results['pageInfo']['hasNextPage']
+    nextCursor = results['pageInfo']['endCursor']
+    formatted_json = to_formatted_json(results['edges'])
     
     json_results.extend(formatted_json)
 
