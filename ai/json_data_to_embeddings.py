@@ -3,6 +3,7 @@ import json
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from common.paths import Paths, DataPath
 from common.logger import Logger
+from common.models import GOOGLE_EMBEDDING_MODEL
 
 def load_json(json_data_file):
     with open(json_data_file, 'r') as file:
@@ -57,7 +58,7 @@ def data_to_embeddings(data_path: DataPath):
     json_data = load_json(json_data_file)
     api_key = load_api_key(api_key_file)
 
-    google_ai_model = "models/text-embedding-004"
+    google_ai_model = GOOGLE_EMBEDDING_MODEL
     text_data = extract_text_from_json_data(json_data)
     embeddings = get_embeddings_from_text_data(google_ai_model, api_key, text_data)
     
