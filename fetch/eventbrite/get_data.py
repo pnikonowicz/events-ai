@@ -105,8 +105,6 @@ def fetch(query_date: QueryDate) -> int:
     
     event_count = to_json(data_dir, raw_htmls)
 
-    Logger.log(f"eventbrite fetched: {event_count} results")
-
     return event_count
 
 def fetch_from_eventbrite(target_day: EventbriteQueryDate, raw_data_dir):

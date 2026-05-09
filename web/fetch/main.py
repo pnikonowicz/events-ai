@@ -16,6 +16,8 @@ import datetime
 
 
 def embed_all_event_data(query_date: QueryDate):
+    Logger.log(f"embed_all_event_data from: {query_date.day()}")
+
     data_path = DataPath(query_date.day())
 
     Logger.log(f"collecting data from: {data_path.dir()}")
@@ -42,7 +44,11 @@ if __name__ == '__main__':
     total_meetup_amount = 0
     
     total_eventbrite_amount += fetch_eventbrite(QueryDate.Today)
+    Logger.log(f"eventbrite fetched: {total_eventbrite_amount} results")
+
     total_meetup_amount += fetch_meetup(QueryDate.Today)
+    Logger.log(f"meetup fetched: {total_meetup_amount} results")
+
     embed_all_event_data(QueryDate.Today)
 
     total_eventbrite_amount += fetch_eventbrite(QueryDate.Tomorrow)

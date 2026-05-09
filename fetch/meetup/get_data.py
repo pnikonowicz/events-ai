@@ -139,8 +139,6 @@ def fetch(query_date: QueryDate) -> int:
 
   event_count = len(edges_json)
 
-  Logger.log(f"meetup fetched: {event_count} results")
-
   return event_count
 
 if __name__ == "__main__":
