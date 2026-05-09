@@ -65,3 +65,9 @@ if __name__ == '__main__':
         embed_all_event_data(QueryDate.Friday)
 
     write_fetch_amounts_to_file(Paths.FETCH_AMOUNTS, total_eventbrite_amount, total_meetup_amount)
+
+    if total_eventbrite_amount == 0 or total_meetup_amount == 0:
+        Logger.error(
+            f"fetch returned zero results: eventbrite={total_eventbrite_amount}, meetup={total_meetup_amount}"
+        )
+        sys.exit(1)
