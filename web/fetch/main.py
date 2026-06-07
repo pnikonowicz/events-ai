@@ -79,13 +79,13 @@ if __name__ == '__main__':
         Logger.error("fetch returned zero results for eventbrite")
     else:
         Logger.log(f"total eventbrite amount: {total_eventbrite_amount}")
-        write_total_eventbrite_amount_to_file(Paths.DATA_DIR, Paths.FETCH_AMOUNTS, total_eventbrite_amount)
+        write_total_eventbrite_amount_to_file(Paths.FETCH_AMOUNTS, total_eventbrite_amount)
     
     if total_meetup_amount == 0:
         Logger.error("fetch returned zero results for meetup")
     else:
         Logger.log(f"total meetup amount: {total_meetup_amount}")
-        write_total_meetup_amount_to_file(Paths.DATA_DIR, Paths.FETCH_AMOUNTS, total_meetup_amount)
+        write_total_meetup_amount_to_file(Paths.FETCH_AMOUNTS, total_meetup_amount)
 
     if total_eventbrite_amount == 0 or total_meetup_amount == 0:
         Logger.error(
