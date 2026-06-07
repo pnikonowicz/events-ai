@@ -11,7 +11,7 @@ from ai.json_data_to_embeddings import data_to_embeddings
 from fetch.target_date import QueryDate
 from common.logger import Logger
 from common.paths import clear_directory, DataPath, Paths
-from common.fetch_amounts import write_fetch_amounts_to_file
+from common.fetch_amounts import write_total_eventbrite_amount_to_file, write_total_meetup_amount_to_file
 import datetime
 
 
@@ -31,17 +31,10 @@ def embed_all_event_data(query_date: QueryDate):
     Logger.log(f"created {embeddings_count} data embeddings")
 
 if __name__ == '__main__':
-    Logger.log(f"clearing data: {Paths.DATA_DIR}")
-    clear_result = clear_directory(Paths.DATA_DIR)
-    
-    if clear_result: 
-        Logger.log("data cleared")
-    else:
-        Logger.error("data not cleared")
-        exit(1)
-
     total_eventbrite_amount = 0
     total_meetup_amount = 0
+
+    tmp_local_directory = Paths.TEMP_LOCAL_DIR
     
     total_eventbrite_amount += fetch_eventbrite(QueryDate.Today)
     Logger.log(f"eventbrite fetched: {total_eventbrite_amount} results")
@@ -63,8 +56,18 @@ if __name__ == '__main__':
         total_eventbrite_amount += fetch_eventbrite(QueryDate.Friday)
         total_meetup_amount += fetch_meetup(QueryDate.Friday)
         embed_all_event_data(QueryDate.Friday)
+    if total_eventbrite_amount == 0:
+        Logger.error("fetch returned zero results for eventbrite")
+    else:
+        Logger.log(f"total eventbrite amount: {total_eventbrite_amount}")
+        write_total_eventbrite_amount_to_file(tmp_local_directory, Paths.FETCH_AMOUNTS, total_eventbrite_amount)
+    
+    if total_meetup_amount == 0:
+        Logger.error("fetch returned zero results for meetup")
+    else:
+        Logger.log(f"total meetup amount: {total_meetup_amount}")
+        write_total_meetup_amount_to_file(tmp_local_directory, Paths.FETCH_AMOUNTS, total_meetup_amount)
 
-    write_fetch_amounts_to_file(Paths.FETCH_AMOUNTS, total_eventbrite_amount, total_meetup_amount)
 
     if total_eventbrite_amount == 0 or total_meetup_amount == 0:
         Logger.error(

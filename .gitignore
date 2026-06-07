@@ -3,6 +3,7 @@
 
 secrets/
 data/
+data_working/
 previous_events/
 
 frontend/node_modules/

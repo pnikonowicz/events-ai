@@ -5,6 +5,7 @@ from common.logger import Logger
 class Paths:
     PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
     DATA_DIR = os.path.join(PROJECT_DIR, "data")
+    TEMP_LOCAL_DIR = os.path.join(PROJECT_DIR, "data_working")
     QUERY_EMBEDDINGS_DIR = os.path.join(DATA_DIR, 'query_embeddings')
     PREVIOUS_EVENTS = os.path.join(PROJECT_DIR, 'previous_events')
     FETCH_AMOUNTS = os.path.join(DATA_DIR, "fetch_amounts.json")

@@ -9,6 +9,12 @@ def write_fetch_amounts_to_file(fetch_amount_file, eventbrite_fetch_amount, meet
     with open(fetch_amount_file, "w") as json_file:
         json.dump(fetch_dict, json_file, indent=4) 
 
+def write_total_eventbrite_amount_to_file(tmp_local_directory, fetch_amount_file, total_eventbrite_amount):
+    None
+
+def write_total_meetup_amount_to_file(tmp_local_directory, fetch_amount_file, total_meetup_amount):
+    None
+
 def read_fetch_amounts_from_file(fetch_amount_file):
     with open(fetch_amount_file, "r") as json_file:
         return json.load(json_file) 
