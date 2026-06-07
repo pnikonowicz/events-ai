@@ -15,6 +15,9 @@ def write_total_eventbrite_amount_to_file(tmp_local_directory, fetch_amount_file
 def write_total_meetup_amount_to_file(tmp_local_directory, fetch_amount_file, total_meetup_amount):
     None
 
+def publish_working_data(source_name, source_dir, destination_dir):
+    None
+
 def read_fetch_amounts_from_file(fetch_amount_file):
     with open(fetch_amount_file, "r") as json_file:
         return json.load(json_file) 

@@ -123,8 +123,7 @@ def write_text_to_file(data_dir, text_results):
     with open(text_file, "w") as file:
         file.write(text_results)
 
-def fetch(query_date: QueryDate) -> int:
-  data_path: DataPath = DataPath(query_date.day())
+def fetch(query_date: QueryDate, data_path: DataPath) -> int:
   target_day: MeetupQueryDate = query_date.meetup()
 
   data_dir = os.path.join(data_path.dir(), "meetup")
@@ -142,5 +141,4 @@ def fetch(query_date: QueryDate) -> int:
   return event_count
 
 if __name__ == "__main__":
-    fetch(QueryDate.Today)
-    
+    fetch(QueryDate.Today, DataPath(QueryDate.Today.day()))

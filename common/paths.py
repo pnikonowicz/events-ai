@@ -11,14 +11,15 @@ class Paths:
     FETCH_AMOUNTS = os.path.join(DATA_DIR, "fetch_amounts.json")
 
 class DataPath:
-    def __init__(self, day):
+    def __init__(self, day, base_dir=Paths.DATA_DIR):
         self.day = day
+        self.base_dir = base_dir
 
     def __str__(self):
         return self.day
 
     def dir(self):
-        return os.path.join(Paths.DATA_DIR, self.day)
+        return os.path.join(self.base_dir, self.day)
     
     def exists(self):
         return os.path.exists(self.dir())

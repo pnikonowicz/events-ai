@@ -39,7 +39,7 @@ def remove_file(filename):
     else:
         Logger.log(f"filename {filename} not found, nothing to delete")
 
-def data_to_embeddings(data_path: DataPath):
+def data_to_embeddings(data_path: DataPath) -> int:
     json_data_file = os.path.join(data_path.dir(), 'unique.json')
     secrets_dir = os.path.join(Paths.PROJECT_DIR, "secrets")
     api_key_file = os.path.join(secrets_dir, "google-api-key")

@@ -72,7 +72,7 @@ def grab_first_in_group(grouped_json):
         dups_removed += len(group) - 1 if len(group) > 0 else 0
     return unique_flatten, dups_removed
 
-def unique(data_path: DataPath, threshold):
+def unique(data_path: DataPath, threshold) -> int:
     data_json_file = os.path.join(data_path.dir(), "joined.json")
     data_json = get_json_data_from_file(data_json_file)
     
@@ -91,4 +91,3 @@ def unique(data_path: DataPath, threshold):
     # write_json_to_file(json_output_file, grouped_json)
 
     return dups_removed
-    

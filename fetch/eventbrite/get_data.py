@@ -94,8 +94,7 @@ def remove_dir(dir):
     else:
         Logger.log("dir not found, nothing to delete")
 
-def fetch(query_date: QueryDate) -> int:
-    data_path: DataPath = DataPath(query_date.day())
+def fetch(query_date: QueryDate, data_path: DataPath) -> int:
     target_day: EventbriteQueryDate = query_date.eventbrite()
     
     data_dir = os.path.join(data_path.dir(), "eventbrite")
