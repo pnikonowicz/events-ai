@@ -1,5 +1,6 @@
 import os
 import json
+from shutil import rmtree
 from requests_html import HTMLSession
 from common.paths import DataPath
 from common.logger import Logger
@@ -123,6 +124,12 @@ def write_text_to_file(data_dir, text_results):
     with open(text_file, "w") as file:
         file.write(text_results)
 
+def remove_dir(dir):
+    if os.path.exists(dir):
+        rmtree(dir)
+    else:
+        Logger.log("dir not found, nothing to delete")
+
 def fetch(query_date: QueryDate, data_path: DataPath) -> int:
   target_day: MeetupQueryDate = query_date.meetup()
 
@@ -132,6 +139,7 @@ def fetch(query_date: QueryDate, data_path: DataPath) -> int:
   edges_json = get_all_results(target_day)    
   text_result = create_delimted_text_from_json(edges_json)
 
+  remove_dir(data_dir)
   os.makedirs(data_dir, exist_ok=True)
   write_data(data_file, edges_json)
   write_text_to_file(data_dir, text_result)
