@@ -1,0 +1,12 @@
+prefix_rule(
+    pattern = ["git", "commit"],
+    decision = "allow",
+    justification = "Project tasks require a verified git commit when each task is completed.",
+    match = [
+        "git commit -m update-settings",
+        "git commit --message update-settings",
+    ],
+    not_match = [
+        "git push",
+    ],
+)
