@@ -10,3 +10,17 @@ prefix_rule(
         "git push",
     ],
 )
+
+prefix_rule(
+    pattern = ["git", "add"],
+    decision = "allow",
+    justification = "Project tasks require staging verified changes before committing.",
+    match = [
+        "git add AGENTS.md",
+        "git add .codex/rules/default.rules",
+    ],
+    not_match = [
+        "git status",
+        "git push",
+    ],
+)
