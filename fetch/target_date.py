@@ -71,4 +71,10 @@ class QueryDate:
         @staticmethod
         def day():
             return "friday"
+
+    CLI_DAY_TO_QUERY_DATE = {
+        "today": Today,
+        "tomorrow": Tomorrow,
+        "friday": Friday,
+    }
     

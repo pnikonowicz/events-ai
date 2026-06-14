@@ -2,6 +2,15 @@
 import datetime
 from fetch import target_date
 
+
+def test_querydate_cli_day_mapping():
+    assert target_date.QueryDate.CLI_DAY_TO_QUERY_DATE == {
+        "today": target_date.QueryDate.Today,
+        "tomorrow": target_date.QueryDate.Tomorrow,
+        "friday": target_date.QueryDate.Friday,
+    }
+
+
 def test_meetupquerydate_tomorrow():
     # Set a fixed date for reproducibility
     fixed_now = datetime.datetime(2025, 7, 18)  # Friday

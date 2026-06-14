@@ -40,13 +40,6 @@ def parse_cli_args(argv=None):
     return args
 
 
-CLI_DAY_TO_QUERY_DATE = {
-    "today": QueryDate.Today,
-    "tomorrow": QueryDate.Tomorrow,
-    "friday": QueryDate.Friday,
-}
-
-
 def embed_all_event_data(data_path: DataPath):
     Logger.log(f"embed_all_event_data from: {data_path.day}")
     Logger.log(f"collecting data from: {data_path.dir()}")
@@ -147,7 +140,10 @@ def fetch_one(provider, query_date):
 def main(argv=None):
     cli_args = parse_cli_args(argv)
     if cli_args.provider is not None:
-        fetch_count = fetch_one(cli_args.provider, CLI_DAY_TO_QUERY_DATE[cli_args.day])
+        fetch_count = fetch_one(
+            cli_args.provider,
+            QueryDate.CLI_DAY_TO_QUERY_DATE[cli_args.day],
+        )
         return 0 if fetch_count > 0 else 1
 
     return fetch_all()
