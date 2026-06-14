@@ -27,4 +27,4 @@ data_working/today/eventbrite
 data_working/today/meetup
 ```
 
-Each source owns only its own source directory. A fetch, cleanup, publish, or validation step for one source must not remove or overwrite another source's directory for the same day.
+Each source owns only its own source directory. A fetch, cleanup, publish, or validation operation for one source must not remove or overwrite another source's directory for the same day.

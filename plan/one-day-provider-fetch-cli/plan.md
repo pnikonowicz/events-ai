@@ -1,4 +1,4 @@
-# Step 5: One-Day Provider Fetch CLI
+# One-Day Provider Fetch CLI
 
 ## Goal
 

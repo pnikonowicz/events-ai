@@ -1,4 +1,4 @@
-# Step 6: One-Page Provider Fetch Default
+# One-Page Provider Fetch Default
 
 ## Goal
 

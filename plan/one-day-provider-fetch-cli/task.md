@@ -1,4 +1,4 @@
-# Step 5: One-Day Provider Fetch CLI Tasks
+# One-Day Provider Fetch CLI Tasks
 
 - [x] Add standard-library CLI parsing in `web/fetch/main.py`.
   - Support no arguments as the existing full fetch workflow.

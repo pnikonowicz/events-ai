@@ -1,4 +1,4 @@
-# Step 3: Rebuild Derived Live Data After Publishing
+# Rebuild Derived Live Data After Publishing
 
 ## Goal
 
@@ -57,7 +57,7 @@ Derived files should represent the final live source mix, including newly publis
   - live `meetup/data.json`
   - staged replacement for one source
   - then publishes and rebuilds
-- Use the targeted provider/day fetch CLI from Step 5 only to refresh one provider's staged source data for manual publish/rebuild testing:
+- Use the targeted provider/day fetch CLI only to refresh one provider's staged source data for manual publish/rebuild testing:
 
   ```bash
   python web/fetch/main.py meetup today

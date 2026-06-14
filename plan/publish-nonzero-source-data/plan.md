@@ -1,4 +1,4 @@
-# Step 2: Publish Only Nonzero Source Data
+# Publish Only Nonzero Source Data
 
 ## Goal
 
@@ -49,7 +49,7 @@ Copy staged source data from `data_working/<day>/<source>` to `data/<day>/<sourc
   - nonzero source staging directory replaces only the matching live source
   - missing staging source does not delete live source
   - publishing `eventbrite` does not modify `meetup`
-- Use the targeted provider/day fetch CLI from Step 5 to create fresh staging data for one provider when manually inspecting publish behavior:
+- Use the targeted provider/day fetch CLI to create fresh staging data for one provider when manually inspecting publish behavior:
 
   ```bash
   python web/fetch/main.py meetup today

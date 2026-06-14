@@ -1,4 +1,4 @@
-# Step 4: Update Fetch Counts Only With New Data
+# Update Fetch Counts Only With New Data
 
 ## Goal
 
@@ -54,7 +54,7 @@ Update `data/fetch_amounts.json` only for sources that returned nonzero totals a
   - existing counts plus `eventbrite=0`, `meetup=12` preserves old Eventbrite count
   - both zero preserves both
   - missing file is initialized
-- Use the targeted provider/day fetch CLI from Step 5 to verify provider fetches without changing `data/fetch_amounts.json`:
+- Use the targeted provider/day fetch CLI to verify provider fetches without changing `data/fetch_amounts.json`:
 
   ```bash
   cat data/fetch_amounts.json
