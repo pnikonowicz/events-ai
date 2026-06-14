@@ -121,33 +121,3 @@ def fetch_all():
     return 0
 
 
-def fetch_one(provider, query_date):
-    data_path = DataPath(query_date.day(), Paths.TEMP_LOCAL_DIR)
-
-    if provider == "eventbrite":
-        provider_count = fetch_eventbrite(query_date, data_path)
-    elif provider == "meetup":
-        provider_count = fetch_meetup(query_date, data_path)
-    else:
-        raise ValueError(f"unsupported provider: {provider}")
-
-    Logger.log(
-        f"targeted fetch provider={provider} day={query_date.day()} count={provider_count}"
-    )
-    return provider_count
-
-
-def main(argv=None):
-    cli_args = parse_cli_args(argv)
-    if cli_args.provider is not None:
-        fetch_count = fetch_one(
-            cli_args.provider,
-            QueryDate.CLI_DAY_TO_QUERY_DATE[cli_args.day],
-        )
-        return 0 if fetch_count > 0 else 1
-
-    return fetch_all()
-
-
-if __name__ == '__main__':
-    sys.exit(main())
