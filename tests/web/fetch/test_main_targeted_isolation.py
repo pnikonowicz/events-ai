@@ -1,5 +1,9 @@
+import datetime
+import os
+
 import pytest
 
+from common.paths import DataPath
 from common.paths import Paths
 from fetch.target_date import QueryDate
 from web.fetch import main as fetch_main
@@ -19,7 +23,7 @@ DERIVED_WORKFLOW_FUNCTIONS = (
 
 def fail_if_called(name):
     def _fail(*args, **kwargs):
-        raise AssertionError(f"{name} should not be called in targeted mode")
+        raise AssertionError(f"{name} should not be called")
 
     return _fail
 
@@ -83,5 +87,91 @@ def test_zero_result_targeted_mode_returns_nonzero_without_derived_calls(
     assert fetch_main.main(["meetup", "tomorrow"]) == 1
 
     assert calls == [
+        ("meetup", QueryDate.Tomorrow, "tomorrow", Paths.TEMP_LOCAL_DIR),
+    ]
+
+
+class FakeMondayDateTime(datetime.datetime):
+    @classmethod
+    def today(cls):
+        return cls(2026, 6, 15)
+
+
+class FakeThursdayDateTime(datetime.datetime):
+    @classmethod
+    def today(cls):
+        return cls(2026, 6, 18)
+
+
+class FakeFridayDateTime(datetime.datetime):
+    @classmethod
+    def today(cls):
+        return cls(2026, 6, 19)
+
+
+def test_full_fetch_passes_working_paths_to_all_providers_without_derived_workflows(
+    monkeypatch, block_derived_workflows
+):
+    calls = []
+
+    def fake_eventbrite(query_date, data_path):
+        calls.append(("eventbrite", query_date, data_path))
+        return 10
+
+    def fake_meetup(query_date, data_path):
+        calls.append(("meetup", query_date, data_path))
+        return 20
+
+    monkeypatch.setattr(fetch_main.datetime, "datetime", FakeMondayDateTime)
+    monkeypatch.setattr(fetch_main, "fetch_eventbrite", fake_eventbrite)
+    monkeypatch.setattr(fetch_main, "fetch_meetup", fake_meetup)
+
+    assert fetch_main.main([]) == 0
+
+    assert [(provider, query_date, data_path.day, data_path.base_dir) for provider, query_date, data_path in calls] == [
+        ("eventbrite", QueryDate.Today, "today", Paths.TEMP_LOCAL_DIR),
+        ("meetup", QueryDate.Today, "today", Paths.TEMP_LOCAL_DIR),
+        ("eventbrite", QueryDate.Tomorrow, "tomorrow", Paths.TEMP_LOCAL_DIR),
+        ("meetup", QueryDate.Tomorrow, "tomorrow", Paths.TEMP_LOCAL_DIR),
+        ("eventbrite", QueryDate.Friday, "friday", Paths.TEMP_LOCAL_DIR),
+        ("meetup", QueryDate.Friday, "friday", Paths.TEMP_LOCAL_DIR),
+    ]
+    assert all(isinstance(data_path, DataPath) for _, _, data_path in calls)
+    assert all(
+        data_path.dir() == os.path.join(Paths.TEMP_LOCAL_DIR, data_path.day)
+        for _, _, data_path in calls
+    )
+
+
+@pytest.mark.parametrize(
+    "fake_datetime",
+    [
+        FakeThursdayDateTime,
+        FakeFridayDateTime,
+    ],
+)
+def test_full_fetch_skips_friday_on_thursday_or_friday(
+    monkeypatch, block_derived_workflows, fake_datetime
+):
+    calls = []
+
+    def fake_eventbrite(query_date, data_path):
+        calls.append(("eventbrite", query_date, data_path.day, data_path.base_dir))
+        return 10
+
+    def fake_meetup(query_date, data_path):
+        calls.append(("meetup", query_date, data_path.day, data_path.base_dir))
+        return 20
+
+    monkeypatch.setattr(fetch_main.datetime, "datetime", fake_datetime)
+    monkeypatch.setattr(fetch_main, "fetch_eventbrite", fake_eventbrite)
+    monkeypatch.setattr(fetch_main, "fetch_meetup", fake_meetup)
+
+    assert fetch_main.main([]) == 0
+
+    assert calls == [
+        ("eventbrite", QueryDate.Today, "today", Paths.TEMP_LOCAL_DIR),
+        ("meetup", QueryDate.Today, "today", Paths.TEMP_LOCAL_DIR),
+        ("eventbrite", QueryDate.Tomorrow, "tomorrow", Paths.TEMP_LOCAL_DIR),
         ("meetup", QueryDate.Tomorrow, "tomorrow", Paths.TEMP_LOCAL_DIR),
     ]
