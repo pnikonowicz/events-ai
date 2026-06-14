@@ -1,3 +1,4 @@
+import argparse
 import os
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
@@ -13,6 +14,30 @@ from common.logger import Logger
 from common.paths import DataPath, Paths
 from common.fetch_amounts import publish_working_data, write_total_eventbrite_amount_to_file, write_total_meetup_amount_to_file
 import datetime
+
+
+def parse_cli_args(argv=None):
+    parser = argparse.ArgumentParser(
+        description="Fetch event data for all configured providers, or target one provider and day."
+    )
+    parser.add_argument(
+        "provider",
+        nargs="?",
+        choices=("meetup", "eventbrite"),
+        help="provider to fetch in targeted mode",
+    )
+    parser.add_argument(
+        "day",
+        nargs="?",
+        choices=("today", "tomorrow", "friday"),
+        help="day to fetch in targeted mode",
+    )
+
+    args = parser.parse_args(argv)
+    if (args.provider is None) != (args.day is None):
+        parser.error("targeted mode requires both <provider> and <day>")
+
+    return args
 
 
 def embed_all_event_data(data_path: DataPath):
@@ -42,6 +67,11 @@ def publish(eventbrite_amount, meetup_amount, data_path):
     
 
 if __name__ == '__main__':
+    cli_args = parse_cli_args()
+    if cli_args.provider is not None:
+        Logger.error("targeted fetch mode is not implemented yet")
+        sys.exit(2)
+
     today_data_path = DataPath(QueryDate.Today.day(), Paths.TEMP_LOCAL_DIR)
     total_eventbrite_amount = 0
     total_meetup_amount = 0
