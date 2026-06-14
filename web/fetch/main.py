@@ -66,12 +66,7 @@ def publish(eventbrite_amount, meetup_amount, data_path):
         publish_working_data("meetup", data_path, Paths.DATA_DIR)
     
 
-if __name__ == '__main__':
-    cli_args = parse_cli_args()
-    if cli_args.provider is not None:
-        Logger.error("targeted fetch mode is not implemented yet")
-        sys.exit(2)
-
+def fetch_all():
     today_data_path = DataPath(QueryDate.Today.day(), Paths.TEMP_LOCAL_DIR)
     total_eventbrite_amount = 0
     total_meetup_amount = 0
@@ -121,4 +116,19 @@ if __name__ == '__main__':
         Logger.error(
             f"fetch returned zero results: eventbrite={total_eventbrite_amount}, meetup={total_meetup_amount}"
         )
-        sys.exit(1)
+        return 1
+
+    return 0
+
+
+def main(argv=None):
+    cli_args = parse_cli_args(argv)
+    if cli_args.provider is not None:
+        Logger.error("targeted fetch mode is not implemented yet")
+        return 2
+
+    return fetch_all()
+
+
+if __name__ == '__main__':
+    sys.exit(main())
