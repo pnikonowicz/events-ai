@@ -1,5 +1,8 @@
 import datetime
 
+def date_dir(date_time: datetime.datetime) -> str:
+    return date_time.strftime("%y-%m-%d")
+
 class MeetupQueryDate:
     def Today(date_time=datetime.datetime.today()):
         return date_time.strftime("%Y-%m-%d")
@@ -47,8 +50,8 @@ class QueryDate:
         def eventbrite():
             return EventbriteQueryDate("today")
         @staticmethod
-        def day():
-            return "today"
+        def day(date_time_now=datetime.datetime.now()):
+            return date_dir(date_time_now)
 
     class Tomorrow:
         @staticmethod
@@ -58,8 +61,8 @@ class QueryDate:
         def eventbrite():
             return EventbriteQueryDate("tomorrow")
         @staticmethod
-        def day():
-            return "tomorrow"
+        def day(date_time_now=datetime.datetime.now(), date_time_delta=datetime.timedelta(days=1)):
+            return date_dir(date_time_now + date_time_delta)
 
     class Friday:
         @staticmethod
@@ -69,6 +72,9 @@ class QueryDate:
         def eventbrite():
             return FridayEventbriteQueryDate()
         @staticmethod
-        def day():
-            return "friday"
+        def day(date_time_now=datetime.datetime.now()):
+            weekday = date_time_now.weekday()
+            days_until_friday = (4 - weekday) % 7
+            closest_friday = date_time_now + datetime.timedelta(days=days_until_friday)
+            return date_dir(closest_friday)
     

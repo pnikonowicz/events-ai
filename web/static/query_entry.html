@@ -150,6 +150,24 @@
             const template = document.getElementById('dayRadioTemplate');
             dayRadioDiv.innerHTML = '';
 
+            function formatDirectoryDate(date) {
+                const year = String(date.getFullYear()).slice(-2);
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+
+            function addDays(date, days) {
+                const nextDate = new Date(date);
+                nextDate.setDate(nextDate.getDate() + days);
+                return nextDate;
+            }
+
+            const today = new Date();
+            const tomorrow = addDays(today, 1);
+            const daysUntilFriday = (5 - todayIdx + 7) % 7;
+            const friday = addDays(today, daysUntilFriday);
+
             // Helper to create a radio button from template
             function createRadio(value, labelText, checked = false, disabled = false) {
                 const clone = template.content.firstElementChild.cloneNode(true);
@@ -163,14 +181,14 @@
             }
 
             // Today
-            dayRadioDiv.appendChild(createRadio('today', 'Today', true, false));
+            dayRadioDiv.appendChild(createRadio(formatDirectoryDate(today), 'Today', true, false));
 
             // Tomorrow
-            dayRadioDiv.appendChild(createRadio('tomorrow', 'Tomorrow', false, false));
+            dayRadioDiv.appendChild(createRadio(formatDirectoryDate(tomorrow), 'Tomorrow', false, false));
 
-            // Friday (only if today is Thursday or Friday)
+            // Friday (skip on Thursday or Friday)
             if (todayIdx !== 4 && todayIdx !== 5) { // 4 = Thursday, 5 = Friday
-                dayRadioDiv.appendChild(createRadio('friday', 'Friday', false, false));
+                dayRadioDiv.appendChild(createRadio(formatDirectoryDate(friday), 'Friday', false, false));
             }
         }
 

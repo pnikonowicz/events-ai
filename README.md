@@ -39,7 +39,7 @@ This project:
 ```
 1. add google ai api key to `secrets/google-api-key`
 1. first fetch events with: `python web/fetch/main.py` or `devcontainer exec --workspace-folder . python web/fetch/main.py`
-2. run web server with: `python web/server/main.py`
+2. run web server with: `python web/server/main.py` or `devcontainer exec --workspace-folder . python web/server/main.py`
 
 #### Previous Events
 These are events that you've been to in the past. 

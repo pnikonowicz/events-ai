@@ -25,7 +25,7 @@ async def redirect_to_handle(request):
     if 'localhost' not in request.host:
         scheme = 'https' # assume prod
 
-    url = f"{scheme}://{request.host}/recommendations?day=today"
+    url = f"{scheme}://{request.host}/recommendations?day={QueryDate.Today.day()}"
     
     original_query_form_data = MultiDict()
     for query in original_query_data:
@@ -80,7 +80,7 @@ async def handle(request):
 query_embeddings = query_to_embeddings_from_file()
 
 async def handleJSON(request):
-    data_path = DataPath(QueryDate.Today)
+    data_path = DataPath(QueryDate.Today.day())
 
     recommendation_list, recommendation_count = extract_recommendation(
         data_path, original_query_data, query_embeddings, threshold=.85)
