@@ -57,6 +57,13 @@ and add something similar to the following:
 ###  Running the tests
 run `pytest` from the project root (`/workspaces/events-ai` in the dev container)
 
+or if you have the devcontainer cli:
+
+```
+devcontainer exec --workspace-folder . pytest
+```
+
+
 ### Running the mcp server (currently disabled due to other dev work. contributions welcome!)
 You'll first need to build the dev container at `.devcontainer/Dockerfile`
 
