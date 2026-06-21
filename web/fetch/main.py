@@ -43,7 +43,7 @@ if __name__ == '__main__':
     total_eventbrite_amount = 0
     total_meetup_amount = 0
     
-    total_eventbrite_amount += fetch_eventbrite(DataPath(QueryDate.Today.day()), QueryDate.Today)
+    total_eventbrite_amount += fetch_eventbrite(DataPath(QueryDate.Today.day()), QueryDate.Today.eventbrite())
     Logger.log(f"eventbrite fetched: {total_eventbrite_amount} results")
 
     total_meetup_amount += fetch_meetup(QueryDate.Today)
@@ -51,7 +51,7 @@ if __name__ == '__main__':
 
     embed_all_event_data(QueryDate.Today)
 
-    total_eventbrite_amount += fetch_eventbrite(DataPath(QueryDate.Tomorrow.day()), QueryDate.Tomorrow)
+    total_eventbrite_amount += fetch_eventbrite(DataPath(QueryDate.Tomorrow.day()), QueryDate.Tomorrow.eventbrite())
     total_meetup_amount += fetch_meetup(DataPath(QueryDate.Tomorrow.day()), QueryDate.Tomorrow)
     embed_all_event_data(QueryDate.Tomorrow)
     
@@ -60,7 +60,7 @@ if __name__ == '__main__':
     if today == 4 or today == 3:
         Logger.log("Today is Thursday or Friday, skipping Friday's data fetch.")
     else:
-        total_eventbrite_amount += fetch_eventbrite(DataPath(QueryDate.Friday.day()), QueryDate.Friday)
+        total_eventbrite_amount += fetch_eventbrite(DataPath(QueryDate.Friday.day()), QueryDate.Friday.eventbrite())
         total_meetup_amount += fetch_meetup(QueryDate.Friday)
         embed_all_event_data(QueryDate.Friday)
 

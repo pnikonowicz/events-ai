@@ -94,9 +94,7 @@ def remove_dir(dir):
     else:
         Logger.log("dir not found, nothing to delete")
 
-def fetch(data_path: DataPath, query_date: QueryDate) -> int:
-    target_day: EventbriteQueryDate = query_date.eventbrite()
-    
+def fetch(data_path: DataPath, target_day: EventbriteQueryDate) -> int:    
     data_dir = os.path.join(data_path.dir(), "eventbrite")
     raw_data_dir = os.path.join(data_dir)
     
@@ -120,17 +118,20 @@ def fetch_from_eventbrite(target_day: EventbriteQueryDate, raw_data_dir):
 
     return raw_htmls
 
-if __name__ == '__main__':
+def fetch_one_page():
     query_date: EventbriteQueryDate = QueryDate.Today
     data_path: DataPath = DataPath(query_date.day())
     data_dir = os.path.join(data_path.dir(), "eventbrite")
 
     first_result_html = read_raw_data_from_file(data_dir, 1)
-    # number_of_pages = get_number_of_pages_from_html(first_result_html)
-    # Logger.log(f"number of pages: {number_of_pages}")
 
     raw_htmls = []
     raw_htmls.append(first_result_html)
     event_count = to_json(data_dir, raw_htmls)
+
+    return event_count
+
+if __name__ == '__main__':
+    event_count = fetch_one_page()
 
     Logger.log(f"eventbrite fetched: {event_count} results")
