@@ -124,7 +124,17 @@
             try {
                 const response = await fetch(`${baseUrl}/counts`);
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    const responseBody = await response.text();
+                    let serverMessage = responseBody;
+
+                    try {
+                        const errorBody = JSON.parse(responseBody);
+                        serverMessage = errorBody.error || errorBody.message || errorBody.detail || responseBody;
+                    } catch (_) {
+                        // Non-JSON error responses can be reported as-is.
+                    }
+
+                    throw new Error(serverMessage || `HTTP error! status: ${response.status}`);
                 }
                 const counts = await response.json();
 
@@ -132,9 +142,11 @@
                 eventbriteCountEl.textContent = counts.eventbrite;
             } catch (error) {
                 const apiUrl = `${baseUrl}/counts`;
-                const message = baseUrl.includes('localhost')
+                const errorMessage = error instanceof Error ? error.message : String(error);
+                const connectionFailed = /failed to (fetch|connect)|connection (?:refused|rejected)|econnrefused/i.test(errorMessage);
+                const message = baseUrl.includes('localhost') && connectionFailed
                     ? `Could not fetch counts: the local API is not running at ${apiUrl}. Start the API server, then reload this page.`
-                    : `Could not fetch counts from ${apiUrl}: ${error.message}`;
+                    : `Could not fetch counts from ${apiUrl}: ${errorMessage}`;
                 console.error(message, error);
 
                 [meetupCountEl, eventbriteCountEl].forEach((countEl) => {
