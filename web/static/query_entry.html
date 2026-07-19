@@ -66,8 +66,11 @@
     </div>
     
     <script>
-        const baseUrl = 'https://events-ai-server-152896986419.us-central1.run.app';
-        // const baseUrl = 'http://localhost:8080';
+        const isLocal = window.location.protocol === 'file:'
+            || ['localhost', '127.0.0.1'].includes(window.location.hostname);
+        const baseUrl = isLocal
+            ? 'http://localhost:8080'
+            : 'https://events-ai-server-152896986419.us-central1.run.app';
 
         function clearAllEventFields() {
             const container = document.getElementById('eventFieldsContainer');
