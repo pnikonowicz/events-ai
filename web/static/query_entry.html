@@ -128,7 +128,18 @@
                 meetupCountEl.textContent = counts.meetup;
                 eventbriteCountEl.textContent = counts.eventbrite;
             } catch (error) {
-                console.error("Could not fetch counts:", error);
+                const apiUrl = `${baseUrl}/counts`;
+                const message = baseUrl.includes('localhost')
+                    ? `Could not fetch counts: the local API is not running at ${apiUrl}. Start the API server, then reload this page.`
+                    : `Could not fetch counts from ${apiUrl}: ${error.message}`;
+                console.error(message, error);
+
+                [meetupCountEl, eventbriteCountEl].forEach((countEl) => {
+                    countEl.querySelectorAll('.spinner').forEach((spinner) => {
+                        spinner.style.animation = 'none';
+                        spinner.remove();
+                    });
+                });
                 meetupCountEl.textContent = 'N/A';
                 eventbriteCountEl.textContent = 'N/A';
             }
