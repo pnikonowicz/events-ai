@@ -95,6 +95,9 @@ async def handleCounts(request):
 
     return web.json_response(amounts_json)
 
+async def handle_favicon(request):
+    return web.Response(text=':-)', content_type='text/plain')
+
 if __name__ == '__main__':
     app = web.Application()
     
@@ -113,7 +116,8 @@ if __name__ == '__main__':
             web.get('/', redirect_to_handle),
             web.post('/recommendations', handle),
             web.get('/json', handleJSON),
-            web.get('/counts', handleCounts)
+            web.get('/counts', handleCounts),
+            web.get('/favicon.ico', handle_favicon)
         ]
     )
 
