@@ -52,7 +52,7 @@ if __name__ == '__main__':
     embed_all_event_data(QueryDate.Today)
 
     total_eventbrite_amount += fetch_eventbrite(DataPath(QueryDate.Tomorrow.day()), QueryDate.Tomorrow.eventbrite())
-    total_meetup_amount += fetch_meetup(DataPath(QueryDate.Tomorrow.day()), QueryDate.Tomorrow)
+    total_meetup_amount += fetch_meetup(QueryDate.Tomorrow)
     embed_all_event_data(QueryDate.Tomorrow)
     
     today = datetime.datetime.today().weekday()  # Monday is 0, Sunday is 6
