@@ -40,7 +40,8 @@ class FridayEventbriteQueryDate:
     
     def create(self, page_number: int) -> str:
         return self.BASE_URL.format(day=self.day, page_number=page_number)
-    
+
+
 class QueryDate:
     class Today:
         @staticmethod
@@ -77,4 +78,10 @@ class QueryDate:
             days_until_friday = (4 - weekday) % 7
             closest_friday = date_time_now + datetime.timedelta(days=days_until_friday)
             return date_dir(closest_friday)
+
+    requested_dates = {
+        "today": Today,
+        "tomorrow": Tomorrow,
+        "friday": Friday,
+    }
     

@@ -1,5 +1,6 @@
 import os
 import sys
+import argparse
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
 from common.logger import Logger
@@ -30,7 +31,35 @@ def embed_all_event_data(query_date: QueryDate):
     embeddings_count = data_to_embeddings(data_path)
     Logger.log(f"created {embeddings_count} data embeddings")
 
-if __name__ == '__main__':
+
+def dates_to_fetch(current_date=None, requested_day=None):
+    if requested_day:
+        Logger.log(f"Fetching events for requested date: {requested_day}")
+        return [QueryDate.requested_dates[requested_day]]
+
+    dates = [QueryDate.Today, QueryDate.Tomorrow]
+    current_date = current_date or datetime.datetime.today()
+
+    # Monday is 0, Sunday is 6.
+    if current_date.weekday() in (3, 4):
+        Logger.log("Today is Thursday or Friday, skipping Friday's data fetch.")
+    else:
+        dates.append(QueryDate.Friday)
+
+    return dates
+
+
+def parse_arguments(arguments=None):
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--date",
+        choices=QueryDate.requested_dates,
+        help="fetch events for only this relative date",
+    )
+    return parser.parse_args(arguments)
+
+
+def main(requested_day=None):
     Logger.log(f"clearing data: {Paths.DATA_DIR}")
     clear_result = clear_directory(Paths.DATA_DIR)
     
@@ -42,27 +71,16 @@ if __name__ == '__main__':
 
     total_eventbrite_amount = 0
     total_meetup_amount = 0
-    
-    total_eventbrite_amount += fetch_eventbrite(DataPath(QueryDate.Today.day()), QueryDate.Today.eventbrite())
+
+    for query_date in dates_to_fetch(requested_day=requested_day):
+        total_eventbrite_amount += fetch_eventbrite(
+            DataPath(query_date.day()), query_date.eventbrite()
+        )
+        total_meetup_amount += fetch_meetup(query_date)
+        embed_all_event_data(query_date)
+
     Logger.log(f"eventbrite fetched: {total_eventbrite_amount} results")
-
-    total_meetup_amount += fetch_meetup(QueryDate.Today)
     Logger.log(f"meetup fetched: {total_meetup_amount} results")
-
-    embed_all_event_data(QueryDate.Today)
-
-    total_eventbrite_amount += fetch_eventbrite(DataPath(QueryDate.Tomorrow.day()), QueryDate.Tomorrow.eventbrite())
-    total_meetup_amount += fetch_meetup(QueryDate.Tomorrow)
-    embed_all_event_data(QueryDate.Tomorrow)
-    
-    today = datetime.datetime.today().weekday()  # Monday is 0, Sunday is 6
-    # Only fetch Friday's data if today is not Thursday (3) OR Friday (4)
-    if today == 4 or today == 3:
-        Logger.log("Today is Thursday or Friday, skipping Friday's data fetch.")
-    else:
-        total_eventbrite_amount += fetch_eventbrite(DataPath(QueryDate.Friday.day()), QueryDate.Friday.eventbrite())
-        total_meetup_amount += fetch_meetup(QueryDate.Friday)
-        embed_all_event_data(QueryDate.Friday)
 
     write_fetch_amounts_to_file(Paths.FETCH_AMOUNTS, total_eventbrite_amount, total_meetup_amount)
 
@@ -71,3 +89,7 @@ if __name__ == '__main__':
             f"fetch returned zero results: eventbrite={total_eventbrite_amount}, meetup={total_meetup_amount}"
         )
         sys.exit(1)
+
+
+if __name__ == '__main__':
+    main(parse_arguments().date)
