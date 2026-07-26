@@ -1,3 +1,3 @@
 """Model configurations and constants."""
 
-GOOGLE_EMBEDDING_MODEL = "models/gemini-embedding-001"
+OPENAI_EMBEDDING_MODEL = "text-embedding-3-small"

@@ -1,8 +1,8 @@
 import os
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from common.logger import Logger
 from common.paths import Paths
-from common.models import GOOGLE_EMBEDDING_MODEL
+from common.models import OPENAI_EMBEDDING_MODEL
 
 class EmbeddingService:
     def load_api_key(self, filename):
@@ -11,14 +11,14 @@ class EmbeddingService:
         return content
 
     def fetch(self, data):
-        model_name = GOOGLE_EMBEDDING_MODEL
+        model_name = OPENAI_EMBEDDING_MODEL
         secrets_dir = os.path.join(Paths.PROJECT_DIR, "secrets")
-        api_key_file = os.path.join(secrets_dir, "google-api-key")
+        api_key_file = os.path.join(secrets_dir, "api-key")
         api_key = self.load_api_key(api_key_file)
 
-        embedding_api = GoogleGenerativeAIEmbeddings(
+        embedding_api = OpenAIEmbeddings(
             model=model_name,
-            google_api_key = api_key
+            api_key=api_key.strip(),
         )
 
         Logger.log(f"embedding service is embedding {len(data)} records")

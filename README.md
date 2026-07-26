@@ -37,7 +37,7 @@ This project:
 ```
 	mkdir -p secrets
 ```
-1. add google ai api key to `secrets/google-api-key`
+1. add an OpenAI API key to `secrets/api-key`
 1. first fetch events with: `python web/fetch/main.py` or `devcontainer exec --workspace-folder . python web/fetch/main.py`
 2. run web server with: `python web/server/main.py` or `devcontainer exec --workspace-folder . python web/server/main.py`
 
@@ -89,16 +89,16 @@ The containers will be uploaded to dockerhub at https://hub.docker.com/repositor
 Afterwards, gcp cloudrun destination images will need to be updated to point to the new container. 
 
 # common issues
-### GRPC Illegal header value
+### API key contains a trailing newline
 
 This is probably a copy and paste issue from windows to WSL. to verify:
 
 see if a `0a` (new line) char exists
 ```
-xxd secrets/google-api-key
+xxd secrets/api-key
 ```
 
 and if you see the char:
 ```
- truncate -s -1 secrets/google-api-key
+ truncate -s -1 secrets/api-key
 ```
