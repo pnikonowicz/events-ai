@@ -63,6 +63,23 @@ or if you have the devcontainer cli:
 devcontainer exec --workspace-folder . pytest
 ```
 
+### Capturing a Meetup GraphQL hash
+
+The capture script uses Playwright. Install its Node dependency and Chromium once
+from the project root, then run the script:
+
+```
+npm install
+npx playwright install chromium
+npm run capture:meetup-hash
+```
+
+You can also pass a URL, GraphQL operation name, and timeout in milliseconds:
+
+```
+npm run capture:meetup-hash -- "https://www.meetup.com/find/?location=us--ny--New+York&source=EVENTS" recommendedEventsWithSeries 20000
+```
+
 
 ### Running the mcp server (currently disabled due to other dev work. contributions welcome!)
 You'll first need to build the dev container at `.devcontainer/Dockerfile`

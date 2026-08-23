@@ -1,0 +1,10 @@
+{
+  "name": "events-ai",
+  "private": true,
+  "scripts": {
+    "capture:meetup-hash": "node scripts/meetup_capture_hash.js"
+  },
+  "dependencies": {
+    "playwright": "^1.57.0"
+  }
+}
